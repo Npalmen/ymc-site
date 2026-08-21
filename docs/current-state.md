@@ -3,77 +3,81 @@
 > Fast entry point for a new Cursor agent. Update this file whenever project truth changes.
 
 **Last updated:** 2026-08-21  
-**Branch:** `master`  
-**Commit:** `88b002c` (Phase 1 audit); foundation checkpoint `b383f97`
+**Branch:** `master`
 
 ## Planning status
 
 | Document | Location | Status |
 |----------|----------|--------|
 | Master Plan | [`docs/plans/MASTER-PLAN.md`](plans/MASTER-PLAN.md) | **ACTIVE** |
+| Design System | [`docs/plans/areas/01-design-system.md`](plans/areas/01-design-system.md) | **PREVIEW READY** |
+| Information Architecture | [`docs/plans/areas/02-information-architecture.md`](plans/areas/02-information-architecture.md) | **IA PREVIEW READY** |
+| Homepage | [`docs/plans/areas/03-homepage.md`](plans/areas/03-homepage.md) | **PORTAL REFACTOR** (Area 02) |
 | Booking Domain Plan | [`docs/plans/areas/04-booking.md`](plans/areas/04-booking.md) | **PLANNED** |
-| Phase 1 Audit Report | [`docs/brand/phase-1-audit-report.md`](brand/phase-1-audit-report.md) | **COMPLETE** |
 
 ## Phase 0 — Foundation
 
-**Status:** COMPLETE  
-**Gate:** `FOUNDATION_READY` — **satisfied**
+**Status:** COMPLETE · `FOUNDATION_READY` satisfied
 
 ## Phase 1 — Brand & Content Audit
 
-**Status:** COMPLETE  
-**Gate:** `BRAND_CONTENT_SOURCE_READY` — **satisfied** (see audit report)
+**Status:** COMPLETE · `BRAND_CONTENT_SOURCE_READY` satisfied
 
-Delivered:
+## Area 01 — Design System
 
-- Live site crawl (21 pages + 3 blog categories)
-- Updated [`docs/brand/brand-constraints.md`](brand/brand-constraints.md) — preservation rules, weakness analysis
-- Updated [`docs/brand/asset-inventory.md`](brand/asset-inventory.md) — assets, logo audit, OBSERVED colors
-- Updated [`docs/brand/content-inventory.md`](brand/content-inventory.md) — services, IA, business conflicts, trust/social
-- [`docs/brand/phase-1-audit-report.md`](brand/phase-1-audit-report.md) — gate assessment, owner questions
+**Status:** PREVIEW READY  
+`DESIGN_SYSTEM_APPROVED` — pending explicit sign-off
 
-**Owner verification still open** for addresses, logo vector, active offers, social URLs — does not block Area 01 (see audit report §10).
+## Area 02 — Information Architecture
 
-## What is NOT implemented
+**Status:** IA PREVIEW READY · gate `IA_PREVIEW_READY` satisfied (human review pending)
 
-- Design system (Area 01)
-- Homepage redesign
-- Booking flow, database, Google integrations
-- CMS, auth, payments, production backend
+**Route map:** [`docs/ia/route-map.md`](ia/route-map.md)
 
-## Booking & Google integration status
+### Implemented public routes
 
-| Capability | Status |
-|------------|--------|
-| Booking Domain Plan | Installed; **PLANNED** |
-| Booking implementation | **Not started** — `/boka` placeholder only |
-| Google production integration | **Not started** |
+| Route | Role |
+|-------|------|
+| `/` | Portal homepage |
+| `/sang` | Sång hub |
+| `/studio` | Studio & produktion hub |
+| `/utbildning` | Utbildning hub |
+| `/ge-ut-musik` | Ge ut musik hub |
+| `/community` | Community hub |
+| `/yellow-music` | Company / founder |
+| `/kontakt` | Contact |
+| `/boka` | Booking placeholder (no logic) |
+| `/design-system` | Internal DS preview |
+
+Child service detail routes **not** built (by design).
+
+### Key implementation
+
+- Navigation: [`src/content/navigation.ts`](../src/content/navigation.ts), [`src/content/worlds.ts`](../src/content/worlds.ts)
+- **Yellow Orbit:** [`src/components/navigation/yellow-orbit.tsx`](../src/components/navigation/yellow-orbit.tsx)
+- Hub content: [`src/content/areas/`](../src/content/areas/)
+- Hub shells: [`src/components/sections/hub/`](../src/components/sections/hub/)
+- Header/footer: multi-page nav model
+
+## Area 03 — Homepage
+
+**Status:** Refactored to **portal** under Area 02 (no longer long one-page)
+
+Sections: Hero → Yellow Orbit → Featured → About → Trust → CTA
+
+Removed from homepage: full singing, studio, release sections (content lives on hub pages).
 
 ## Current active area
 
-**Next active product area:** [`docs/plans/areas/01-design-system.md`](plans/areas/01-design-system.md)
+**Area 02 — Information Architecture** at `IA_PREVIEW_READY`. Await human visual review before child detail pages or `INFORMATION_ARCHITECTURE_APPROVED`.
 
-Phase 1 gate is satisfied. Phase 2 (Design System) may begin. **Do not start homepage (Phase 3) until Design System gate `DESIGN_SYSTEM_APPROVED`.**
+## Owner dependencies (unchanged)
 
-## Completed areas
-
-| Phase / Area | Status |
-|--------------|--------|
-| Phase 0 — Foundation | COMPLETE |
-| Phase 1 — Brand & Content Audit | COMPLETE |
-| `FOUNDATION_READY` | Satisfied |
-| `BRAND_CONTENT_SOURCE_READY` | Satisfied |
-
-## Known blockers
-
-None for **Area 01 kickoff**. Launch blockers documented in Phase 1 report (addresses, logo vector, offer verification).
+- Vector logo, approved photography, canonical address, partner logo rights, free-offer verification
 
 ## Next intended task
 
-1. Read [`docs/plans/areas/01-design-system.md`](plans/areas/01-design-system.md)
-2. Read [`docs/brand/brand-constraints.md`](brand/brand-constraints.md) and [`docs/brand/asset-inventory.md`](brand/asset-inventory.md) OBSERVED colors
-3. Begin design tokens and core UI primitives — **no homepage implementation**
-
-## Deferred work
-
-Phases 3–11 per Master Plan. Booking (Phase 5) remains deferred until design system and IA progress.
+1. Visual review at 375–1920px (mobile priority)
+2. Approve IA preview (`INFORMATION_ARCHITECTURE_APPROVED`)
+3. Select which child detail pages to build next
+4. Do **not** start booking logic or Google integrations until planned

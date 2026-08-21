@@ -1,0 +1,89 @@
+/**
+ * Yellow Music United — semantic design tokens (Area 01)
+ * Working brand yellow: #F7C006 — chosen from Phase 1 OBSERVED family.
+ * Refinement pass: elevated usage via accent/line/soft variants; core hex unchanged.
+ */
+
+:root {
+  /* Observed yellow family (reference) */
+  --color-observed-yellow-a: #f7c006;
+  --color-observed-yellow-b: #f7cc39;
+  --color-observed-yellow-c: #f6b33b;
+  --color-observed-yellow-d: #ffd261;
+  --color-observed-yellow-e: #ffcd00;
+  --color-observed-yellow-f: #fff2d4;
+
+  /* Semantic surfaces */
+  --color-canvas: #faf8f4;
+  --color-canvas-subtle: #f3efe6;
+  --color-canvas-deep: #ebe4d6;
+  --color-surface: #ffffff;
+  --color-surface-strong: #ebe4d6;
+
+  /* Ink — warm neutrals */
+  --color-ink: #2c2820;
+  --color-ink-muted: #5c5346;
+  --color-ink-subtle: #8a8174;
+  --color-ink-inverse: #faf8f4;
+
+  /* Brand — working values unchanged; refined semantic roles */
+  --color-brand: #f7c006;
+  --color-brand-hover: #e0ad05;
+  --color-brand-soft: #fff2d4;
+  --color-brand-muted: #ffe9a8;
+  --color-brand-line: #f7c006;
+  --color-brand-contrast: #2c2820;
+
+  /* Borders */
+  --color-border: #ddd5c8;
+  --color-border-strong: #c4b8a4;
+
+  /* Semantic */
+  --color-focus: #b8860b;
+  --color-success: #3d6b4f;
+  --color-warning: #9a6b00;
+  --color-error: #9b3d3d;
+
+  /* Studio dark surface */
+  --color-studio: #141210;
+  --color-studio-elevated: #1f1b17;
+  --color-studio-border: #3a332a;
+  --color-studio-glow: rgb(247 192 6 / 7%);
+
+  /* Spacing scale */
+  --space-micro: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+  --space-section: clamp(4.5rem, 9vw, 7.5rem);
+  --space-section-large: clamp(6rem, 12vw, 10rem);
+  --space-section-quiet: clamp(2.5rem, 5vw, 4rem);
+  --space-section-expressive: clamp(5.5rem, 11vw, 9.5rem);
+
+  /* Radius */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.625rem;
+
+  /* Containers */
+  --container-wide: 90rem;
+  --container-default: 76rem;
+  --container-reading: 42rem;
+  --container-full: 100%;
+
+  /* Motion */
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+  --motion-slow: 360ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Shadows — restrained depth */
+  --shadow-subtle: 0 1px 2px rgb(44 40 32 / 5%);
+  --shadow-soft: 0 12px 40px rgb(44 40 32 / 7%);
+  --shadow-inset-warm: inset 0 1px 0 rgb(255 255 255 / 35%);
+}

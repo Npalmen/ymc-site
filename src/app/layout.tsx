@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Fraunces, Source_Sans_3 } from "next/font/google";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
+const sourceSans = Source_Sans_3({
+  subsets: ["latin", "latin-ext"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700"],
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+  variable: "--font-display",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -19,10 +27,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang={site.locale} className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-white font-sans text-neutral-900">
-        {children}
-      </body>
+    <html
+      lang={site.locale}
+      className={`${sourceSans.variable} ${fraunces.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col bg-canvas text-ink">{children}</body>
     </html>
   );
 }

@@ -1,6 +1,6 @@
 # Area 03 — Homepage
 
-**Status:** PLANNED  
+**Status:** REVIEW READY  
 **Depends on:** 01 Design System (`READY`), 02 Information Architecture (`READY`)  
 **Blocks:** Launch perception / first impression
 

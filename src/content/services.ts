@@ -5,40 +5,38 @@ export type Service = {
   href?: string;
 };
 
-/** Service summaries from content inventory — full copy deferred to CMS/page work */
+/** Service summaries — hub routes for IA preview; detail pages deferred */
 export const services: Service[] = [
   {
     id: "sangpedagogik",
     title: "Sångpedagogik",
     summary:
       "Personlig sångcoaching och scennärvaro anpassat efter dig och dina behov.",
-    href: "/tjanster/sangpedagogik",
+    href: "/sang",
   },
   {
     id: "musikproduktion",
     title: "Introkurs i musikproduktion",
     summary: "Kom igång med musikproduktion i en stödjande miljö.",
-    href: "/tjanster/musikproduktion",
+    href: "/utbildning",
   },
   {
     id: "distribution",
     title: "Musikutgivning & distribution",
     summary:
       "Vägledning vid utgivning av singlar, EP och album — du behåller dina rättigheter.",
-    href: "/musikutgivning",
+    href: "/ge-ut-musik",
   },
   {
     id: "podcast",
     title: "Podcast",
-    summary:
-      "Inspelning, editering och coachning i Starlight Studios.",
-    href: "/distribution/podcast",
+    summary: "Inspelning, editering och coachning i Starlight Studios.",
+    href: "/studio",
   },
   {
     id: "studio",
     title: "Starlight Studios",
-    summary:
-      "Fullt utrustad inspelningsstudio i Fyrislund — hyra och evenemang.",
-    href: "/starlight-studios",
+    summary: "Fullt utrustad inspelningsstudio i Fyrislund — hyra och evenemang.",
+    href: "/studio",
   },
 ];

@@ -46,3 +46,25 @@ Gate defined in Master Plan Phase 1.
 - [x] No UI / design system / booking implementation in this phase
 
 **Gate status:** `BRAND_CONTENT_SOURCE_READY` — **PASS** (2026-08-21, see [`docs/brand/phase-1-audit-report.md`](../brand/phase-1-audit-report.md))
+
+---
+
+## Area 01 — `DESIGN_SYSTEM_PREVIEW_READY` checklist
+
+Gate defined in [`docs/plans/areas/01-design-system.md`](../plans/areas/01-design-system.md) §31 D6.
+
+- [x] Semantic CSS tokens (`src/styles/tokens.css`)
+- [x] Typography selected (Source Sans 3 + Fraunces) and documented
+- [x] Core UI primitives in `src/components/ui/`
+- [x] Editorial compositions in `src/components/sections/`
+- [x] Navigation shell (desktop + mobile)
+- [x] Booking visual primitives (fixture only)
+- [x] `/design-system` internal preview route (`noindex`)
+- [x] `npm run lint` passes
+- [x] `npm run build` passes
+- [x] Refinement pass — editorial rhythm, premium details, cohesive preview (2026-08-21)
+- [ ] Human visual review at 375 / 430 / 768 / 1024 / 1440 / 1920 px
+- [ ] `DESIGN_SYSTEM_APPROVED` — **pending**
+
+**Gate status:** `DESIGN_SYSTEM_PREVIEW_READY` — **satisfied** (2026-08-21, pending commit)  
+**Next gate:** `DESIGN_SYSTEM_APPROVED` requires explicit human sign-off after preview inspection.

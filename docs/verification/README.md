@@ -26,4 +26,23 @@ Gate defined in Master Plan Phase 0.
 - [x] Booking Domain Plan installed at canonical path
 - [x] No booking/CMS/auth/payment/Google production implementations
 
-**Gate status:** `FOUNDATION_READY` — satisfied (2026-08-21, planning alignment pass)
+**Gate status:** `FOUNDATION_READY` — satisfied (2026-08-21, commit `b383f97`)
+
+---
+
+## Phase 1 — `BRAND_CONTENT_SOURCE_READY` checklist
+
+Gate defined in Master Plan Phase 1.
+
+- [x] Live site inspected (comprehensive crawl)
+- [x] Brand constraints updated with preservation rules
+- [x] Asset inventory updated (logo, OBSERVED colors, photography)
+- [x] Content inventory updated (pages, services, IA, business info)
+- [x] Service catalogue with verification status
+- [x] Business conflicts documented (`VERIFY_WITH_OWNER`)
+- [x] Trust / social audit completed
+- [x] Owner verification list produced
+- [x] Phase 1 audit report with gate assessment
+- [x] No UI / design system / booking implementation in this phase
+
+**Gate status:** `BRAND_CONTENT_SOURCE_READY` — **PASS** (2026-08-21, see [`docs/brand/phase-1-audit-report.md`](../brand/phase-1-audit-report.md))

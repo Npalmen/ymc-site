@@ -4,77 +4,76 @@
 
 **Last updated:** 2026-08-21  
 **Branch:** `master`  
-**Commit:** `02d7819` (foundation scaffold; planning alignment changes uncommitted)
+**Commit:** `b383f97` (foundation checkpoint) + Phase 1 audit docs (uncommitted)
 
 ## Planning status
 
 | Document | Location | Status |
 |----------|----------|--------|
-| Master Plan | [`docs/plans/MASTER-PLAN.md`](plans/MASTER-PLAN.md) | **ACTIVE** — installed |
-| Booking Domain Plan | [`docs/plans/areas/04-booking.md`](plans/areas/04-booking.md) | **PLANNED** — installed (canonical path) |
+| Master Plan | [`docs/plans/MASTER-PLAN.md`](plans/MASTER-PLAN.md) | **ACTIVE** |
+| Booking Domain Plan | [`docs/plans/areas/04-booking.md`](plans/areas/04-booking.md) | **PLANNED** |
+| Phase 1 Audit Report | [`docs/brand/phase-1-audit-report.md`](brand/phase-1-audit-report.md) | **COMPLETE** |
 
 ## Phase 0 — Foundation
 
 **Status:** COMPLETE  
 **Gate:** `FOUNDATION_READY` — **satisfied**
 
+## Phase 1 — Brand & Content Audit
+
+**Status:** COMPLETE  
+**Gate:** `BRAND_CONTENT_SOURCE_READY` — **satisfied** (see audit report)
+
 Delivered:
 
-- Next.js App Router project with TypeScript, Tailwind CSS, ESLint
-- Repository folder structure (`src/app`, `src/components`, `src/features`, `src/integrations`, `src/content`, `docs/`, `public/`)
-- Planning documentation hierarchy (master plan + area plans)
-- Brand constraint and asset/content inventory documents
-- Operating instructions ([`AGENTS.md`](../AGENTS.md))
-- Minimal placeholder UI:
-  - `/` — foundation message only
-  - `/boka` — route placeholder only (no booking logic)
-- Structured content stubs in `src/content/`
+- Live site crawl (21 pages + 3 blog categories)
+- Updated [`docs/brand/brand-constraints.md`](brand/brand-constraints.md) — preservation rules, weakness analysis
+- Updated [`docs/brand/asset-inventory.md`](brand/asset-inventory.md) — assets, logo audit, OBSERVED colors
+- Updated [`docs/brand/content-inventory.md`](brand/content-inventory.md) — services, IA, business conflicts, trust/social
+- [`docs/brand/phase-1-audit-report.md`](brand/phase-1-audit-report.md) — gate assessment, owner questions
+
+**Owner verification still open** for addresses, logo vector, active offers, social URLs — does not block Area 01 (see audit report §10).
 
 ## What is NOT implemented
 
-- Visual redesign / design system
-- Homepage composition
-- Booking flow, availability engine, booking database, or calendar sync
-- Google Calendar, Business Profile, or Places production integrations
-- OAuth for Google or any authenticated integration
-- Reviews, payments, CMS, authentication
-- Production backend beyond foundation scaffold
-- SEO, analytics, or launch operations beyond planning docs
+- Design system (Area 01)
+- Homepage redesign
+- Booking flow, database, Google integrations
+- CMS, auth, payments, production backend
 
 ## Booking & Google integration status
 
 | Capability | Status |
 |------------|--------|
-| Booking Domain Plan | Installed at canonical path; status **PLANNED** |
-| Booking implementation | **Not started** — `/boka` is a placeholder with mailto fallback only |
-| `src/features/booking/` | Directory scaffold only (README + `.gitkeep`) |
+| Booking Domain Plan | Installed; **PLANNED** |
+| Booking implementation | **Not started** — `/boka` placeholder only |
 | Google production integration | **Not started** |
-| `src/integrations/google/` | Directory scaffold only (README + `.gitkeep`) |
 
 ## Current active area
 
-**Next active product area:** [`docs/plans/areas/01-design-system.md`](plans/areas/01-design-system.md) (Phase 2 — Design System)
+**Next active product area:** [`docs/plans/areas/01-design-system.md`](plans/areas/01-design-system.md)
 
-**Note:** Master Plan Phase 1 (Brand & Content Audit, gate `BRAND_CONTENT_SOURCE_READY`) is `NOT_STARTED`. Foundation created partial brand/content inventories, but that gate is not yet satisfied. Design system work may proceed as the next active area per current priority.
+Phase 1 gate is satisfied. Phase 2 (Design System) may begin. **Do not start homepage (Phase 3) until Design System gate `DESIGN_SYSTEM_APPROVED`.**
 
 ## Completed areas
 
-| Area / Phase | Status |
+| Phase / Area | Status |
 |--------------|--------|
 | Phase 0 — Foundation | COMPLETE |
-| `FOUNDATION_READY` gate | Satisfied |
+| Phase 1 — Brand & Content Audit | COMPLETE |
+| `FOUNDATION_READY` | Satisfied |
+| `BRAND_CONTENT_SOURCE_READY` | Satisfied |
 
 ## Known blockers
 
-None for planning alignment or design system kickoff.
+None for **Area 01 kickoff**. Launch blockers documented in Phase 1 report (addresses, logo vector, offer verification).
 
 ## Next intended task
 
 1. Read [`docs/plans/areas/01-design-system.md`](plans/areas/01-design-system.md)
-2. Read [`docs/brand/brand-constraints.md`](brand/brand-constraints.md)
-3. Establish typography, color tokens, spacing, and component primitives
-4. Do **not** implement homepage, booking, or Google integrations in this step
+2. Read [`docs/brand/brand-constraints.md`](brand/brand-constraints.md) and [`docs/brand/asset-inventory.md`](brand/asset-inventory.md) OBSERVED colors
+3. Begin design tokens and core UI primitives — **no homepage implementation**
 
 ## Deferred work
 
-Master Plan Phases 1–11 beyond the next active area remain deferred until their area plans move to `READY` or `IN_PROGRESS`. Booking implementation (Phase 5) requires design system, IA, and booking domain gates (B0–B7) per [`docs/plans/areas/04-booking.md`](plans/areas/04-booking.md).
+Phases 3–11 per Master Plan. Booking (Phase 5) remains deferred until design system and IA progress.

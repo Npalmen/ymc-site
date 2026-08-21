@@ -4,7 +4,7 @@
 
 **Last updated:** 2026-08-21  
 **Branch:** `master`  
-**Commit:** `b383f97` (foundation checkpoint) + Phase 1 audit docs (uncommitted)
+**Commit:** `88b002c` (Phase 1 audit); foundation checkpoint `b383f97`
 
 ## Planning status
 

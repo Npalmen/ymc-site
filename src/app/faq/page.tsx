@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
+import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
 import { FaqList } from "@/components/sections/faq-list";
 import { Container } from "@/components/ui/container";
-import { faqPage } from "@/content/pages/contact";
+import { loadFaqPage } from "@/sanity/load";
 
-export const metadata: Metadata = {
-  title: faqPage.metaTitle,
-  description: faqPage.metaDescription,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await loadFaqPage();
+  return { title: page.metaTitle, description: page.metaDescription };
+}
 
-export default function FaqRoute() {
+export default async function FaqRoute() {
+  const page = await loadFaqPage();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqPage.items.map((item) => ({
+    mainEntity: page.items.map((item) => ({
       "@type": "Question",
       name: item.q,
       acceptedAnswer: { "@type": "Answer", text: item.a },
@@ -24,10 +26,11 @@ export default function FaqRoute() {
   return (
     <PageShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <PageHero eyebrow={faqPage.eyebrow} title={faqPage.title} lede={faqPage.lede} />
-      <Container className="pb-20">
-        <FaqList />
+      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede} />
+      <Container className="pb-8">
+        <FaqList items={page.items} />
       </Container>
+      <ExtraSections sections={page.extraSections} />
     </PageShell>
   );
 }

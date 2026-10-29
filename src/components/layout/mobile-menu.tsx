@@ -4,15 +4,30 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
-import { bookingNavigation, serviceGroups, topLinks } from "@/content/navigation";
+import { bookingNavigation, serviceGroups, topLinks, type NavLink, type ServiceGroup } from "@/content/navigation";
 import { site } from "@/content/site";
 
 type MobileMenuProps = {
   open: boolean;
   onClose: () => void;
+  groups?: ServiceGroup[];
+  links?: NavLink[];
+  booking?: NavLink;
+  phone?: string;
+  phoneHref?: string;
+  email?: string;
 };
 
-export function MobileMenu({ open, onClose }: MobileMenuProps) {
+export function MobileMenu({
+  open,
+  onClose,
+  groups = serviceGroups,
+  links = topLinks,
+  booking = bookingNavigation,
+  phone = site.contact.phone,
+  phoneHref = site.contact.phoneHref,
+  email = site.contact.email,
+}: MobileMenuProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const [servicesOpen, setServicesOpen] = useState(true);
 
@@ -82,7 +97,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           </button>
           {servicesOpen ? (
             <ul className="flex flex-col gap-4 pb-5">
-              {serviceGroups.map((group) => (
+              {groups.map((group) => (
                 <li key={group.href}>
                   <Link
                     href={group.href}
@@ -112,7 +127,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           ) : null}
         </div>
         <ul>
-          {topLinks.map((link) => (
+          {links.map((link) => (
             <li key={link.href} className="border-b border-border">
               <Link
                 href={link.href}
@@ -129,15 +144,15 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
         </ul>
       </nav>
       <div className="border-t border-border px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-        <Button href={bookingNavigation.href} fullWidth size="lg">
-          {bookingNavigation.label}
+        <Button href={booking.href} fullWidth size="lg">
+          {booking.label}
         </Button>
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
-          <a className="inline-flex min-h-11 items-center text-body-sm font-medium" href={site.contact.phoneHref}>
-            {site.contact.phone}
+          <a className="inline-flex min-h-11 items-center text-body-sm font-medium" href={phoneHref}>
+            {phone}
           </a>
-          <a className="inline-flex min-h-11 items-center text-body-sm text-ink-muted" href={`mailto:${site.contact.email}`}>
-            {site.contact.email}
+          <a className="inline-flex min-h-11 items-center text-body-sm text-ink-muted" href={`mailto:${email}`}>
+            {email}
           </a>
         </div>
       </div>

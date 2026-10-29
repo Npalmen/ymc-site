@@ -1,9 +1,19 @@
 import { aboutPage } from "@/content/pages/about";
+import type { RichLine as RichParts } from "@/content/rich-text";
 import { Pill } from "@/components/ui/pill";
 import { RichLine } from "@/components/ui/rich-line";
 
-export function PrinciplesCard() {
-  const { principles, valuesLine } = aboutPage;
+export function PrinciplesCard({
+  principles = aboutPage.principles,
+  valuesLine = aboutPage.valuesLine,
+}: {
+  principles?: {
+    eyebrow: string;
+    title: RichParts;
+    items: readonly { n: string; title: string; body: string }[];
+  };
+  valuesLine?: string;
+}) {
   return (
     <section className="bg-canvas px-4 py-6 sm:px-6">
       <div className="mx-auto max-w-[var(--container-default)] rounded-[var(--radius-card)] bg-studio px-5 py-8 text-ink-inverse sm:px-8 sm:py-12">

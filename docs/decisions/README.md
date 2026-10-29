@@ -27,4 +27,4 @@ Do **not** create ADRs for trivial implementation choices (e.g. single utility f
 | ADR-004 | Client navigation and visual language | accepted |
 | ADR-001 | Booking source of truth | not created |
 | ADR-002 | Google Calendar integration | not created |
-| ADR-003 | Content management strategy | not created |
+| ADR-003 | Sanity and Cloudflare | accepted |

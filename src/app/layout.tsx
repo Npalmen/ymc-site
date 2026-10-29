@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
 import { site } from "@/content/site";
+import { loadSite } from "@/sanity/load";
 import "./globals.css";
 
 const sourceSans = Source_Sans_3({
@@ -18,26 +19,31 @@ const fraunces = Fraunces({
   weight: ["400", "500", "600"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: {
-    default: `${site.shortName} — Musikbolag i Uppsala`,
-    template: `%s | ${site.shortName}`,
-  },
-  description: site.description,
-  openGraph: {
-    type: "website",
-    locale: "sv_SE",
-    siteName: site.name,
-    title: `${site.shortName} — Musikbolag i Uppsala`,
-    description: site.description,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const current = await loadSite();
+  const title = `${current.shortName} — Musikbolag i Uppsala`;
+  return {
+    metadataBase: new URL(site.url),
+    title: {
+      default: title,
+      template: `%s | ${current.shortName}`,
+    },
+    description: current.description,
+    openGraph: {
+      type: "website",
+      locale: "sv_SE",
+      siteName: current.name,
+      title,
+      description: current.description,
+    },
+  };
+}
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const current = await loadSite();
   return (
     <html
-      lang={site.locale}
+      lang={current.locale}
       className={`${sourceSans.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-canvas text-ink">
@@ -53,20 +59,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "MusicSchool",
-              name: site.legalName,
+              name: current.legalName,
               url: site.url,
-              email: site.contact.email,
-              telephone: "+46730805269",
+              email: current.contact.email,
+              telephone: current.contact.phoneHref.replace("tel:", ""),
               address: {
                 "@type": "PostalAddress",
-                streetAddress: site.addresses.registered.street,
-                postalCode: site.addresses.registered.postalCode,
-                addressLocality: site.addresses.registered.city,
+                streetAddress: current.addresses.registered.street,
+                postalCode: current.addresses.registered.postalCode,
+                addressLocality: current.addresses.registered.city,
                 addressCountry: "SE",
               },
               areaServed: "Uppsala",
               founder: { "@type": "Person", name: "Biim Frischenfeldt" },
-              sameAs: [site.social.trustpilot],
+              sameAs: [current.social.trustpilot],
             }),
           }}
         />

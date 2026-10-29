@@ -5,6 +5,8 @@
 **Last updated:** 2026-10-29  
 **Branch:** `cursor/ymu-redesign-dfcf`
 
+Production target is Cloudflare Workers via OpenNext. Vercel previews still use `next build`. Content can be edited in Sanity at `/studio`; without credentials the site uses `src/content`. See [deploy-cloudflare.md](deploy-cloudflare.md), [cms.md](cms.md), and ADR-003.
+
 ## Planning status
 
 | Document | Location | Status |

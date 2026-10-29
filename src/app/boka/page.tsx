@@ -1,23 +1,14 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
+import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
-import { PlanningMeeting } from "@/components/sections/planning-meeting";
-import { bookingPage } from "@/content/pages/contact";
-import { planningTopics, type PlanningTopic } from "@/content/pages/shared";
-import { site } from "@/content/site";
+import { PlanningBlock } from "@/components/sections/planning-block";
 import { Button } from "@/components/ui/button";
+import { loadBooking, loadPlanning, loadSite } from "@/sanity/load";
 
-export const metadata: Metadata = {
-  title: bookingPage.metaTitle,
-  description: bookingPage.metaDescription,
-};
-
-function resolveTopic(value: string | string[] | undefined): PlanningTopic {
-  const raw = Array.isArray(value) ? value[0] : value;
-  if (raw && planningTopics.some((topic) => topic.value === raw)) {
-    return raw as PlanningTopic;
-  }
-  return "planering";
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await loadBooking();
+  return { title: page.metaTitle, description: page.metaDescription };
 }
 
 export default async function BookingPage({
@@ -25,15 +16,23 @@ export default async function BookingPage({
 }: {
   searchParams: Promise<{ amne?: string | string[] }>;
 }) {
-  const params = await searchParams;
+  const [params, page, planning, current] = await Promise.all([
+    searchParams,
+    loadBooking(),
+    loadPlanning(),
+    loadSite(),
+  ]);
+  const raw = Array.isArray(params.amne) ? params.amne[0] : params.amne;
+  const topic = raw && planning.topics.some((item) => item.value === raw) ? raw : "planering";
   return (
     <PageShell>
-      <PageHero eyebrow={bookingPage.eyebrow} title={bookingPage.title} lede={bookingPage.lede}>
-        <Button href={site.contact.phoneHref} variant="secondary" size="lg">
-          Ring {site.contact.phone}
+      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede}>
+        <Button href={current.contact.phoneHref} variant="secondary" size="lg">
+          Ring {current.contact.phone}
         </Button>
       </PageHero>
-      <PlanningMeeting defaultTopic={resolveTopic(params.amne)} />
+      <ExtraSections sections={page.extraSections} />
+      <PlanningBlock defaultTopic={topic} />
     </PageShell>
   );
 }

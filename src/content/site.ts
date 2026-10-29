@@ -31,6 +31,6 @@ export const site = {
   social: {
     trustpilot: "https://www.trustpilot.com/review/yellowmusicunited.se",
   },
-} as const;
+};
 
 export type SiteConfig = typeof site;

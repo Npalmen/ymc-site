@@ -30,6 +30,10 @@ const legacyRedirects: [string, string][] = [
 ];
 
 const nextConfig: NextConfig = {
+  images: {
+    loader: "custom",
+    loaderFile: "./src/sanity/image-loader.ts",
+  },
   async redirects() {
     return legacyRedirects.map(([source, destination]) => ({
       source,

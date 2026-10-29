@@ -1,8 +1,12 @@
+import Image from "next/image";
 import { homePage } from "@/content/pages/home";
 import { Button } from "@/components/ui/button";
+import { cmsImageUrl, hasCmsImage, type CmsImage } from "@/sanity/image";
 
-export function SoulSplit() {
-  const { soul } = homePage;
+type Soul = (typeof homePage.soul) & { image?: CmsImage | null };
+
+export function SoulSplit({ soul = homePage.soul }: { soul?: Soul }) {
+  const imageSrc = hasCmsImage(soul.image) ? cmsImageUrl(soul.image, 1200) : null;
   return (
     <div className="relative">
       <section className="bg-canvas" aria-labelledby="sjal-rubrik">
@@ -37,11 +41,20 @@ export function SoulSplit() {
               className="photo-pending sticky flex h-[calc(100svh-var(--header-height))] flex-col justify-between p-3 pb-16 lg:p-6 lg:pb-24"
               style={{ top: "var(--header-height)" }}
             >
-              <span className="w-fit rounded-[var(--radius-pill)] border border-dashed border-ink/30 bg-surface/90 px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.12em]">
-                Foto saknas
+              {imageSrc ? (
+                <Image
+                  src={imageSrc}
+                  alt={soul.image?.alt || soul.imageLabel}
+                  fill
+                  sizes="40vw"
+                  className="object-cover"
+                />
+              ) : null}
+              <span className="relative z-10 w-fit rounded-[var(--radius-pill)] border border-dashed border-ink/30 bg-surface/90 px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.12em]">
+                {imageSrc ? "Bild" : "Foto saknas"}
               </span>
-              <span className="text-[0.75rem] font-medium leading-snug text-ink sm:text-body-sm">
-                {soul.imageLabel}
+              <span className="relative z-10 text-[0.75rem] font-medium leading-snug text-ink sm:text-body-sm">
+                {imageSrc ? soul.image?.alt || soul.imageLabel : soul.imageLabel}
               </span>
             </div>
           </div>

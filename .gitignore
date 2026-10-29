@@ -44,3 +44,9 @@ next-env.d.ts
 # Phase 1 crawl artifacts (local only)
 .audit-temp/
 
+# Cloudflare / OpenNext
+.open-next
+.wrangler
+.dev.vars
+cloudflare-env.d.ts
+

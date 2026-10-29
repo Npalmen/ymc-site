@@ -1,23 +1,25 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
+import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
-import { PlanningMeeting } from "@/components/sections/planning-meeting";
+import { PlanningBlock } from "@/components/sections/planning-block";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { stepsPage } from "@/content/pages/singing";
+import { loadSteps } from "@/sanity/load";
 
-export const metadata: Metadata = {
-  title: stepsPage.metaTitle,
-  description: stepsPage.metaDescription,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await loadSteps();
+  return { title: page.metaTitle, description: page.metaDescription };
+}
 
-export default function StepsPage() {
+export default async function StepsPage() {
+  const page = await loadSteps();
   return (
     <PageShell>
       <PageHero
-        eyebrow={stepsPage.eyebrow}
-        title={stepsPage.title}
-        lede={stepsPage.lede}
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lede={page.lede}
         trail={[
           { href: "/tjanster", label: "Tjänster" },
           { href: "/tjanster/sanglektioner", label: "Sånglektioner" },
@@ -29,7 +31,7 @@ export default function StepsPage() {
       </PageHero>
       <Container className="pb-8">
         <ol className="max-w-xl">
-          {stepsPage.steps.map((step) => (
+          {page.steps.map((step) => (
             <li key={step.n} className="rise border-t border-border py-7">
               <p className="font-display text-2xl italic text-accent">{step.n}</p>
               <h2 className="mt-2 font-display text-3xl">{step.title}</h2>
@@ -38,7 +40,8 @@ export default function StepsPage() {
           ))}
         </ol>
       </Container>
-      <PlanningMeeting defaultTopic="planering" />
+      <ExtraSections sections={page.extraSections} />
+      <PlanningBlock defaultTopic="planering" />
     </PageShell>
   );
 }

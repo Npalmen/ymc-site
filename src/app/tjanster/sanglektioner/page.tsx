@@ -1,23 +1,25 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
+import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
 import { DifferenceTable } from "@/components/sections/difference-table";
-import { PlanningMeeting } from "@/components/sections/planning-meeting";
+import { PlanningBlock } from "@/components/sections/planning-block";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
-import { singingAlso, singingPage } from "@/content/pages/singing";
+import { loadSinging } from "@/sanity/load";
 
-export const metadata: Metadata = {
-  title: singingPage.metaTitle,
-  description: singingPage.metaDescription,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { page } = await loadSinging();
+  return { title: page.metaTitle, description: page.metaDescription };
+}
 
-export default function SingingPage() {
+export default async function SingingPage() {
+  const { page, difference, also, image, extraSections } = await loadSinging();
   return (
     <PageShell>
-      <PageHero eyebrow={singingPage.eyebrow} title={singingPage.title} lede={singingPage.lede}>
+      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede}>
         <Button href="/tjanster/sanglektioner/lektionspaket" size="lg">
           Mina lektionspaket
         </Button>
@@ -26,9 +28,9 @@ export default function SingingPage() {
         </Button>
       </PageHero>
       <Container className="pb-4">
-        <PlaceholderFrame label={singingPage.imageLabel} ratio="16/9" caption="Fyrislund · Uppsala" />
+        <PlaceholderFrame image={image} label={page.imageLabel} ratio="16/9" caption="Fyrislund · Uppsala" />
       </Container>
-      <DifferenceTable />
+      <DifferenceTable data={difference} />
       <section id="pedagogik" className="bg-canvas pb-8">
         <Container>
           <h2 className="font-display text-3xl">Också inom sången</h2>
@@ -36,7 +38,7 @@ export default function SingingPage() {
             De här spåren finns i pedagogiken. De har inga egna sidor ännu, och bokas via samma samtal.
           </p>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-            {singingAlso.map((item) => (
+            {also.map((item) => (
               <li key={item.title} className="rounded-[var(--radius-card)] border border-border bg-surface p-5">
                 <h3 className="font-display text-2xl">{item.title}</h3>
                 <p className="mt-2 text-body-sm text-ink-muted">{item.body}</p>
@@ -50,7 +52,8 @@ export default function SingingPage() {
           </p>
         </Container>
       </section>
-      <PlanningMeeting defaultTopic="prova-pa" />
+      <ExtraSections sections={extraSections} />
+      <PlanningBlock defaultTopic="prova-pa" />
     </PageShell>
   );
 }

@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { cn } from "@/lib/cn";
+import { cmsImageUrl, hasCmsImage, type CmsImage } from "@/sanity/image";
 
 type Ratio = "4/5" | "3/4" | "16/9" | "1/1" | "fill";
 
@@ -16,6 +18,7 @@ type PlaceholderFrameProps = {
   ratio?: Ratio;
   className?: string;
   framed?: boolean;
+  image?: CmsImage | null;
 };
 
 /** Explicit stand-in until Biim supplies approved photography. No hotlinked Wix files. */
@@ -25,7 +28,20 @@ export function PlaceholderFrame({
   ratio = "4/5",
   className,
   framed = true,
+  image,
 }: PlaceholderFrameProps) {
+  const src = hasCmsImage(image) ? cmsImageUrl(image) : null;
+  if (src) {
+    const alt = image?.alt?.trim() || label;
+    return (
+      <figure className={cn("flex h-full flex-col", className)}>
+        <div className={cn("relative w-full overflow-hidden", framed && "rounded-[var(--radius-card)]", ratios[ratio])}>
+          <Image src={src} alt={alt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
+        </div>
+        {caption ? <figcaption className="text-meta mt-2">{caption}</figcaption> : null}
+      </figure>
+    );
+  }
   return (
     <figure className={cn("flex h-full flex-col", className)}>
       <div

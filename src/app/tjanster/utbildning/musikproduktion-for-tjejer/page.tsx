@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { CourseView } from "@/components/sections/course-page";
-import { productionCourse } from "@/content/pages/education";
+import { loadCourse } from "@/sanity/load";
 
-export const metadata: Metadata = {
-  title: productionCourse.metaTitle,
-  description: productionCourse.metaDescription,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const course = await loadCourse("musikproduktion-for-tjejer");
+  return { title: course?.metaTitle, description: course?.metaDescription };
+}
 
-export default function ProductionCoursePage() {
-  return <CourseView course={productionCourse} />;
+export default async function ProductionCoursePage() {
+  const course = await loadCourse("musikproduktion-for-tjejer");
+  if (!course) notFound();
+  return <CourseView course={course} />;
 }

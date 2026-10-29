@@ -5,18 +5,36 @@ import { Container } from "@/components/ui/container";
 import { Pill } from "@/components/ui/pill";
 import { RichLine } from "@/components/ui/rich-line";
 
-export function ReviewRail() {
+type ReviewItem = {
+  id: string;
+  quote: string;
+  name: string;
+  role: string;
+  rating?: number | null;
+  placeholder?: boolean;
+};
+
+export function ReviewRail({
+  reviews,
+  items = reviewPlaceholders.map((item) => ({ ...item, rating: null, placeholder: true })),
+  trustpilot = site.social.trustpilot,
+}: {
+  reviews?: typeof homePage.reviews;
+  items?: ReviewItem[];
+  trustpilot?: string;
+}) {
+  const copy = reviews ?? homePage.reviews;
   return (
     <section className="overflow-x-clip bg-canvas py-16 sm:py-24" aria-labelledby="omdomen-rubrik">
       <Container>
-        <Pill>{homePage.reviews.eyebrow}</Pill>
+        <Pill>{copy.eyebrow}</Pill>
         <h2 id="omdomen-rubrik" className="text-section mt-5 max-w-[16em]">
-          <RichLine parts={homePage.reviews.title} />
+          <RichLine parts={copy.title} />
         </h2>
-        <p className="mt-4 max-w-xl text-body text-ink-muted">{homePage.reviews.note}</p>
+        <p className="mt-4 max-w-xl text-body text-ink-muted">{copy.note}</p>
         <p className="mt-4">
           <a
-            href={site.social.trustpilot}
+            href={trustpilot}
             className="inline-flex min-h-11 items-center font-medium text-ink underline decoration-brand decoration-2 underline-offset-4"
             target="_blank"
             rel="noopener noreferrer"
@@ -25,14 +43,16 @@ export function ReviewRail() {
           </a>
         </p>
         <ul className="mt-10 grid list-none gap-8 p-0 lg:grid-cols-3 lg:gap-6">
-          {reviewPlaceholders.map((review) => (
+          {items.map((review) => (
             <li key={review.id} className="review-card list-none">
               <article className="relative rounded-[var(--radius-card)] border border-border/80 bg-surface px-5 pb-5 pt-7 shadow-[var(--shadow-soft)]">
                 <p className="font-display text-5xl leading-none text-brand" aria-hidden>
                   ”
                 </p>
                 <p className="absolute right-5 top-6 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-accent">
-                  Betyg saknas
+                  {review.placeholder === false && review.rating
+                    ? `${review.rating} av 5`
+                    : "Betyg saknas"}
                 </p>
                 <p className="mt-3 text-[1.05rem] leading-relaxed text-ink">{review.quote}</p>
                 <div className="mt-6 flex items-center gap-3 border-t border-border pt-4">

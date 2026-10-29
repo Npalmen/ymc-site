@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
+import { ExtraSections } from "@/components/sections/extra-sections";
 import { SoulSplit } from "@/components/sections/soul-split";
 import { ReviewRail } from "@/components/sections/review-rail";
 import { Button } from "@/components/ui/button";
@@ -8,16 +9,19 @@ import { Container } from "@/components/ui/container";
 import { Pill } from "@/components/ui/pill";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import { RichLine } from "@/components/ui/rich-line";
-import { homePage } from "@/content/pages/home";
-import { site } from "@/content/site";
+import { loadHome, loadSite } from "@/sanity/load";
 
-export const metadata: Metadata = {
-  title: { absolute: `${site.shortName} — Musikbolag i Uppsala` },
-  description: site.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const current = await loadSite();
+  return {
+    title: { absolute: `${current.shortName} — Musikbolag i Uppsala` },
+    description: current.description,
+  };
+}
 
-export default function HomePage() {
-  const { hero, paths, founder, close } = homePage;
+export default async function HomePage() {
+  const [home, current] = await Promise.all([loadHome(), loadSite()]);
+  const { hero, paths, founder, close } = home;
   return (
     <PageShell>
       <section className="pb-8 pt-8 sm:pt-14">
@@ -47,7 +51,7 @@ export default function HomePage() {
               </ul>
             </div>
             <div className="mt-10 lg:mt-0">
-              <PlaceholderFrame label={hero.imageLabel} caption={hero.imageCaption} ratio="4/5" />
+              <PlaceholderFrame image={hero.image} label={hero.imageLabel} caption={hero.imageCaption} ratio="4/5" />
             </div>
           </div>
         </Container>
@@ -81,15 +85,15 @@ export default function HomePage() {
             ))}
           </ul>
           <p className="mt-4">
-            <Link href={homePage.communityLink.href} className="inline-flex min-h-11 items-center font-medium">
-              {homePage.communityLink.label} →
+            <Link href={home.communityLink.href} className="inline-flex min-h-11 items-center font-medium">
+              {home.communityLink.label} →
             </Link>
           </p>
         </Container>
       </section>
 
-      <SoulSplit />
-      <ReviewRail />
+      <SoulSplit soul={home.soul} />
+      <ReviewRail reviews={home.reviews} items={home.reviewItems} trustpilot={current.social.trustpilot} />
 
       <section className="bg-canvas py-16 sm:py-20">
         <Container>
@@ -107,11 +111,13 @@ export default function HomePage() {
               </div>
             </div>
             <div className="mt-8 lg:mt-0">
-              <PlaceholderFrame label={founder.imageLabel} ratio="3/4" />
+              <PlaceholderFrame image={founder.image} label={founder.imageLabel} ratio="3/4" />
             </div>
           </div>
         </Container>
       </section>
+
+      <ExtraSections sections={home.extraSections} />
 
       <section className="bg-accent-soft py-16 sm:py-20">
         <Container>

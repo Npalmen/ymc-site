@@ -1,14 +1,32 @@
 import { lessonPackages, packagesPage } from "@/content/pages/singing";
 import { Button } from "@/components/ui/button";
 
-export function PricingCards() {
+type PackageCard = {
+  id: string;
+  title: string;
+  summary: string;
+  price: string;
+  priceMissing: boolean;
+  note: string;
+  points: readonly string[];
+  cta: string;
+  href: string;
+};
+
+export function PricingCards({
+  packages = lessonPackages,
+  notice = packagesPage.priceNotice,
+}: {
+  packages?: readonly PackageCard[];
+  notice?: string;
+}) {
   return (
     <div>
       <p className="rounded-[var(--radius-card)] border border-dashed border-accent/50 bg-accent-soft px-4 py-3 text-body-sm text-ink">
-        {packagesPage.priceNotice}
+        {notice}
       </p>
       <div className="mt-8 flex flex-col gap-12">
-        {lessonPackages.map((pack) => (
+        {packages.map((pack) => (
           <article key={pack.id}>
             <div className="rounded-[var(--radius-card)] border border-border bg-surface px-5 py-6 sm:px-7">
               <h3 className="font-display text-[1.85rem] leading-tight text-ink">{pack.title}</h3>

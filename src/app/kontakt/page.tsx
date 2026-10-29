@@ -1,33 +1,33 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
+import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
-import { PlanningMeeting } from "@/components/sections/planning-meeting";
+import { PlanningBlock } from "@/components/sections/planning-block";
 import { Container } from "@/components/ui/container";
-import { contactPage } from "@/content/pages/contact";
-import { site } from "@/content/site";
+import { loadContact, loadSite } from "@/sanity/load";
 
-export const metadata: Metadata = {
-  title: contactPage.metaTitle,
-  description: contactPage.metaDescription,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await loadContact();
+  return { title: page.metaTitle, description: page.metaDescription };
+}
 
-const facts = [
-  { label: "Telefon", value: site.contact.phone, href: site.contact.phoneHref },
-  { label: "E-post", value: site.contact.email, href: `mailto:${site.contact.email}` },
-  {
-    label: "Postadress",
-    value: `${site.addresses.registered.street}, ${site.addresses.registered.postalCode} ${site.addresses.registered.city}`,
-  },
-  {
-    label: "Studio",
-    value: `Starlight Studios, ${site.addresses.studio.street}, ${site.addresses.studio.area}, ${site.addresses.studio.city}`,
-  },
-];
-
-export default function ContactPage() {
+export default async function ContactPage() {
+  const [page, current] = await Promise.all([loadContact(), loadSite()]);
+  const facts = [
+    { label: "Telefon", value: current.contact.phone, href: current.contact.phoneHref },
+    { label: "E-post", value: current.contact.email, href: `mailto:${current.contact.email}` },
+    {
+      label: "Postadress",
+      value: `${current.addresses.registered.street}, ${current.addresses.registered.postalCode} ${current.addresses.registered.city}`,
+    },
+    {
+      label: "Studio",
+      value: `${current.addresses.studio.label}, ${current.addresses.studio.street}, ${current.addresses.studio.area}, ${current.addresses.studio.city}`,
+    },
+  ];
   return (
     <PageShell>
-      <PageHero eyebrow={contactPage.eyebrow} title={contactPage.title} lede={contactPage.lede} />
+      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede} />
       <Container className="pb-4">
         <ul className="grid gap-3 sm:grid-cols-2">
           {facts.map((fact) => (
@@ -44,7 +44,8 @@ export default function ContactPage() {
           ))}
         </ul>
       </Container>
-      <PlanningMeeting defaultTopic="planering" />
+      <ExtraSections sections={page.extraSections} />
+      <PlanningBlock defaultTopic="planering" />
     </PageShell>
   );
 }

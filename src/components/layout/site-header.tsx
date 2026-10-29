@@ -11,6 +11,12 @@ import { MobileMenu } from "@/components/layout/mobile-menu";
 type SiteHeaderProps = {
   className?: string;
   preview?: boolean;
+  groups?: typeof serviceGroups;
+  links?: typeof topLinks;
+  booking?: typeof bookingNavigation;
+  phone?: string;
+  phoneHref?: string;
+  email?: string;
 };
 
 function isActive(pathname: string, href: string) {
@@ -45,7 +51,7 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
-function ServicesMenu() {
+function ServicesMenu({ groups }: { groups: typeof serviceGroups }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -98,7 +104,7 @@ function ServicesMenu() {
       >
         <div className="rounded-[var(--radius-card)] border border-border bg-surface p-3 shadow-[var(--shadow-soft)]">
           <ul className="flex flex-col">
-            {serviceGroups.map((group) => (
+            {groups.map((group) => (
               <li key={group.href} className="border-b border-border/80 py-2 last:border-b-0">
                 <Link
                   href={group.href}
@@ -139,7 +145,16 @@ function ServicesMenu() {
   );
 }
 
-export function SiteHeader({ className, preview = false }: SiteHeaderProps) {
+export function SiteHeader({
+  className,
+  preview = false,
+  groups = serviceGroups,
+  links = topLinks,
+  booking = bookingNavigation,
+  phone,
+  phoneHref,
+  email,
+}: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
@@ -173,8 +188,8 @@ export function SiteHeader({ className, preview = false }: SiteHeaderProps) {
         <div className="mx-auto flex h-16 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-4 sm:px-6">
           <BrandMark />
           <nav className="hidden items-center min-[1080px]:flex" aria-label="Primär">
-            <ServicesMenu />
-            {topLinks.map((link) => (
+            <ServicesMenu groups={groups} />
+            {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -193,7 +208,7 @@ export function SiteHeader({ className, preview = false }: SiteHeaderProps) {
             {preview ? (
               <span className="hidden text-meta min-[1080px]:inline">Designsystem</span>
             ) : null}
-            <Button href={bookingNavigation.href}>{bookingNavigation.label}</Button>
+            <Button href={booking.href}>{booking.label}</Button>
             <button
               ref={menuTriggerRef}
               type="button"
@@ -208,7 +223,16 @@ export function SiteHeader({ className, preview = false }: SiteHeaderProps) {
           </div>
         </div>
       </header>
-      <MobileMenu open={open} onClose={closeMenu} />
+      <MobileMenu
+        open={open}
+        onClose={closeMenu}
+        groups={groups}
+        links={links}
+        booking={booking}
+        phone={phone}
+        phoneHref={phoneHref}
+        email={email}
+      />
     </>
   );
 }

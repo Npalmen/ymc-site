@@ -7,14 +7,24 @@ import { Field, Input, Select, Textarea } from "@/components/ui/form";
 import { Pill } from "@/components/ui/pill";
 import { RichLine } from "@/components/ui/rich-line";
 
-function topicLabel(value: string) {
-  return planningTopics.find((topic) => topic.value === value)?.label ?? value;
-}
-
-export function PlanningMeeting({ defaultTopic = "planering" }: { defaultTopic?: PlanningTopic }) {
+export function PlanningMeeting({
+  defaultTopic = "planering",
+  copy = planningMeeting,
+  topics = planningTopics,
+  recipient = site.contact.email,
+}: {
+  defaultTopic?: PlanningTopic | string;
+  copy?: typeof planningMeeting;
+  topics?: readonly { value: string; label: string }[];
+  recipient?: string;
+}) {
   const baseId = useId();
   const [topic, setTopic] = useState<string>(defaultTopic);
   const [status, setStatus] = useState("");
+
+  function topicLabel(value: string) {
+    return topics.find((topic) => topic.value === value)?.label ?? value;
+  }
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -32,7 +42,7 @@ export function PlanningMeeting({ defaultTopic = "planering" }: { defaultTopic?:
       "",
       message || "–",
     ].join("\n");
-    const href = `mailto:${site.contact.email}?subject=${encodeURIComponent(`Yellow Music — ${chosen}`)}&body=${encodeURIComponent(body)}`;
+    const href = `mailto:${recipient}?subject=${encodeURIComponent(`Yellow Music — ${chosen}`)}&body=${encodeURIComponent(body)}`;
     setStatus("Öppnar ditt e-postprogram. Inget sparas på webbplatsen.");
     window.location.href = href;
   }
@@ -41,13 +51,13 @@ export function PlanningMeeting({ defaultTopic = "planering" }: { defaultTopic?:
     <section id="planering" className="bg-canvas px-4 py-14 sm:px-6 sm:py-20">
       <div className="mx-auto grid max-w-[var(--container-default)] overflow-hidden rounded-[var(--radius-card)] bg-studio text-ink-inverse lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <div className="px-5 py-8 sm:px-8 sm:py-10">
-          <Pill tone="dark">{planningMeeting.eyebrow}</Pill>
+          <Pill tone="dark">{copy.eyebrow}</Pill>
           <h2 className="text-section mt-5">
-            <RichLine parts={planningMeeting.title} tone="brand" />
+            <RichLine parts={copy.title} tone="brand" />
           </h2>
-          <p className="mt-4 max-w-md text-body text-ink-inverse/75">{planningMeeting.lede}</p>
+          <p className="mt-4 max-w-md text-body text-ink-inverse/75">{copy.lede}</p>
           <ul className="mt-6 space-y-3">
-            {planningMeeting.points.map((point) => (
+            {copy.points.map((point) => (
               <li key={point} className="flex gap-3 text-body-sm text-ink-inverse/85">
                 <span className="mt-0.5 text-brand" aria-hidden>
                   ✓
@@ -90,7 +100,7 @@ export function PlanningMeeting({ defaultTopic = "planering" }: { defaultTopic?:
                 value={topic}
                 onChange={(event) => setTopic(event.target.value)}
               >
-                {planningTopics.map((item) => (
+                {topics.map((item) => (
                   <option key={item.value} value={item.value}>
                     {item.label}
                   </option>
@@ -110,7 +120,7 @@ export function PlanningMeeting({ defaultTopic = "planering" }: { defaultTopic?:
             >
               Skicka förfrågan
             </button>
-            <p className="text-body-sm text-ink-muted">{planningMeeting.note}</p>
+            <p className="text-body-sm text-ink-muted">{copy.note}</p>
             {status ? (
               <p className="text-body-sm text-ink" role="status">
                 {status}

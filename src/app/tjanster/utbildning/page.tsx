@@ -1,28 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
+import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
-import { PlanningMeeting } from "@/components/sections/planning-meeting";
+import { PlanningBlock } from "@/components/sections/planning-block";
 import { Container } from "@/components/ui/container";
-import { educationHub } from "@/content/pages/education";
+import { loadEducation } from "@/sanity/load";
 
-export const metadata: Metadata = {
-  title: educationHub.metaTitle,
-  description: educationHub.metaDescription,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { page } = await loadEducation();
+  return { title: page.metaTitle, description: page.metaDescription };
+}
 
-export default function EducationPage() {
+export default async function EducationPage() {
+  const { page, courses, extraSections } = await loadEducation();
   return (
     <PageShell>
       <PageHero
-        eyebrow={educationHub.eyebrow}
-        title={educationHub.title}
-        lede={educationHub.lede}
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lede={page.lede}
         trail={[{ href: "/tjanster", label: "Tjänster" }]}
       />
       <Container className="pb-6">
         <ul className="border-t border-border">
-          {educationHub.courses.map((course) => (
+          {courses.map((course) => (
             <li key={course.href} className="border-b border-border">
               <Link href={course.href} className="group flex min-h-[5.5rem] items-center gap-4 py-4">
                 <span className="w-8 font-display text-xl italic text-accent">{course.n}</span>
@@ -38,10 +40,11 @@ export default function EducationPage() {
           ))}
         </ul>
         <p className="mt-8 max-w-xl rounded-[var(--radius-card)] border border-dashed border-accent/40 bg-accent-soft px-4 py-3 text-body-sm">
-          {educationHub.praktik}
+          {page.praktik}
         </p>
       </Container>
-      <PlanningMeeting defaultTopic="musikproduktion" />
+      <ExtraSections sections={extraSections} />
+      <PlanningBlock defaultTopic="musikproduktion" />
     </PageShell>
   );
 }

@@ -1,8 +1,14 @@
 import Link from "next/link";
-import { footerColumns } from "@/content/navigation";
-import { site } from "@/content/site";
+import { footerColumns as fallbackColumns, type NavLink } from "@/content/navigation";
+import { site as fallbackSite, type SiteConfig } from "@/content/site";
 
-export function SiteFooter() {
+export function SiteFooter({
+  site = fallbackSite,
+  columns = fallbackColumns,
+}: {
+  site?: SiteConfig;
+  columns?: { title: string; links: NavLink[] }[];
+}) {
   return (
     <footer className="bg-studio text-ink-inverse">
       <div className="mx-auto w-full max-w-[var(--container-wide)] px-5 py-14 sm:px-6 lg:py-16">
@@ -26,7 +32,7 @@ export function SiteFooter() {
             </p>
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:col-span-7">
-            {footerColumns.map((column) => (
+            {columns.map((column) => (
               <div key={column.title}>
                 <p className="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-ink-inverse/70">
                   {column.title}

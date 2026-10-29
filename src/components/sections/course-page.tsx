@@ -1,13 +1,18 @@
 import type { CoursePageContent } from "@/content/pages/education";
+import { ExtraSections } from "@/components/sections/extra-sections";
+import type { CmsImage } from "@/sanity/image";
+import type { ExtraSection } from "@/sanity/load";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import { PageHero } from "@/components/sections/page-hero";
 import { PageShell } from "@/components/layout/page-shell";
-import { PlanningMeeting } from "@/components/sections/planning-meeting";
-import type { PlanningTopic } from "@/content/pages/shared";
-
-export function CourseView({ course }: { course: CoursePageContent }) {
+import { PlanningBlock } from "@/components/sections/planning-block";
+export function CourseView({
+  course,
+}: {
+  course: CoursePageContent & { image?: CmsImage | null; extraSections?: ExtraSection[] };
+}) {
   return (
     <PageShell>
       <PageHero
@@ -24,7 +29,7 @@ export function CourseView({ course }: { course: CoursePageContent }) {
         </Button>
       </PageHero>
       <Container className="pb-8">
-        <PlaceholderFrame label={course.imageLabel} ratio="16/9" />
+        <PlaceholderFrame image={course.image} label={course.imageLabel} ratio="16/9" />
         <div className="mt-10 max-w-[40rem] space-y-8">
           {course.sections.map((section) => (
             <div key={section.heading}>
@@ -51,7 +56,8 @@ export function CourseView({ course }: { course: CoursePageContent }) {
           {course.missing}
         </p>
       </Container>
-      <PlanningMeeting defaultTopic={course.topic as PlanningTopic} />
+      <ExtraSections sections={course.extraSections} />
+      <PlanningBlock defaultTopic={course.topic} />
     </PageShell>
   );
 }

@@ -1,10 +1,22 @@
 import { singingDifference } from "@/content/pages/singing";
+import type { RichLine as RichParts } from "@/content/rich-text";
 import { Container } from "@/components/ui/container";
 import { Pill } from "@/components/ui/pill";
 import { RichLine } from "@/components/ui/rich-line";
 
-export function DifferenceTable() {
-  const copy = singingDifference;
+export function DifferenceTable({
+  data = singingDifference,
+}: {
+  data?: {
+    eyebrow: string;
+    title: RichParts;
+    lede: string;
+    ours: { name: string; sub: string };
+    other: { name: string; sub: string };
+    rows: readonly { label: string; ours: string; other: string }[];
+  };
+}) {
+  const copy = data;
   return (
     <section className="bg-canvas py-16 sm:py-20" aria-labelledby="skillnad-rubrik">
       <Container>

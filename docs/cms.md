@@ -1,14 +1,21 @@
 # Sanity CMS
 
-Biim edits the live copy in Sanity Studio at `/studio`. The React pages stay in the repo. If Sanity is not configured, or the project has not been seeded, the site renders the files in `src/content`. A production build does not need Sanity credentials.
+Biim edits the live copy in Sanity Studio at `/studio`. The React pages stay in the repo. The public project is `vjv9ko18`, dataset `production`. Until `siteSettings` has been published, the site renders the files in `src/content`. A production build does not need a write token.
 
 ## What the owner creates
 
-1. A Sanity account at [sanity.io/manage](https://www.sanity.io/manage). The Free plan can be used for this commercial site within Sanity’s published quotas. Check [sanity.io/pricing](https://www.sanity.io/pricing) for the current limits.
-2. A project. Dataset name: `production`.
-3. A robot token with **Editor** rights, used only to seed. Name it `seed`. Put it in `SANITY_API_WRITE_TOKEN`. Do not commit it. You can delete the token after seeding.
-4. CORS origins (API → CORS): `http://localhost:3000` and `https://yellowmusicunited.se`, plus the Vercel preview origin if editors use it. Allow credentials.
-5. A webhook (API → Webhooks):
+1. Confirm access to the existing Sanity project `vjv9ko18` (dataset `production`, public). The Free plan can be used for this commercial site within Sanity’s published quotas. Check [sanity.io/pricing](https://www.sanity.io/pricing) for the current limits.
+2. A robot token with **Editor** rights, used only for the seed command below. Do not commit it. You can delete the token after seeding.
+3. CORS origins, with credentials allowed. Add each of these in the project API settings:
+
+   - `http://localhost:3000`
+   - `https://yellowmusicunited.se`
+   - `https://www.yellowmusicunited.se`
+   - `https://ymc-site.vercel.app`
+   - `https://*.vercel.app` (Vercel preview deployments)
+   - `https://*.workers.dev` (Cloudflare Worker URLs)
+
+4. A webhook (API → Webhooks):
    - URL: `https://yellowmusicunited.se/api/revalidate`
    - Trigger on create, update, and delete
    - Projection: `{_type}`
@@ -19,24 +26,24 @@ Biim edits the live copy in Sanity Studio at `/studio`. The React pages stay in 
 
 | Name | Where | Purpose |
 |------|--------|---------|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Build and runtime | Project id |
-| `NEXT_PUBLIC_SANITY_DATASET` | Build and runtime | `production` |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Already `vjv9ko18` in code and `.env.example` | Public project id |
+| `NEXT_PUBLIC_SANITY_DATASET` | Already `production` | Public dataset |
 | `NEXT_PUBLIC_SANITY_API_VERSION` | Build and runtime | `2026-02-01` |
-| `SANITY_API_WRITE_TOKEN` | Seed machine only | Writes the first documents |
+| `SANITY_API_TOKEN` | Seed command only. Never commit it | Editor token for the one-time write |
 | `SANITY_REVALIDATE_SECRET` | Runtime secret | Webhook signature |
 | `NEXT_PUBLIC_SITE_URL` | Build | `https://yellowmusicunited.se` in production |
 
-On Cloudflare, public variables must exist **during the build**. Put the secret in `npx wrangler secret put SANITY_REVALIDATE_SECRET`. On Vercel, add the same names in Project Settings. Empty Sanity variables are valid: the site then uses `src/content`.
+The project id and dataset are not secrets. They are the defaults in `src/sanity/env.ts` and `sanity.config.ts`, so a host does not have to set them. Put the webhook secret in `npx wrangler secret put SANITY_REVALIDATE_SECRET` and in the Vercel project if previews should revalidate.
 
 ## Seed
 
-From a machine that has the env vars:
+One command. The token stays in the shell, not in a file:
 
 ```bash
-npm run sanity:seed
+SANITY_API_TOKEN=sk... npm run sanity:seed
 ```
 
-The script writes the current Swedish copy (pages, packages, FAQ, timeline, principles, reviews, menu) with stable ids. Running it again replaces those documents. It does not upload photographs. Add images in Studio.
+The script writes the current Swedish copy (pages, packages, FAQ, timeline, principles, reviews, menu) with stable ids. It uses `createOrReplace`, so running it again updates those same documents instead of creating duplicates. A second run overwrites later edits to those ids. It does not upload photographs. Add images in Studio.
 
 ## How editing reaches the site
 

@@ -10,14 +10,15 @@ import { lessonPackages, packagesPage, singingAlso, singingDifference, singingPa
 import { bookingNavigation, serviceGroups, topLinks } from "../src/content/navigation";
 import { site } from "../src/content/site";
 import type { RichLine } from "../src/content/rich-text";
+import { SANITY_DATASET, SANITY_PROJECT_ID } from "../src/sanity/env";
 import { richToMarked } from "../src/sanity/rich";
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
-const token = process.env.SANITY_API_WRITE_TOKEN;
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID?.trim() || SANITY_PROJECT_ID;
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET?.trim() || SANITY_DATASET;
+const token = process.env.SANITY_API_TOKEN?.trim();
 
-if (!projectId || !token) {
-  console.error("Sätt NEXT_PUBLIC_SANITY_PROJECT_ID och SANITY_API_WRITE_TOKEN innan du kör npm run sanity:seed.");
+if (!token) {
+  console.error("Saknar skrivtoken. Kör: SANITY_API_TOKEN=... npm run sanity:seed");
   process.exit(1);
 }
 

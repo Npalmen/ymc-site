@@ -14,7 +14,7 @@ Do not move e-post to Cloudflare. The domain stays registered at One.com. Google
 4. Build settings:
    - Build command: `npm run deploy`
    - The `build` script must stay `next build`. Vercel uses that. `npm run deploy` runs the OpenNext build and then `wrangler deploy`.
-5. Set the same environment variables as in [cms.md](cms.md), including the `NEXT_PUBLIC_SANITY_*` values, **before the first production build**. Those public values are baked in at build time.
+5. The public Sanity id `vjv9ko18` and dataset `production` are already in the source. Set `SANITY_REVALIDATE_SECRET` as a Worker secret before relying on the webhook. See [cms.md](cms.md).
 
 `npm run deploy` needs a Cloudflare API token in CI (`CLOUDFLARE_API_TOKEN`) with Workers, R2, and D1 edit rights, plus `CLOUDFLARE_ACCOUNT_ID`.
 

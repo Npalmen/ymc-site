@@ -11,7 +11,7 @@ The public copy lived in `src/content` so the site could ship without a CMS. Bii
 
 - Production hosting target is Cloudflare Workers through `@opennextjs/cloudflare`. `npm run build` stays `next build` for Vercel.
 - Cache for on-demand revalidation uses R2, a SQLite Durable Object queue, and D1. No time-based ISR, so a missed webhook does not depend on a timer.
-- Content is edited in Sanity Studio at `/studio`. Schemas mirror the current pages. `src/content` remains the seed and the fallback when `NEXT_PUBLIC_SANITY_PROJECT_ID` is unset or `siteSettings` has not been published.
+- Content is edited in Sanity Studio at `/studio`. The public project id is `vjv9ko18`, dataset `production`. `src/content` remains the seed source and the fallback until `siteSettings` is published, and if a Sanity read fails.
 - A webhook hits `/api/revalidate`, checks `SANITY_REVALIDATE_SECRET`, and calls `revalidateTag("content", "max")`.
 - Images are served from `cdn.sanity.io` through `next/image`.
 

@@ -27,7 +27,7 @@ export function PricingCards({
       </p>
       <div className="mt-8 flex flex-col gap-12">
         {packages.map((pack) => (
-          <article key={pack.id}>
+          <article key={pack.id} className="package-card">
             <div className="rounded-[var(--radius-card)] border border-border bg-surface px-5 py-6 sm:px-7">
               <h3 className="font-display text-[1.85rem] leading-tight text-ink">{pack.title}</h3>
               <p className="mt-3 max-w-prose text-body text-ink-muted">{pack.summary}</p>

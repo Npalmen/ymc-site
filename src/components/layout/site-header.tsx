@@ -161,6 +161,7 @@ export function SiteHeader({
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    document.body.toggleAttribute("data-menu-open", open);
     const nodes = document.querySelectorAll("main, footer");
     nodes.forEach((node) => {
       if (open) node.setAttribute("inert", "");
@@ -168,9 +169,16 @@ export function SiteHeader({
     });
     return () => {
       document.body.style.overflow = "";
+      document.body.removeAttribute("data-menu-open");
       nodes.forEach((node) => node.removeAttribute("inert"));
     };
   }, [open]);
+
+  useEffect(() => {
+    const closeFromSheet = () => setOpen(false);
+    window.addEventListener("ymu-close-menu", closeFromSheet);
+    return () => window.removeEventListener("ymu-close-menu", closeFromSheet);
+  }, []);
 
   const closeMenu = () => {
     setOpen(false);
@@ -180,6 +188,7 @@ export function SiteHeader({
   return (
     <>
       <header
+        style={{ viewTransitionName: "site-header" }}
         className={cn(
           "sticky top-0 z-50 border-b border-border/70 bg-canvas/95 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md",
           className,

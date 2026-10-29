@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test src/sanity/rich.test.ts",
+    "test": "tsx --test src/sanity/rich.test.ts src/components/booking/booking-url.test.ts",
     "sanity:seed": "tsx scripts/seed-sanity.ts",
     "cf:build": "opennextjs-cloudflare build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",

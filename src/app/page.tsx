@@ -6,6 +6,8 @@ import { SoulSplit } from "@/components/sections/soul-split";
 import { ReviewRail } from "@/components/sections/review-rail";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { CountUp } from "@/components/motion/count-up";
+import { ScrollSunflower } from "@/components/motion/sunflower";
 import { Pill } from "@/components/ui/pill";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import { RichLine } from "@/components/ui/rich-line";
@@ -42,12 +44,21 @@ export default async function HomePage() {
                 </Button>
               </div>
               <ul className="mt-8 flex flex-col gap-1 text-body-sm text-ink-muted sm:flex-row sm:gap-6">
-                {hero.meta.map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <span className="size-1.5 rounded-full bg-brand" aria-hidden />
-                    {item}
-                  </li>
-                ))}
+                {hero.meta.map((item) => {
+                  const year = /^Sedan (\d{4})$/.exec(item);
+                  return (
+                    <li key={item} className="flex items-center gap-2">
+                      <span className="size-1.5 rounded-full bg-brand" aria-hidden />
+                      {year ? (
+                        <>
+                          Sedan <CountUp value={Number(year[1])} />
+                        </>
+                      ) : (
+                        item
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div className="mt-10 lg:mt-0">
@@ -119,7 +130,8 @@ export default async function HomePage() {
 
       <ExtraSections sections={home.extraSections} />
 
-      <section className="bg-accent-soft py-16 sm:py-20">
+      <section id="boka-slut" className="relative overflow-hidden bg-accent-soft py-16 sm:py-20">
+        <ScrollSunflower />
         <Container>
           <h2 className="text-section max-w-[12em]">
             <RichLine parts={close.title} />

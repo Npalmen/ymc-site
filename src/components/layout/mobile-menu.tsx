@@ -79,7 +79,7 @@ export function MobileMenu({
       role="dialog"
       aria-modal="true"
       aria-label="Meny"
-      className="fixed inset-x-0 bottom-0 z-40 flex flex-col bg-canvas min-[1080px]:hidden"
+      className="glass fixed inset-x-0 bottom-0 z-40 flex flex-col min-[1080px]:hidden"
       style={{ top: "var(--header-height)" }}
     >
       <nav className="flex-1 overflow-y-auto px-5 pb-6 pt-4" aria-label="Mobilmeny">

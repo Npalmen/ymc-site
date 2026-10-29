@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
 import { site } from "@/content/site";
+import { SiteChrome } from "@/components/motion/site-chrome";
 import { loadSite } from "@/sanity/load";
 import "./globals.css";
 
@@ -76,9 +77,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             }),
           }}
         />
-        <div id="innehall" className="flex min-h-full flex-1 flex-col">
-          {children}
-        </div>
+        <SiteChrome>
+          <div id="innehall" className="flex min-h-full flex-1 flex-col">
+            {children}
+          </div>
+        </SiteChrome>
       </body>
     </html>
   );

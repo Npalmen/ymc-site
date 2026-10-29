@@ -3,7 +3,7 @@
 **Document:** `docs/plans/areas/02-information-architecture.md`  
 **Parent:** `docs/plans/MASTER-PLAN.md`  
 **Domain:** Information Architecture  
-**Status:** IA PREVIEW READY
+**Status:** CLIENT REVISION IMPLEMENTED (ADR-004). The five-world top nav is no longer the public menu. Human sign-off still open.
 
 ---
 

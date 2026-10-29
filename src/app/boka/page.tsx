@@ -1,45 +1,39 @@
 import type { Metadata } from "next";
-import { SiteHeader } from "@/components/layout/site-header";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { Container } from "@/components/ui/container";
-import { Heading } from "@/components/ui/heading";
-import { Text } from "@/components/ui/text";
-import { TextLink } from "@/components/ui/link";
+import { PageShell } from "@/components/layout/page-shell";
+import { PageHero } from "@/components/sections/page-hero";
+import { PlanningMeeting } from "@/components/sections/planning-meeting";
+import { bookingPage } from "@/content/pages/contact";
+import { planningTopics, type PlanningTopic } from "@/content/pages/shared";
 import { site } from "@/content/site";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Boka · Yellow Music",
-  description: "Bokning — kommer snart.",
+  title: bookingPage.metaTitle,
+  description: bookingPage.metaDescription,
 };
 
-export default function BokaPage() {
+function resolveTopic(value: string | string[] | undefined): PlanningTopic {
+  const raw = Array.isArray(value) ? value[0] : value;
+  if (raw && planningTopics.some((topic) => topic.value === raw)) {
+    return raw as PlanningTopic;
+  }
+  return "planering";
+}
+
+export default async function BookingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ amne?: string | string[] }>;
+}) {
+  const params = await searchParams;
   return (
-    <>
-      <SiteHeader />
-      <main className="overflow-x-clip">
-        <Container className="py-[var(--space-section)] text-center">
-          <Heading level="heading-xl" className="text-balance">
-            Boka
-          </Heading>
-          <Text variant="body-lg" className="mx-auto mt-5 max-w-md text-ink-muted">
-            Bokningsflöde är inte implementerat ännu. Planering finns i dokumentationen för
-            Area 04.
-          </Text>
-          <Text variant="body-sm" className="mx-auto mt-8 max-w-md text-ink-muted">
-            Tills vidare:{" "}
-            <a
-              href={`mailto:${site.contact.email}?subject=Planeringsm%C3%B6te`}
-              className="text-ink underline-offset-4 hover:text-brand hover:underline"
-            >
-              {site.contact.email}
-            </a>
-          </Text>
-          <TextLink href="/" className="mx-auto mt-10 justify-center">
-            Tillbaka till startsidan
-          </TextLink>
-        </Container>
-      </main>
-      <SiteFooter />
-    </>
+    <PageShell>
+      <PageHero eyebrow={bookingPage.eyebrow} title={bookingPage.title} lede={bookingPage.lede}>
+        <Button href={site.contact.phoneHref} variant="secondary" size="lg">
+          Ring {site.contact.phone}
+        </Button>
+      </PageHero>
+      <PlanningMeeting defaultTopic={resolveTopic(params.amne)} />
+    </PageShell>
   );
 }

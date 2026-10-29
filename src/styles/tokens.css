@@ -13,42 +13,45 @@
   --color-observed-yellow-e: #ffcd00;
   --color-observed-yellow-f: #fff2d4;
 
-  /* Semantic surfaces */
-  --color-canvas: #faf8f4;
-  --color-canvas-subtle: #f3efe6;
-  --color-canvas-deep: #ebe4d6;
-  --color-surface: #ffffff;
-  --color-surface-strong: #ebe4d6;
+  /* Semantic surfaces — warm paper, Adviora-adjacent, yellow stays the accent */
+  --color-canvas: #f7f3ec;
+  --color-canvas-subtle: #f0e9dc;
+  --color-canvas-deep: #e7dece;
+  --color-surface: #fffcf8;
+  --color-surface-strong: #e7dece;
 
-  /* Ink — warm neutrals */
-  --color-ink: #2c2820;
+  /* Ink — warm neutrals. Subtle is dark enough for small text on canvas. */
+  --color-ink: #1a1714;
   --color-ink-muted: #5c5346;
-  --color-ink-subtle: #8a8174;
-  --color-ink-inverse: #faf8f4;
+  --color-ink-subtle: #5e564c;
+  --color-ink-inverse: #f7f3ec;
 
-  /* Brand — working values unchanged; refined semantic roles */
+  /* Brand yellow remains #F7C006 (Phase 1 working value). */
   --color-brand: #f7c006;
   --color-brand-hover: #e0ad05;
   --color-brand-soft: #fff2d4;
   --color-brand-muted: #ffe9a8;
   --color-brand-line: #f7c006;
-  --color-brand-contrast: #2c2820;
+  --color-brand-contrast: #1a1714;
+  /* Italic accent words. Passes WCAG AA on canvas (~5.3:1). Not the bright brand yellow. */
+  --color-accent: #8c5a12;
+  --color-accent-soft: #f4e6c4;
 
   /* Borders */
   --color-border: #ddd5c8;
   --color-border-strong: #c4b8a4;
 
   /* Semantic */
-  --color-focus: #b8860b;
+  --color-focus: #8c5a12;
   --color-success: #3d6b4f;
   --color-warning: #9a6b00;
   --color-error: #9b3d3d;
 
-  /* Studio dark surface */
-  --color-studio: #141210;
-  --color-studio-elevated: #1f1b17;
+  /* Studio dark surface — warm near-black, not pure black */
+  --color-studio: #171410;
+  --color-studio-elevated: #241f1a;
   --color-studio-border: #3a332a;
-  --color-studio-glow: rgb(247 192 6 / 7%);
+  --color-studio-glow: rgb(247 192 6 / 10%);
 
   /* Spacing scale */
   --space-micro: 0.25rem;
@@ -64,11 +67,15 @@
   --space-section-quiet: clamp(2.5rem, 5vw, 4rem);
   --space-section-expressive: clamp(5.5rem, 11vw, 9.5rem);
 
-  /* Radius */
+  /* Radius — card and pill added for the client-directed Adviora language */
   --radius-none: 0;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.625rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-card: 1.35rem;
+  --radius-pill: 999px;
+
+  --header-height: calc(4rem + env(safe-area-inset-top, 0px));
 
   /* Containers */
   --container-wide: 90rem;

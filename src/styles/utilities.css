@@ -9,6 +9,56 @@
     radial-gradient(ellipse 50% 40% at 10% 90%, rgb(255 242 212 / 4%), transparent 50%);
 }
 
+.photo-pending {
+  background-color: #efe2c8;
+  background-image:
+    radial-gradient(circle at 50% 46%, rgb(247 192 6 / 70%) 0 14%, rgb(214 150 30 / 28%) 15% 26%, transparent 27%),
+    linear-gradient(165deg, #f8edd4 0%, #ead7b0 52%, #ddc69a 100%);
+}
+
+.rise {
+  /* Static by default. View-timeline motion is progressive enhancement. */
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rise {
+      animation: rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 28%;
+    }
+  }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.review-card:nth-child(3n + 1) {
+  transform: rotate(-1.6deg);
+}
+
+.review-card:nth-child(3n + 2) {
+  transform: rotate(1.35deg);
+}
+
+.review-card:nth-child(3n) {
+  transform: rotate(-0.6deg);
+}
+
+.select-chevron {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%231a1714' stroke-width='1.6' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 6.2 8 10.3l4.5-4.1'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  padding-right: 2.6rem;
+}
+
 .placeholder-art {
   background-color: var(--color-canvas-subtle);
   background-image:

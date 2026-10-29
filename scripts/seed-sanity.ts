@@ -359,5 +359,11 @@ courseDoc("course-latskrivning", "latskrivning", songwritingCourse, 1);
 
 const tx = client.transaction();
 for (const doc of documents) tx.createOrReplace(doc);
-await tx.commit();
-console.log(`Skrev ${documents.length} dokument till ${projectId}/${dataset}.`);
+tx.commit()
+  .then(() => {
+    console.log(`Skrev ${documents.length} dokument till ${projectId}/${dataset}.`);
+  })
+  .catch((error: unknown) => {
+    console.error(error);
+    process.exit(1);
+  });

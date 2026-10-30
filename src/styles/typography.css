@@ -3,6 +3,26 @@
  * Source Sans 3: UI/body | Fraunces: editorial display
  */
 
+/*
+ * Clean Fraunces. The weight-only file baked in the display cut (hooked j,
+ * arched f). The full variable font's display optical size does the same.
+ * Hold opsz at 18, in the text range, with WONK and SOFT off, so a large
+ * heading stays a regular serif instead of sliding up to opsz 144.
+ */
+.text-hero,
+.text-section,
+.font-display,
+.text-display-xl,
+.text-display-lg,
+.text-heading-xl,
+.text-heading-lg,
+.text-quote {
+  font-optical-sizing: none;
+  font-synthesis: none;
+  font-feature-settings: normal;
+  font-variation-settings: "opsz" 18, "SOFT" 0, "WONK" 0;
+}
+
 .text-hero {
   font-family: var(--font-display), Georgia, serif;
   font-weight: 500;
@@ -26,6 +46,17 @@
 .font-display.italic,
 em {
   font-style: normal;
+}
+
+.font-display {
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+/* All-caps posters need air. Tight tracking here turns them into a block. */
+.font-display.uppercase {
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 .text-display-xl {

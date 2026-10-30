@@ -19,7 +19,7 @@ Production target is Cloudflare Workers via OpenNext. Vercel previews still use 
 
 ## What shipped in this revision
 
-Mobile-first public site in Swedish. Adviora-adapted editorial system on the existing yellow identity (Fraunces for display headings and quotes, Source Sans 3 for body, navigation, buttons, forms and numbers, brand `#F7C006`, accent text `#8C5A12`). Same two families as the foundation commit before the redesign, roman only.
+Mobile-first public site in Swedish. Adviora-adapted editorial system on the existing yellow identity (Fraunces for display headings and quotes, Source Sans 3 for body, navigation, buttons, forms and numbers, brand `#F7C006`, accent text `#8C5A12`). Fraunces is the variable cut with WONK 0, SOFT 0 and optical size held at 18, weight 500, so large headings stay a regular roman serif.
 
 Navigation matches Biim’s menu. Detail pages exist for sånglektioner (steg för steg, lektionspaket), utbildning (musikproduktion för tjejer, låtskrivning), distribution, community, om oss, kontakt, boka and FAQ.
 

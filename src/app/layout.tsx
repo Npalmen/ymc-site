@@ -16,7 +16,8 @@ const fraunces = Fraunces({
   subsets: ["latin", "latin-ext"],
   display: "swap",
   variable: "--font-display",
-  weight: ["400", "500", "600"],
+  // Variable, so opsz / SOFT / WONK can be pinned. A weight list drops those axes.
+  axes: ["opsz", "SOFT", "WONK"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {

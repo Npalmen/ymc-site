@@ -131,11 +131,11 @@ export default function DesignSystemPage() {
           <Container variant="wide">
             <SectionIntro
               label="B · Typography"
-              title="Redaktionell kontrast mellan Playfair Display och Raleway"
+              title="Redaktionell kontrast mellan Fraunces och Source Sans 3"
             />
             <div className="grid gap-16 lg:grid-cols-12">
               <div className="border-t border-border pt-10 lg:col-span-6 lg:border-r lg:border-t-0 lg:pr-14 lg:pt-0">
-                <p className="text-label text-ink-subtle">Raleway</p>
+                <p className="text-label text-ink-subtle">Source Sans 3</p>
                 <p className="text-body-lg mt-8 max-w-md text-ink-muted">
                   Brödtext, navigation, formulär och bokning. Lugn, läsbar, professionell utan
                   corporate kyla.
@@ -147,7 +147,7 @@ export default function DesignSystemPage() {
                 </p>
               </div>
               <div className="lg:col-span-6 lg:pl-4">
-                <p className="text-label text-ink-subtle">Playfair Display</p>
+                <p className="text-label text-ink-subtle">Fraunces — selektivt</p>
                 <p className="text-display-xl mt-6">Låt oss växa tillsammans.</p>
                 <p className="text-heading-xl mt-10 max-w-lg">
                   Inkludering · Jämställdhet · Positiv kreativitet

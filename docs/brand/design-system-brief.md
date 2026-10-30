@@ -23,10 +23,10 @@ Yellow Music United should feel like an **independent music company with a creat
 
 | Role | Font | Rationale |
 |------|------|-----------|
-| Primary sans | **Raleway** | Body, navigation, buttons and labels, as on the live Wix site. Lining figures for prices and numbers |
-| Display | **Playfair Display** | Headings, quotes and italic accent words, as on the live Wix site |
+| Primary sans | **Source Sans 3** | Swedish (latin-ext), readable, professional without corporate coldness |
+| Display | **Fraunces** | Editorial warmth for heroes; selective use |
 
-The earlier rejection of Playfair Display is superseded. The public site follows yellowmusicunited.se (2026-10-30).
+**Rejected:** Inter (foundation default — too generic SaaS), Geist (tech), Playfair Display (luxury beige), Outfit (startup template).
 
 ## Owner dependencies (non-blocking for preview)
 
@@ -46,5 +46,5 @@ Visual elevation without changing core brand hex or font families:
 - Booking: accent bar selection, refined slot states, review stripe header
 - Cohesive preview narrative flow vs stacked demo blocks
 
-**Fonts at that pass:** Source Sans 3 + Fraunces. The public site later moved to Playfair Display + Raleway.  
+**Fonts unchanged:** Source Sans 3 + Fraunces  
 **Core yellow unchanged:** `#F7C006` (usage refined via lines, soft surfaces, inset button detail)

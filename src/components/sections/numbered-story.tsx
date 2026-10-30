@@ -28,7 +28,7 @@ export function NumberedStory({ title, steps }: NumberedStoryProps) {
             className="relative border-t border-border px-0 py-8 md:border-t-0 md:border-l md:px-8 md:py-0 md:first:border-l-0 md:first:pl-0"
           >
             <span
-              className="nums pointer-events-none absolute -top-6 left-0 text-[clamp(4rem,8vw,6rem)] font-medium leading-none text-brand-soft md:-top-8"
+              className="pointer-events-none absolute -top-6 left-0 text-[clamp(4rem,8vw,6rem)] font-medium leading-none text-brand-soft md:-top-8"
               aria-hidden
             >
               {step.number}

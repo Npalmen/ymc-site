@@ -19,7 +19,7 @@ Production target is Cloudflare Workers via OpenNext. Vercel previews still use 
 
 ## What shipped in this revision
 
-Mobile-first public site in Swedish. The public type matches yellowmusicunited.se: Playfair Display for headings, quotes and editorial subheads (roman and italic accents), Raleway for body, navigation, buttons, forms and labels. Prices and step numbers use lining tabular figures. Brand `#F7C006`, accent text `#8C5A12`.
+Mobile-first public site in Swedish. Typography matches the last Vercel production deploy before the redesign, commit `a6c2352`: Fraunces weights 400/500/600 for headings and quotes, Source Sans 3 weights 400/500/600/700 for body and UI. No variable axes and no italic cut. Brand `#F7C006`, accent text `#8C5A12`.
 
 Navigation matches Biim’s menu. Detail pages exist for sånglektioner (steg för steg, lektionspaket), utbildning (musikproduktion för tjejer, låtskrivning), distribution, community, om oss, kontakt, boka and FAQ.
 

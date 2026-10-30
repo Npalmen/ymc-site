@@ -31,6 +31,8 @@ export const site = {
   social: {
     trustpilot: "https://www.trustpilot.com/review/yellowmusicunited.se",
   },
+  /** CMS logo URL. Null uses the wordmark shipped in /brand. */
+  logo: null as string | null,
 };
 
 export type SiteConfig = typeof site;

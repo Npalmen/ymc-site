@@ -81,6 +81,21 @@ export const schemaTypes = [
       defineField({ name: "email", title: "E-post", type: "string", validation: (rule) => rule.email() }),
       defineField({ name: "phone", title: "Telefon", type: "string" }),
       defineField({ name: "bookingLabel", title: "Text på Boka-knappen", type: "string", initialValue: "Boka nu" }),
+      defineField({
+        name: "logo",
+        title: "Logotyp",
+        type: "image",
+        description: "Ordmärket Yellow Music. Lämna tomt för logotypen som redan ligger på sajten.",
+        options: { hotspot: true },
+        fields: [
+          defineField({
+            name: "alt",
+            title: "Bildtext",
+            type: "string",
+            initialValue: "Yellow Music United",
+          }),
+        ],
+      }),
       defineField({ name: "trustpilot", title: "Trustpilot-länk", type: "url" }),
       defineField({ name: "postalStreet", title: "Postadress, gata", type: "string" }),
       defineField({ name: "postalCode", title: "Postnummer", type: "string" }),

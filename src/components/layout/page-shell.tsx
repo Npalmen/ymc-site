@@ -13,6 +13,7 @@ export async function PageShell({ children }: { children: React.ReactNode }) {
         phone={site.contact.phone}
         phoneHref={site.contact.phoneHref}
         email={site.contact.email}
+        logo={site.logo}
       />
       <main className="flex-1">{children}</main>
       <SiteFooter site={site} columns={nav.footerColumns} />

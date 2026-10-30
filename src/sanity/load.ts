@@ -26,7 +26,7 @@ import { site, type SiteConfig } from "@/content/site";
 import type { RichLine } from "@/content/rich-text";
 import { sanityFetch } from "@/sanity/client";
 import { isSanityConfigured } from "@/sanity/env";
-import type { CmsImage } from "@/sanity/image";
+import { cmsImageUrl, hasCmsImage, type CmsImage } from "@/sanity/image";
 import { richField } from "@/sanity/rich";
 
 export type ExtraSection = {
@@ -97,6 +97,7 @@ export const loadSite = cache(async (): Promise<SiteConfig> => {
     studioArea?: string;
     studioCity?: string;
     studioNote?: string;
+    logo?: CmsImage | null;
   } | null>(`*[_id == "siteSettings"][0]`);
   if (!doc) return site;
   const phone = text(doc.phone, site.contact.phone);
@@ -106,6 +107,7 @@ export const loadSite = cache(async (): Promise<SiteConfig> => {
     legalName: text(doc.legalName, site.legalName),
     shortName: text(doc.shortName, site.shortName),
     description: text(doc.description, site.description),
+    logo: hasCmsImage(doc.logo) ? cmsImageUrl(doc.logo, 1280, "max") : null,
     contact: {
       email: text(doc.email, site.contact.email),
       phone,

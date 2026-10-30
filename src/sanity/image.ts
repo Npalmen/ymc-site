@@ -12,12 +12,12 @@ export function hasCmsImage(image: CmsImage | null | undefined): image is CmsIma
   return Boolean(image?.asset?._ref);
 }
 
-export function cmsImageUrl(image: CmsImage, width = 1600) {
+export function cmsImageUrl(image: CmsImage, width = 1600, fit: "crop" | "max" = "crop") {
   if (!isSanityConfigured() || !image.asset?._ref) return null;
   return createImageUrlBuilder({ projectId: sanityProjectId(), dataset: sanityDataset() })
     .image(image)
     .width(width)
     .auto("format")
-    .fit("crop")
+    .fit(fit)
     .url();
 }

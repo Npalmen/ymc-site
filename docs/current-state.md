@@ -2,10 +2,10 @@
 
 > Fast entry point for a new Cursor agent. Update this file whenever project truth changes.
 
-**Last updated:** 2026-10-29  
-**Branch:** `cursor/ymu-redesign-dfcf`
+**Last updated:** 2026-10-30  
+**Branch:** `cursor/ymu-logos-dfcf`
 
-Production target is Cloudflare Workers via OpenNext. Vercel previews still use `next build`. Content can be edited in Sanity project `vjv9ko18` (dataset `production`) at `/studio`. Until that project is seeded, the site uses `src/content`. Booking CTAs open a glass bottom sheet that leaves about a fifth of the viewport free and follows a downward drag as one panel; `/boka` stays a full page, and `?boka=1` opens the sheet. A new route starts at the top; back and forward restore the previous offset. Sånglektioner submenu items open `#steg-for-steg` and `#lektionspaket` on that page. Utbildning’s courses stay on their own pages. See [deploy-cloudflare.md](deploy-cloudflare.md), [cms.md](cms.md), and ADR-003.
+Production target is Cloudflare Workers via OpenNext. Vercel previews still use `next build`. Content can be edited in Sanity project `vjv9ko18` (dataset `production`) at `/studio`. Until that project is seeded, the site uses `src/content`. The header, footer, favicon and scroll sunflower use Biim’s wordmark and watercolor mark from `public/brand`; `siteSettings.logo` in Sanity can replace the wordmark. Booking CTAs open a glass bottom sheet that leaves about a fifth of the viewport free and follows a downward drag as one panel; `/boka` stays a full page, and `?boka=1` opens the sheet. A new route starts at the top; back and forward restore the previous offset. Sånglektioner submenu items open `#steg-for-steg` and `#lektionspaket` on that page. Utbildning’s courses stay on their own pages. See [deploy-cloudflare.md](deploy-cloudflare.md), [cms.md](cms.md), and ADR-003.
 
 ## Planning status
 
@@ -49,7 +49,6 @@ Temporary redirects (307) from the previous preview routes and the main Wix path
 
 ## Placeholders Biim needs to fill
 
-- **Logo:** vector/source file. The header is a typographic wordmark until then.
 - **Photos:** Biim in the sunflower field, portrait, Starlight interior, a lesson, education, community. Do not hotlink Wix. The lesson photo on the current site is credited to Stefan Lindgren.
 - **Prices:** six-lesson and twelve-lesson courses. Length and price for both education courses. Praktik details.
 - **Reviews:** real quotes, names, roles and ratings from Google or Trustpilot. The tilted cards are empty slots. Trustpilot is linked. Do not invent reviews.

@@ -49,7 +49,12 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
     panel.classList.remove("is-entering");
     panel.classList.add("is-leaving");
     rootRef.current?.classList.add("is-leaving");
-    window.setTimeout(() => onClose(), 230);
+    window.setTimeout(() => {
+      onClose();
+      window.setTimeout(() => {
+        closing.current = false;
+      }, 50);
+    }, 220);
   }, [onClose]);
 
   useEffect(() => {
@@ -67,7 +72,10 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
   });
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      closing.current = false;
+      return;
+    }
     const previous = document.activeElement as HTMLElement | null;
     const scrollY = window.scrollY;
     const lockedPath = window.location.pathname;
@@ -174,7 +182,7 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
     const backdrop = backdropRef.current;
     if (!panel) return;
     drag.current.shift = shift;
-    panel.style.transform = `translate3d(0, ${shift}px, 0)`;
+    panel.style.transform = shift === 0 ? "" : `translate3d(0, ${shift}px, 0)`;
     const height = panel.getBoundingClientRect().height || 1;
     const progress = Math.max(0, Math.min(1, shift / height));
     if (backdrop) backdrop.style.opacity = String(1 - progress);
@@ -249,16 +257,25 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
     window.setTimeout(() => panel.classList.remove("is-settling"), 480);
   }
 
+  function stopAndClose(event: React.SyntheticEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    requestClose();
+  }
+
   return (
-    <div ref={rootRef} className="sheet-root">
-      <button ref={backdropRef} type="button" className="sheet-backdrop" aria-label="Stäng bokning" onClick={requestClose} />
+    <div ref={rootRef} className="sheet-root" onPointerDown={(event) => {
+      if (event.target === event.currentTarget) stopAndClose(event);
+    }}>
+      <div className="sheet-scrim" aria-hidden />
+      <button ref={backdropRef} type="button" className="sheet-backdrop" aria-label="Stäng bokning" onPointerDown={stopAndClose} />
       <div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="sheet-panel glass is-entering"
+        className="sheet-panel is-entering"
         onAnimationEnd={(event) => {
           if (event.target === event.currentTarget) event.currentTarget.classList.remove("is-entering");
         }}
@@ -267,7 +284,8 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
       >
-        <button type="button" className="sheet-close" aria-label="Stäng bokning" onClick={requestClose}>
+        <div className="sheet-surface glass" aria-hidden />
+        <button type="button" className="sheet-close" aria-label="Stäng bokning" onPointerDown={stopAndClose}>
           <span aria-hidden>×</span>
         </button>
         <div className="sheet-handle" data-sheet-handle>

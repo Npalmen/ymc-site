@@ -567,8 +567,20 @@ html.sheet-open [data-vercel-toolbar] {
 .review-scroller {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  padding-bottom: 0.5rem;
   scrollbar-width: none;
+  /* overflow-x: auto forces overflow-y to auto, so tilt and shadow cannot
+     paint outside the scrollport. The padding is the room they need. */
+  padding: 1.5rem 1.25rem 2rem;
+  margin-inline: -1.25rem;
+  scroll-padding-inline: 1.25rem;
+}
+
+.review-face {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 18px 36px -14px rgb(44 36 20 / 16%),
+    0 4px 10px rgb(44 36 20 / 5%);
 }
 
 .review-scroller::-webkit-scrollbar {

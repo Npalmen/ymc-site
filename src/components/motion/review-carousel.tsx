@@ -18,7 +18,7 @@ export function ReviewCarousel({ items }: { items: ReviewItem[] }) {
     const node = scroller.current;
     if (!node) return;
     const card = node.querySelector<HTMLElement>("li");
-    const amount = (card?.offsetWidth ?? node.clientWidth) + 16;
+    const amount = (card?.offsetWidth ?? node.clientWidth) + 20;
     node.scrollBy({ left: direction * amount, behavior: "smooth" });
   }
 
@@ -26,12 +26,12 @@ export function ReviewCarousel({ items }: { items: ReviewItem[] }) {
     <div className="mt-10">
       <ul
         ref={scroller}
-        className="review-scroller flex list-none gap-4 overflow-x-auto p-0"
+        className="review-scroller flex list-none gap-5 overflow-x-auto"
         aria-label="Platshållare för omdömen"
       >
         {items.map((review) => (
           <li key={review.id} className="review-card w-[min(100%,20rem)] shrink-0 snap-center list-none sm:w-[22rem]">
-            <article className="relative h-full rounded-[var(--radius-card)] border border-border/80 bg-surface px-5 pb-5 pt-7 shadow-[var(--shadow-soft)]">
+            <article className="review-face relative h-full rounded-[var(--radius-card)] px-5 pb-5 pt-7">
               <p className="font-display text-5xl leading-none text-brand" aria-hidden>
                 ”
               </p>

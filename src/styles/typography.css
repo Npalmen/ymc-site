@@ -6,19 +6,26 @@
 .text-hero {
   font-family: var(--font-display), Georgia, serif;
   font-weight: 500;
-  font-size: clamp(2.55rem, 10.2vw, 5.35rem);
-  line-height: 0.98;
-  letter-spacing: -0.032em;
+  font-size: clamp(2.5rem, 4.5vw + 1rem, 5.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
 .text-section {
   font-family: var(--font-display), Georgia, serif;
   font-weight: 500;
-  font-size: clamp(2rem, 6.4vw, 3.6rem);
-  line-height: 1.04;
-  letter-spacing: -0.026em;
+  font-size: clamp(1.85rem, 3.25vw + 0.5rem, 3.75rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
   text-wrap: balance;
+}
+
+/* The pre-redesign load did not include an italic cut. Keep accent color, not a fake slant. */
+.font-display,
+.font-display.italic,
+em {
+  font-style: normal;
 }
 
 .text-display-xl {

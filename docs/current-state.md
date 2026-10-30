@@ -53,7 +53,6 @@ Temporary redirects (307) from the previous preview routes and the main Wix path
 - **Prices:** six-lesson and twelve-lesson courses. Length and price for both education courses. Praktik details.
 - **Reviews:** real quotes, names, roles and ratings from Google or Trustpilot. The tilted cards are empty slots. Trustpilot is linked. Do not invent reviews.
 - **Copy still open:** whether the free first lesson and the free planning meeting are both still offered, community membership terms, and confirmation that the studio visit address is Svederusgatan 3A, Fyrislund. Postal address used in the UI is Östra Ågatan 67. Salabacksgatan is omitted.
-- **Partner logos:** Tremoloop and MTMax are named in text only.
 
 ## Not started
 

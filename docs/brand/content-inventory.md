@@ -145,7 +145,6 @@ No public prices found except **kostnadsfri** / free-first-lesson language. Do n
 | `/` | Footer | Address block, links | Om oss, Kontakt | Broken footer hrefs | **KEEP_BUT_EDIT** |
 | `/om-oss` | Founder story | Biim, 2020, values | Trustpilot | Strong | **KEEP** |
 | `/om-oss` | Starlight Studios | NASA/LP/neon description | — | Strong differentiator | **KEEP** |
-| `/om-oss` | Partners | Tremoloop, MTMax | — | Credibility | **KEEP** — verify logos |
 | `/kontakt` | Contact form | Name, email, message | Submit | Functional | **KEEP** |
 | `/kontakt` | Location | Svederusgatan + Salabacksgatan | — | Conflicting | **VERIFY_WITH_OWNER** |
 | `/sanglektioner-uppsala` | Offer | Free first lesson | Contact | Conversion-focused | **KEEP** — verify offer |
@@ -161,7 +160,6 @@ No public prices found except **kostnadsfri** / free-first-lesson language. Do n
 | Trustpilot link | Third-party reviews | **THIRD_PARTY_VERIFIABLE** | `trustpilot.com/review/yellowmusicunited.se` — no score embedded in HTML |
 | Founder experience claims | First-party | **FIRST_PARTY_CLAIM** | "12 år", "10 år" on `/om-oss` — not independently verified |
 | Artist independence / no royalties | First-party | **FIRST_PARTY_CLAIM** | Distribution pages — policy statement |
-| Tremoloop / MTMax partners | Third-party logos | **OWNER_VERIFICATION_REQUIRED** | Names on `/om-oss`; logo reuse rights unclear |
 | Customer testimonials | — | **None found** on crawled pages | |
 | Google rating embed | — | **Not present** in HTML | |
 | Awards / statistics | — | **None found** | |

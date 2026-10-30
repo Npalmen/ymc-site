@@ -200,7 +200,6 @@ const documents: { _id: string; _type: string; [key: string]: unknown }[] = [
       paragraphs: [...aboutPage.studio.paragraphs],
       imageLabel: aboutPage.studio.imageLabel,
     },
-    partners: aboutPage.partners.map((partner) => ({ _type: "partner", ...partner })),
   },
   {
     _id: "contactPage",

@@ -638,21 +638,6 @@ export const schemaTypes = [
           imageField(),
         ],
       }),
-      defineField({
-        name: "partners",
-        title: "Samarbeten",
-        type: "array",
-        of: [
-          defineArrayMember({
-            type: "object",
-            name: "partner",
-            fields: [
-              defineField({ name: "name", title: "Namn", type: "string" }),
-              defineField({ name: "body", title: "Text", type: "text", rows: 3 }),
-            ],
-          }),
-        ],
-      }),
       extraSectionsField(),
     ],
     preview: { prepare: () => ({ title: "Om oss" }) },

@@ -33,7 +33,6 @@ Yellow Music United should feel like an **independent music company with a creat
 - Vector logo file
 - Approved photography originals
 - Canonical address
-- Partner logo rights
 
 ## Refinement pass (2026-08-21)
 

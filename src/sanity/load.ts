@@ -723,7 +723,6 @@ export const loadAbout = cache(async () => {
         imageLabel?: string;
         image?: CmsImage;
       };
-      partners?: { name: string; body: string }[];
       metaDescription?: string;
       extraSections?: ExtraSection[];
     } | null>(`*[_id == "aboutPage"][0]{
@@ -731,7 +730,6 @@ export const loadAbout = cache(async () => {
       portrait{${imageProjection}},
       principles{ eyebrow, title },
       studio{ eyebrow, title, paragraphs, imageLabel, image{${imageProjection}} },
-      partners[]{ name, body },
       extraSections[]{ heading, text, image{${imageProjection}} }
     }`),
     sanityFetch<{ year: string; tag: string; title: string; body: string }[] | null>(
@@ -766,7 +764,6 @@ export const loadAbout = cache(async () => {
       imageLabel: text(doc.studio?.imageLabel, base.studio.imageLabel),
     },
     studioImage: imageOf(doc.studio?.image),
-    partners: doc.partners?.length ? doc.partners : base.partners,
     timeline: timeline?.length ? timeline : base.timeline,
     extraSections: extras(doc.extraSections),
   };

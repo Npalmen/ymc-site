@@ -1,9 +1,10 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { bookingIntent } from "@/components/booking/booking-url";
 import { BookingSheet, type BookingCopy } from "@/components/booking/booking-sheet";
+import { readScrollY, restoreScroll, scrollToTop, settleSection, unlockPageScroll } from "@/components/motion/route-scroll";
 
 type MotionRootProps = {
   children: React.ReactNode;
@@ -18,6 +19,14 @@ export function MotionRoot({ children, copy, recipient, label }: MotionRootProps
   const [open, setOpen] = useState(false);
   const [topic, setTopic] = useState("planering");
   const [pill, setPill] = useState(false);
+  const positions = useRef(new Map<string, number>());
+  const pathRef = useRef(pathname);
+  const popped = useRef(false);
+  const pendingRestore = useRef<number | null>(null);
+  const hashReturn = useRef<number | null>(null);
+  const previousHash = useRef("");
+  const pendingHash = useRef<string | null>(null);
+  const skipFirstScroll = useRef(true);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -70,15 +79,57 @@ export function MotionRoot({ children, copy, recipient, label }: MotionRootProps
       }
       const destination = new URL(anchor.href, window.location.href);
       if (destination.origin !== window.location.origin) return;
-      if (destination.pathname === window.location.pathname && destination.search === window.location.search) return;
-      if (!("startViewTransition" in document)) return;
+      const samePage = destination.pathname === window.location.pathname && destination.search === window.location.search;
+      const hash = destination.hash.replace(/^#/, "");
+      if (samePage && !hash) return;
+
       event.preventDefault();
-      document.startViewTransition(() => {
-        router.push(`${destination.pathname}${destination.search}${destination.hash}`);
-      });
+      positions.current.set(window.location.pathname, readScrollY());
+      window.dispatchEvent(new Event("ymu-close-menu"));
+      unlockPageScroll();
+      setOpen(false);
+
+      if (samePage && hash) {
+        hashReturn.current = readScrollY();
+        previousHash.current = destination.hash;
+        window.history.pushState(window.history.state, "", `${destination.pathname}${destination.search}${destination.hash}`);
+        requestAnimationFrame(() => settleSection(hash));
+        return;
+      }
+
+      pendingHash.current = hash;
+      const next = `${destination.pathname}${destination.search}${destination.hash}`;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const go = () => router.push(next, { scroll: false });
+      if (!reduced && "startViewTransition" in document) {
+        const transition = document.startViewTransition(go);
+        transition.finished.then(() => {
+          if (hash) settleSection(hash);
+          else scrollToTop();
+        }).catch(() => {
+          if (hash) settleSection(hash);
+          else scrollToTop();
+        });
+      } else {
+        go();
+      }
     };
 
     const onPop = () => {
+      const nextPath = window.location.pathname;
+      const nextHash = window.location.hash;
+      const saved = positions.current.get(nextPath);
+      if (nextPath !== pathRef.current) {
+        popped.current = true;
+        pendingRestore.current = typeof saved === "number" ? saved : null;
+      } else if (!nextHash && previousHash.current && typeof hashReturn.current === "number") {
+        const y = hashReturn.current;
+        requestAnimationFrame(() => restoreScroll(y));
+      } else if (nextHash && !window.history.state?.bookingSheet) {
+        requestAnimationFrame(() => settleSection(nextHash.replace(/^#/, "")));
+      }
+      pathRef.current = nextPath;
+      previousHash.current = nextHash;
       const sheet = Boolean(window.history.state?.bookingSheet);
       const query = new URL(window.location.href).searchParams.get("boka") === "1";
       if (sheet || (query && window.location.pathname !== "/boka")) {
@@ -97,6 +148,36 @@ export function MotionRoot({ children, copy, recipient, label }: MotionRootProps
       window.removeEventListener("popstate", onPop);
     };
   }, [openSheet, router]);
+
+  useEffect(() => {
+    pathRef.current = pathname;
+    if (skipFirstScroll.current) {
+      skipFirstScroll.current = false;
+      const initialHash = window.location.hash.replace(/^#/, "");
+      if (initialHash) settleSection(initialHash);
+      return;
+    }
+    if (popped.current) {
+      popped.current = false;
+      const y = pendingRestore.current;
+      pendingRestore.current = null;
+      if (typeof y === "number") requestAnimationFrame(() => restoreScroll(y));
+      return;
+    }
+    const hash = pendingHash.current ?? window.location.hash.replace(/^#/, "");
+    pendingHash.current = null;
+    if (hash) settleSection(hash);
+    else scrollToTop();
+  }, [pathname]);
+
+  useEffect(() => {
+    const save = () => {
+      if (document.body.style.position === "fixed") return;
+      positions.current.set(pathname, window.scrollY);
+    };
+    window.addEventListener("scroll", save, { passive: true });
+    return () => window.removeEventListener("scroll", save);
+  }, [pathname]);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

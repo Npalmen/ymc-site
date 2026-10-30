@@ -153,6 +153,15 @@ type ServiceDoc = {
   extraSections?: ExtraSection[];
 };
 
+const sectionAnchors: Record<string, string> = {
+  "/tjanster/sanglektioner/steg-for-steg": "/tjanster/sanglektioner#steg-for-steg",
+  "/tjanster/sanglektioner/lektionspaket": "/tjanster/sanglektioner#lektionspaket",
+};
+
+function menuHref(href: string) {
+  return sectionAnchors[href] ?? href;
+}
+
 export const loadNavigation = cache(async (): Promise<LoadedNav> => {
   const settings = await loadSite();
   if (!(await cmsReady())) {
@@ -182,7 +191,7 @@ export const loadNavigation = cache(async (): Promise<LoadedNav> => {
           description: root.description ?? "",
           children: (services ?? [])
             .filter((item) => item.parentSlug && item.parentSlug === root.slug)
-            .map((item) => ({ label: item.title, href: item.href, description: item.description })),
+            .map((item) => ({ label: item.title, href: menuHref(item.href), description: item.description })),
         }))
       : serviceGroups;
   const serviceLinks = groups.flatMap((group) => [

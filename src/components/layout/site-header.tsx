@@ -20,8 +20,9 @@ type SiteHeaderProps = {
 };
 
 function isActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(`${href}/`);
+  const path = href.split("#")[0] || "/";
+  if (path === "/") return pathname === "/";
+  return pathname === path || pathname.startsWith(`${path}/`);
 }
 
 function BrandMark() {
@@ -160,7 +161,9 @@ export function SiteHeader({
   const pathname = usePathname();
 
   useEffect(() => {
+    const y = window.scrollY;
     document.body.style.overflow = open ? "hidden" : "";
+    if (window.scrollY !== y) window.scrollTo(0, y);
     document.body.toggleAttribute("data-menu-open", open);
     const nodes = document.querySelectorAll("main, footer");
     nodes.forEach((node) => {
@@ -182,7 +185,7 @@ export function SiteHeader({
 
   const closeMenu = () => {
     setOpen(false);
-    requestAnimationFrame(() => menuTriggerRef.current?.focus());
+    requestAnimationFrame(() => menuTriggerRef.current?.focus({ preventScroll: true }));
   };
 
   return (

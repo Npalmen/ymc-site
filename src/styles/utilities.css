@@ -199,6 +199,10 @@ html.sheet-open body {
   overscroll-behavior: none;
 }
 
+.section-anchor {
+  scroll-margin-top: calc(var(--header-height) + 0.75rem);
+}
+
 html.sheet-open .sticky-book,
 html.sheet-open .scroll-sunflower,
 html.sheet-open nextjs-portal,

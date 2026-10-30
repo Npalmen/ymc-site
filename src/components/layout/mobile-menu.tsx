@@ -41,7 +41,7 @@ export function MobileMenu({
         root.querySelectorAll<HTMLElement>("a, button, [href], input, select, textarea"),
       ).filter((node) => !node.hasAttribute("disabled"));
 
-    const frame = requestAnimationFrame(() => focusable()[0]?.focus());
+    const frame = requestAnimationFrame(() => focusable()[0]?.focus({ preventScroll: true }));
 
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {

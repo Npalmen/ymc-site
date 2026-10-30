@@ -43,6 +43,7 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
     if (!open) return;
     const previous = document.activeElement as HTMLElement | null;
     const scrollY = window.scrollY;
+    const lockedPath = window.location.pathname;
     document.body.style.overflow = "hidden";
     document.body.style.position = "fixed";
     document.body.style.top = `-${scrollY}px`;
@@ -115,7 +116,12 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
       document.body.style.right = "";
       document.body.style.width = "";
       document.documentElement.classList.remove("sheet-open");
-      window.scrollTo(0, scrollY);
+      const skip = document.documentElement.dataset.skipScrollRestore === "1";
+      delete document.documentElement.dataset.skipScrollRestore;
+      if (!skip && window.location.pathname === lockedPath) {
+        document.documentElement.style.scrollBehavior = "auto";
+        window.scrollTo(0, scrollY);
+      }
       window.visualViewport?.removeEventListener("resize", place);
       window.visualViewport?.removeEventListener("scroll", place);
       panel?.removeEventListener("touchmove", onTouchMove);

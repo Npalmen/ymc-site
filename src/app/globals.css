@@ -41,8 +41,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: var(--header-height);
+  /* Instant. Smooth scrolling here makes Next's scroll-to-top animate from the previous page and stop partway on iOS. */
+  scroll-behavior: auto;
   color-scheme: light;
 }
 

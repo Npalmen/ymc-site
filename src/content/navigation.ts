@@ -39,8 +39,8 @@ export const serviceGroups: ServiceGroup[] = [
     href: "/tjanster/sanglektioner",
     description: "Personlig sång i Uppsala. Första lektionen är kostnadsfri.",
     children: [
-      { label: "Steg för steg", href: "/tjanster/sanglektioner/steg-for-steg" },
-      { label: "Mina lektionspaket", href: "/tjanster/sanglektioner/lektionspaket" },
+      { label: "Steg för steg", href: "/tjanster/sanglektioner#steg-for-steg" },
+      { label: "Mina lektionspaket", href: "/tjanster/sanglektioner#lektionspaket" },
     ],
   },
   {
@@ -77,8 +77,8 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     title: "Tjänster",
     links: [
       { label: "Sånglektioner", href: "/tjanster/sanglektioner" },
-      { label: "Steg för steg", href: "/tjanster/sanglektioner/steg-for-steg" },
-      { label: "Mina lektionspaket", href: "/tjanster/sanglektioner/lektionspaket" },
+      { label: "Steg för steg", href: "/tjanster/sanglektioner#steg-for-steg" },
+      { label: "Mina lektionspaket", href: "/tjanster/sanglektioner#lektionspaket" },
       { label: "Utbildning", href: "/tjanster/utbildning" },
       {
         label: "Musikproduktion för tjejer",

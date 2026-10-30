@@ -5,10 +5,12 @@ import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
 import { DifferenceTable } from "@/components/sections/difference-table";
 import { PlanningBlock } from "@/components/sections/planning-block";
+import { PricingCards } from "@/components/sections/pricing-cards";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
-import { loadSinging } from "@/sanity/load";
+import { RichLine } from "@/components/ui/rich-line";
+import { loadPackages, loadSinging, loadSteps } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { page } = await loadSinging();
@@ -16,14 +18,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function SingingPage() {
-  const { page, difference, also, image, extraSections } = await loadSinging();
+  const [{ page, difference, also, image, extraSections }, steps, packages] = await Promise.all([
+    loadSinging(),
+    loadSteps(),
+    loadPackages(),
+  ]);
   return (
     <PageShell>
       <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede}>
-        <Button href="/tjanster/sanglektioner/lektionspaket" size="lg">
+        <Button href="#lektionspaket" size="lg">
           Mina lektionspaket
         </Button>
-        <Button href="/tjanster/sanglektioner/steg-for-steg" variant="secondary" size="lg">
+        <Button href="#steg-for-steg" variant="secondary" size="lg">
           Steg för steg
         </Button>
       </PageHero>
@@ -31,7 +37,37 @@ export default async function SingingPage() {
         <PlaceholderFrame image={image} label={page.imageLabel} ratio="16/9" caption="Fyrislund · Uppsala" />
       </Container>
       <DifferenceTable data={difference} />
-      <section id="pedagogik" className="bg-canvas pb-8">
+      <section id="steg-for-steg" className="section-anchor bg-canvas py-16 sm:py-20">
+        <Container>
+          <p className="text-meta">{steps.eyebrow}</p>
+          <h2 className="text-section mt-3 max-w-[14em]">
+            <RichLine parts={steps.title} />
+          </h2>
+          <p className="mt-4 max-w-xl text-body text-ink-muted">{steps.lede}</p>
+          <ol className="mt-8 max-w-xl">
+            {steps.steps.map((step) => (
+              <li key={step.n} className="border-t border-border py-7">
+                <p className="font-display text-2xl italic text-accent">{step.n}</p>
+                <h3 className="mt-2 font-display text-3xl">{step.title}</h3>
+                <p className="mt-2 text-body text-ink-muted">{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
+      <section id="lektionspaket" className="section-anchor bg-surface py-16 sm:py-20">
+        <Container>
+          <p className="text-meta">{packages.page.eyebrow}</p>
+          <h2 className="text-section mt-3 max-w-[14em]">
+            <RichLine parts={packages.page.title} />
+          </h2>
+          <p className="mt-4 max-w-xl text-body text-ink-muted">{packages.page.lede}</p>
+          <div className="mt-8">
+            <PricingCards packages={packages.packages} notice={packages.page.priceNotice} />
+          </div>
+        </Container>
+      </section>
+      <section id="pedagogik" className="section-anchor bg-canvas pb-8">
         <Container>
           <h2 className="font-display text-3xl">Också inom sången</h2>
           <p className="mt-3 max-w-xl text-body text-ink-muted">

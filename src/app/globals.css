@@ -68,6 +68,13 @@ body {
   overflow-x: clip;
 }
 
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;

@@ -47,7 +47,7 @@ export default async function SingingPage() {
           <ol className="mt-8 max-w-xl">
             {steps.steps.map((step) => (
               <li key={step.n} className="border-t border-border py-7">
-                <p className="font-display text-2xl italic text-accent">{step.n}</p>
+                <p className="font-sans text-2xl font-semibold text-accent">{step.n}</p>
                 <h3 className="mt-2 font-display text-3xl">{step.title}</h3>
                 <p className="mt-2 text-body text-ink-muted">{step.body}</p>
               </li>
@@ -76,7 +76,7 @@ export default async function SingingPage() {
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">
             {also.map((item) => (
               <li key={item.title} className="rounded-[var(--radius-card)] border border-border bg-surface p-5">
-                <h3 className="font-display text-2xl">{item.title}</h3>
+                <h3 className="font-sans text-2xl font-semibold">{item.title}</h3>
                 <p className="mt-2 text-body-sm text-ink-muted">{item.body}</p>
               </li>
             ))}

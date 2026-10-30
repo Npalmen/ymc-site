@@ -32,7 +32,7 @@ export default async function CommunityPage() {
         <ul className="mt-10 grid gap-4 sm:grid-cols-3">
           {page.points.map((point) => (
             <li key={point.title} className="rounded-[var(--radius-card)] border border-border bg-surface p-5">
-              <h2 className="font-display text-2xl">{point.title}</h2>
+              <h2 className="font-sans text-2xl font-semibold">{point.title}</h2>
               <p className="mt-2 text-body-sm text-ink-muted">{point.body}</p>
             </li>
           ))}

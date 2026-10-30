@@ -5,7 +5,7 @@ export function FaqList({ items = faqPage.items }: { items?: typeof faqPage.item
     <div className="divide-y divide-border border-y border-border">
       {items.map((item) => (
         <details key={item.q} className="group py-1">
-          <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 font-display text-xl leading-snug text-ink marker:content-none [&::-webkit-details-marker]:hidden">
+          <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 font-sans text-xl font-semibold leading-snug text-ink marker:content-none [&::-webkit-details-marker]:hidden">
             <span>{item.q}</span>
             <span
               className="flex size-9 shrink-0 items-center justify-center rounded-full border border-border text-lg group-open:bg-ink group-open:text-ink-inverse"

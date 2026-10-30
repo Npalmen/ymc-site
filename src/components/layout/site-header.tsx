@@ -111,7 +111,7 @@ function ServicesMenu({ groups }: { groups: typeof serviceGroups }) {
                   onClick={() => setOpen(false)}
                   className="block rounded-xl px-3 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                 >
-                  <span className="block font-display text-xl text-ink">{group.label}</span>
+                  <span className="block font-sans text-xl text-ink">{group.label}</span>
                   <span className="text-meta mt-0.5 block">{group.description}</span>
                 </Link>
                 {group.children.length > 0 ? (

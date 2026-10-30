@@ -27,9 +27,9 @@ export default async function EducationPage() {
           {courses.map((course) => (
             <li key={course.href} className="border-b border-border">
               <Link href={course.href} className="group flex min-h-[5.5rem] items-center gap-4 py-4">
-                <span className="w-8 font-display text-xl italic text-accent">{course.n}</span>
+                <span className="w-8 font-sans text-xl font-semibold text-accent">{course.n}</span>
                 <span className="min-w-0 flex-1">
-                  <span className="block font-display text-[1.6rem] leading-tight">{course.title}</span>
+                  <span className="block font-sans text-[1.6rem] font-semibold leading-tight">{course.title}</span>
                   <span className="text-meta mt-1 block">{course.note}</span>
                 </span>
                 <span aria-hidden className="transition-transform group-hover:translate-x-1 motion-reduce:transition-none">

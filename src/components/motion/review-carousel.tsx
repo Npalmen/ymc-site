@@ -41,7 +41,7 @@ export function ReviewCarousel({ items }: { items: ReviewItem[] }) {
               <p className="mt-3 text-[1.05rem] leading-relaxed text-ink">{review.quote}</p>
               <div className="mt-6 flex items-center gap-3 border-t border-border pt-4">
                 <span
-                  className="flex size-11 items-center justify-center rounded-full bg-canvas-deep font-display text-lg text-ink-muted"
+                  className="flex size-11 items-center justify-center rounded-full bg-canvas-deep font-sans text-lg text-ink-muted"
                   aria-hidden
                 >
                   –

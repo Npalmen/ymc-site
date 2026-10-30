@@ -33,7 +33,7 @@ export default async function StepsPage() {
         <ol className="max-w-xl">
           {page.steps.map((step) => (
             <li key={step.n} className="rise border-t border-border py-7">
-              <p className="font-display text-2xl italic text-accent">{step.n}</p>
+              <p className="font-sans text-2xl font-semibold text-accent">{step.n}</p>
               <h2 className="mt-2 font-display text-3xl">{step.title}</h2>
               <p className="mt-2 text-body text-ink-muted">{step.body}</p>
             </li>

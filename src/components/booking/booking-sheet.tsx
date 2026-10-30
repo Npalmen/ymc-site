@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useCallback, useEffect, useId, useRef } from "react";
+import Image from "next/image";
 import { PlanningMeeting } from "@/components/sections/planning-meeting";
 import type { PlanningTopic } from "@/content/pages/shared";
 import type { RichLine } from "@/content/rich-text";
@@ -22,12 +23,38 @@ type BookingSheetProps = {
   onClose: () => void;
 };
 
+const modalQuery = "(min-width: 768px) and (pointer: fine)";
+
+function isDesktopModal() {
+  return window.matchMedia(modalQuery).matches;
+}
+
 export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingSheetProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
+  const closing = useRef(false);
+  const closeRef = useRef<() => void>(() => {});
+  const requestClose = useCallback(() => {
+    if (closing.current) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const panel = panelRef.current;
+    if (!panel || reduced || !isDesktopModal()) {
+      onClose();
+      return;
+    }
+    closing.current = true;
+    panel.classList.remove("is-entering");
+    panel.classList.add("is-leaving");
+    rootRef.current?.classList.add("is-leaving");
+    window.setTimeout(() => onClose(), 230);
+  }, [onClose]);
+
+  useEffect(() => {
+    closeRef.current = requestClose;
+  }, [requestClose]);
   const drag = useRef({
     active: false,
     tracking: false,
@@ -57,6 +84,13 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
       const root = rootRef.current;
       const viewport = window.visualViewport;
       if (!node || !root || !viewport) return;
+      if (isDesktopModal()) {
+        node.style.bottom = "";
+        node.style.maxHeight = "";
+        node.style.left = "";
+        node.style.right = "";
+        return;
+      }
       const rootRect = root.getBoundingClientRect();
       const hangBelow = Math.max(0, Math.round(rootRect.bottom - viewport.height));
       const visible = Math.round(viewport.height);
@@ -67,6 +101,8 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
     const placeFrame = requestAnimationFrame(place);
     window.visualViewport?.addEventListener("resize", place);
     window.visualViewport?.addEventListener("scroll", place);
+    const modalMedia = window.matchMedia(modalQuery);
+    modalMedia.addEventListener("change", place);
     const body = bodyRef.current;
     const onTouchMove = (event: TouchEvent) => {
       if (!drag.current.active) return;
@@ -87,7 +123,7 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        onClose();
+        closeRef.current();
         return;
       }
       if (event.key !== "Tab" || !panel) return;
@@ -124,9 +160,10 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
       }
       window.visualViewport?.removeEventListener("resize", place);
       window.visualViewport?.removeEventListener("scroll", place);
+      modalMedia.removeEventListener("change", place);
       panel?.removeEventListener("touchmove", onTouchMove);
       document.removeEventListener("keydown", onKey);
-      previous?.focus();
+      previous?.focus({ preventScroll: true });
     };
   }, [open, onClose]);
 
@@ -144,6 +181,7 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
   }
 
   function beginDrag(event: React.PointerEvent<HTMLElement>) {
+    if (isDesktopModal()) return;
     const target = event.target as HTMLElement;
     if (target.closest("input, textarea, select, option, a, button, label")) return;
     const fromHandle = Boolean(target.closest("[data-sheet-handle]"));
@@ -213,7 +251,7 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
 
   return (
     <div ref={rootRef} className="sheet-root">
-      <button ref={backdropRef} type="button" className="sheet-backdrop" aria-label="Stäng bokning" onClick={onClose} />
+      <button ref={backdropRef} type="button" className="sheet-backdrop" aria-label="Stäng bokning" onClick={requestClose} />
       <div
         ref={panelRef}
         role="dialog"
@@ -229,10 +267,14 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
       >
+        <button type="button" className="sheet-close" aria-label="Stäng bokning" onClick={requestClose}>
+          <span aria-hidden>×</span>
+        </button>
         <div className="sheet-handle" data-sheet-handle>
           <span />
         </div>
         <div ref={bodyRef} className="sheet-body">
+          <Image src="/brand/mark-160.webp" alt="" width={72} height={74} className="sheet-mark" />
           <h2 id={titleId} className="font-display text-3xl">
             Boka nu
           </h2>

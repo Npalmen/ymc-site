@@ -1,7 +1,7 @@
 import { cn } from "@/lib/cn";
 
 const fieldBase =
-  "w-full min-h-12 rounded-[var(--radius-sm)] border border-border bg-surface px-4 py-2.5 text-body text-ink shadow-[var(--shadow-subtle)] transition-[border-color,box-shadow] duration-[var(--motion-fast)] placeholder:text-ink-subtle hover:border-border-strong focus-visible:border-focus focus-visible:shadow-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transition-none";
+  "w-full min-h-12 rounded-[var(--radius-md)] border border-border bg-surface px-4 py-2.5 text-body text-ink shadow-[var(--shadow-subtle)] transition-[border-color,box-shadow] duration-[var(--motion-fast)] placeholder:text-ink-subtle hover:border-border-strong focus-visible:border-focus focus-visible:shadow-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transition-none";
 
 type FieldProps = {
   id: string;
@@ -9,13 +9,27 @@ type FieldProps = {
   className?: string;
   helperText?: string;
   error?: string;
+  appearance?: "label" | "plain";
   children: React.ReactNode;
 };
 
-export function Field({ id, label, helperText, error, className, children }: FieldProps) {
+export function Field({
+  id,
+  label,
+  helperText,
+  error,
+  className,
+  appearance = "label",
+  children,
+}: FieldProps) {
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
-      <label htmlFor={id} className="text-label text-ink-muted">
+      <label
+        htmlFor={id}
+        className={
+          appearance === "plain" ? "text-body-sm font-medium text-ink" : "text-label text-ink-muted"
+        }
+      >
         {label}
       </label>
       {children}
@@ -62,7 +76,12 @@ type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & { hasError?: 
 export function Select({ className, hasError, children, ...props }: SelectProps) {
   return (
     <select
-      className={cn(fieldBase, hasError && "border-error focus-visible:border-error", className)}
+      className={cn(
+        fieldBase,
+        "select-chevron",
+        hasError && "border-error focus-visible:border-error",
+        className,
+      )}
       {...props}
     >
       {children}

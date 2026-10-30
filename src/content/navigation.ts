@@ -1,6 +1,3 @@
-import { creativeWorlds } from "@/content/worlds";
-import { site } from "@/content/site";
-
 export type NavItem = {
   label: string;
   href: string;
@@ -14,6 +11,7 @@ export type NavSection = {
   items: NavItem[];
 };
 
+/** Kept so the design-system dropdown primitive still typechecks. */
 export type NavDropdownGroup = {
   id: string;
   label: string;
@@ -21,111 +19,84 @@ export type NavDropdownGroup = {
   items: NavItem[];
 };
 
-/** Left nav: Utforska — all five creative worlds */
-export const desktopUtforskaGroup: NavDropdownGroup = {
-  id: "utforska",
-  label: "Utforska",
-  intro: "Fem kreativa områden — välj din väg.",
-  items: creativeWorlds.map((w) => ({
-    label: w.label,
-    href: w.href,
-    number: w.number,
-    description: w.tagline,
-  })),
+export type NavLink = {
+  label: string;
+  href: string;
+  description?: string;
 };
 
-/** Left nav: Tjänster — verified service intents to existing hubs */
-export const desktopTjansterGroup: NavDropdownGroup = {
-  id: "tjanster",
-  label: "Tjänster",
-  intro: "Verifierade erbjudanden — länkat till befintliga sidor.",
-  items: [
-    {
-      label: "Sånglektioner",
-      href: "/sang",
-      description: "Personlig sångutveckling i Uppsala.",
-    },
-    {
-      label: "Studio",
-      href: "/studio",
-      description: "Starlight Studios — inspelning och produktion.",
-    },
-    {
-      label: "Musikproduktion",
-      href: "/studio",
-      description: "Produktion och inspelning med stöd.",
-    },
-    {
-      label: "Distribution",
-      href: "/ge-ut-musik",
-      description: "Utgivning och distribution — du behåller dina rättigheter.",
-    },
-  ],
+export type ServiceGroup = {
+  label: string;
+  href: string;
+  description: string;
+  children: NavLink[];
 };
 
-/** Right nav: Yellow Music */
-export const desktopYellowMusicGroup: NavDropdownGroup = {
-  id: "yellow-music",
-  label: "Yellow Music",
-  intro: "Grundare, story och värderingar.",
-  items: [
-    { label: "Om Yellow Music", href: "/yellow-music", description: "Vår filosofi och historia." },
-    { label: "Biim / grundare", href: "/yellow-music#grundare", description: "Människan bakom bolaget." },
-    { label: "Kontakt", href: "/kontakt", description: "Frågor innan du bokar." },
-  ],
-};
-
-export const desktopLeftNavGroups: NavDropdownGroup[] = [
-  desktopUtforskaGroup,
-  desktopTjansterGroup,
-];
-
-export const desktopRightNavGroups: NavDropdownGroup[] = [desktopYellowMusicGroup];
-
-export const bookingNavigation: NavItem = { label: "Boka", href: "/boka" };
-
-export const mobileMenuCta = {
-  label: "Boka planeringsmöte",
-  href: "/boka",
-};
-
-/** Mobile menu — grouped sections */
-export const mobileMenuSections: NavSection[] = [
+/** Public IA from Biim, 2026. See ADR-004. */
+export const serviceGroups: ServiceGroup[] = [
   {
-    id: "utforska",
-    label: "Utforska",
-    items: desktopUtforskaGroup.items,
-  },
-  {
-    id: "tjanster",
-    label: "Tjänster",
-    items: desktopTjansterGroup.items,
-  },
-  {
-    id: "yellow-music",
-    label: "Yellow Music",
-    items: [
-      { label: "Om Yellow Music", href: "/yellow-music" },
-      { label: "Kontakt", href: "/kontakt" },
+    label: "Sånglektioner",
+    href: "/tjanster/sanglektioner",
+    description: "Personlig sång i Uppsala. Första lektionen är kostnadsfri.",
+    children: [
+      { label: "Steg för steg", href: "/tjanster/sanglektioner#steg-for-steg" },
+      { label: "Mina lektionspaket", href: "/tjanster/sanglektioner#lektionspaket" },
     ],
   },
+  {
+    label: "Utbildning",
+    href: "/tjanster/utbildning",
+    description: "Musikproduktion för tjejer och låtskrivning.",
+    children: [
+      {
+        label: "Musikproduktion för tjejer",
+        href: "/tjanster/utbildning/musikproduktion-for-tjejer",
+      },
+      { label: "Låtskrivning", href: "/tjanster/utbildning/latskrivning" },
+    ],
+  },
+  {
+    label: "Distribution",
+    href: "/tjanster/distribution",
+    description: "Utgivning där du behåller din musik.",
+    children: [],
+  },
 ];
 
-/** Footer — multi-page structure */
-export const primaryWorldNavigation: NavItem[] = creativeWorlds.map((w) => ({
-  label: w.navLabel,
-  href: w.href,
-  number: w.number,
-}));
-
-export const footerExploreNavigation: NavItem[] = primaryWorldNavigation;
-
-export const footerBrandNavigation: NavItem[] = [
-  { label: "Yellow Music", href: "/yellow-music" },
+export const topLinks: NavLink[] = [
+  { label: "Community", href: "/community" },
+  { label: "Om oss", href: "/om-oss" },
   { label: "Kontakt", href: "/kontakt" },
-  { label: "Boka", href: "/boka" },
+  { label: "FAQ", href: "/faq" },
 ];
 
-export const footerMoreNavigation: NavItem[] = [
-  { label: "Trustpilot", href: site.social.trustpilot },
+export const bookingNavigation: NavLink = { label: "Boka nu", href: "/boka" };
+
+export const footerColumns: { title: string; links: NavLink[] }[] = [
+  {
+    title: "Tjänster",
+    links: [
+      { label: "Sånglektioner", href: "/tjanster/sanglektioner" },
+      { label: "Steg för steg", href: "/tjanster/sanglektioner#steg-for-steg" },
+      { label: "Mina lektionspaket", href: "/tjanster/sanglektioner#lektionspaket" },
+      { label: "Utbildning", href: "/tjanster/utbildning" },
+      {
+        label: "Musikproduktion för tjejer",
+        href: "/tjanster/utbildning/musikproduktion-for-tjejer",
+      },
+      { label: "Låtskrivning", href: "/tjanster/utbildning/latskrivning" },
+      { label: "Distribution", href: "/tjanster/distribution" },
+    ],
+  },
+  {
+    title: "Yellow Music",
+    links: [
+      { label: "Om oss", href: "/om-oss" },
+      { label: "Community", href: "/community" },
+      { label: "Kontakt", href: "/kontakt" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Boka nu", href: "/boka" },
+      { label: "Alla tjänster", href: "/tjanster" },
+    ],
+  },
 ];

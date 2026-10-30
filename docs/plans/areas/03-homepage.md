@@ -1,6 +1,6 @@
 # Area 03 — Homepage
 
-**Status:** REVIEW READY  
+**Status:** REDESIGN IMPLEMENTED (2026-10-29). Portal sections replaced by the client homepage (hero, paths, soul split, review slots, founder, close). Human review pending.  
 **Depends on:** 01 Design System (`READY`), 02 Information Architecture (`READY`)  
 **Blocks:** Launch perception / first impression
 

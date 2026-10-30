@@ -3,8 +3,8 @@ export const site = {
   legalName: "Yellow Music United AB",
   shortName: "Yellow Music",
   description:
-    "Musikbolag i Uppsala som erbjuder vägledning och stöd genom din kreativa resa.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+    "Yellow Music United är ett musikbolag i Uppsala. Sånglektioner, utbildning, distribution och community — med positivitet, trygghet och mod.",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ymc-site.vercel.app",
   locale: "sv-SE",
   contact: {
     email: "info@yellowmusicunited.se",
@@ -31,6 +31,6 @@ export const site = {
   social: {
     trustpilot: "https://www.trustpilot.com/review/yellowmusicunited.se",
   },
-} as const;
+};
 
 export type SiteConfig = typeof site;

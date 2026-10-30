@@ -1,45 +1,38 @@
 import type { Metadata } from "next";
-import { SiteHeader } from "@/components/layout/site-header";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { Container } from "@/components/ui/container";
-import { Heading } from "@/components/ui/heading";
-import { Text } from "@/components/ui/text";
-import { TextLink } from "@/components/ui/link";
-import { site } from "@/content/site";
+import { PageShell } from "@/components/layout/page-shell";
+import { ExtraSections } from "@/components/sections/extra-sections";
+import { PageHero } from "@/components/sections/page-hero";
+import { PlanningBlock } from "@/components/sections/planning-block";
+import { Button } from "@/components/ui/button";
+import { loadBooking, loadPlanning, loadSite } from "@/sanity/load";
 
-export const metadata: Metadata = {
-  title: "Boka · Yellow Music",
-  description: "Bokning — kommer snart.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await loadBooking();
+  return { title: page.metaTitle, description: page.metaDescription };
+}
 
-export default function BokaPage() {
+export default async function BookingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ amne?: string | string[] }>;
+}) {
+  const [params, page, planning, current] = await Promise.all([
+    searchParams,
+    loadBooking(),
+    loadPlanning(),
+    loadSite(),
+  ]);
+  const raw = Array.isArray(params.amne) ? params.amne[0] : params.amne;
+  const topic = raw && planning.topics.some((item) => item.value === raw) ? raw : "planering";
   return (
-    <>
-      <SiteHeader />
-      <main className="overflow-x-clip">
-        <Container className="py-[var(--space-section)] text-center">
-          <Heading level="heading-xl" className="text-balance">
-            Boka
-          </Heading>
-          <Text variant="body-lg" className="mx-auto mt-5 max-w-md text-ink-muted">
-            Bokningsflöde är inte implementerat ännu. Planering finns i dokumentationen för
-            Area 04.
-          </Text>
-          <Text variant="body-sm" className="mx-auto mt-8 max-w-md text-ink-muted">
-            Tills vidare:{" "}
-            <a
-              href={`mailto:${site.contact.email}?subject=Planeringsm%C3%B6te`}
-              className="text-ink underline-offset-4 hover:text-brand hover:underline"
-            >
-              {site.contact.email}
-            </a>
-          </Text>
-          <TextLink href="/" className="mx-auto mt-10 justify-center">
-            Tillbaka till startsidan
-          </TextLink>
-        </Container>
-      </main>
-      <SiteFooter />
-    </>
+    <PageShell>
+      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede}>
+        <Button href={current.contact.phoneHref} variant="secondary" size="lg">
+          Ring {current.contact.phone}
+        </Button>
+      </PageHero>
+      <ExtraSections sections={page.extraSections} />
+      <PlanningBlock defaultTopic={topic} />
+    </PageShell>
   );
 }

@@ -18,6 +18,8 @@
   --color-brand-muted: var(--color-brand-muted);
   --color-brand-line: var(--color-brand-line);
   --color-brand-contrast: var(--color-brand-contrast);
+  --color-accent: var(--color-accent);
+  --color-accent-soft: var(--color-accent-soft);
   --color-border: var(--color-border);
   --color-border-strong: var(--color-border-strong);
   --color-canvas-deep: var(--color-canvas-deep);
@@ -39,7 +41,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Instant. Smooth scrolling here makes Next's scroll-to-top animate from the previous page and stop partway on iOS. */
+  scroll-behavior: auto;
+  color-scheme: light;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -61,6 +65,7 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 :focus-visible {

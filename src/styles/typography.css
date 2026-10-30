@@ -3,6 +3,24 @@
  * Source Sans 3: UI/body | Fraunces: editorial display
  */
 
+.text-hero {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2.55rem, 10.2vw, 5.35rem);
+  line-height: 0.98;
+  letter-spacing: -0.032em;
+  text-wrap: balance;
+}
+
+.text-section {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 6.4vw, 3.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.026em;
+  text-wrap: balance;
+}
+
 .text-display-xl {
   font-family: var(--font-display), Georgia, serif;
   font-size: clamp(2.875rem, 4.5vw + 1rem, 5.75rem);

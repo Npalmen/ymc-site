@@ -1,25 +1,32 @@
-# Route Map — Area 02 (IA1)
+# Route Map
 
-**Gate:** `ROUTE_MAP_READY` · **Status:** Implemented shells through `IA_PREVIEW_READY`
+**Status:** Client revision, 2026-10-29. See ADR-004. Earlier five-world preview routes redirect.
 
-## Implemented routes (IA preview)
+## Implemented routes (public)
 
-| Route | Purpose | Audience | Booking | Legacy Wix |
-|-------|---------|----------|---------|------------|
-| `/` | Portal — brand, orbit nav, featured story, trust | All | High | `/` |
-| `/sang` | Sång hub | Vocalists, beginners–experienced | High | `/sångpedagogik`, cluster |
-| `/studio` | Studio & produktion hub | Creators, podcast, recording | High | `/distribution`, `/podcast` |
-| `/utbildning` | Utbildning hub | Learners, courses | Medium | `/utbildning`, `/låtskrivande` |
-| `/ge-ut-musik` | Release hub | Independent artists | Medium | `/musikutgivning`, `/distribution` |
-| `/community` | Community hub | Network, collaboration | Low | `/community` |
-| `/yellow-music` | Company / founder / values | Trust seekers | Medium | `/om-oss` |
-| `/boka` | Booking entry (placeholder) | Ready to book | — | contact flows |
-| `/kontakt` | General contact | Unsure / general | Medium | `/kontakt` |
-| `/design-system` | Internal DS preview | Team | — | — |
+| Route | Purpose | Legacy |
+|-------|---------|--------|
+| `/` | Homepage | `/` |
+| `/tjanster` | Services index | `/tjänster` |
+| `/tjanster/sanglektioner` | Singing lessons | `/sångpedagogik`, `/sanglektioner-uppsala`, technique pages |
+| `/tjanster/sanglektioner/steg-for-steg` | How lessons proceed | — |
+| `/tjanster/sanglektioner/lektionspaket` | Trial, 6 and 12 sessions | — |
+| `/tjanster/utbildning` | Education hub, praktik note | `/utbildning`, `/praktik` |
+| `/tjanster/utbildning/musikproduktion-for-tjejer` | Production course | `/musikproduktionskurs-för-tjejer` |
+| `/tjanster/utbildning/latskrivning` | Songwriting | `/låtskrivande` |
+| `/tjanster/distribution` | Release, podcast, studio hire | `/distribution`, `/musikutgivning`, `/podcast` |
+| `/community` | Community | `/community`, blog (deferred) |
+| `/om-oss` | Founder, values, Starlight | `/om-oss`, former `/yellow-music`, `/studio` |
+| `/kontakt` | Contact | `/kontakt` |
+| `/boka` | Planning-meeting form, no calendar | contact / mailto flows |
+| `/faq` | Questions from verified facts | — |
+| `/design-system` | Internal preview | — |
 
-## Planned child routes (NOT built in IA preview)
+Preview routes `/sang`, `/studio`, `/utbildning`, `/ge-ut-musik` and `/yellow-music` 307-redirect. Wix paths redirect in `next.config.ts` as temporary 307s until Area 07 sets final 301s.
 
-Documented for migration; hub pages list services without dead links.
+## Earlier child-route notes
+
+These paths were planned before ADR-004 and are not the public URLs. The table is kept so the old intent is traceable. Do not link to them.
 
 | Planned route | World | Legacy | SEO intent |
 |---------------|-------|--------|------------|

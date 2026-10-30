@@ -64,6 +64,7 @@ body {
   background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
+  font-variant-numeric: lining-nums;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }

@@ -33,7 +33,7 @@ FAQ
 
 Studio is not a top-level item. Starlight Studios stays on Om oss and Distribution. Old preview routes redirect.
 
-The visual language keeps Fraunces and Source Sans 3, the working brand yellow `#F7C006`, and warm paper. Italic accent words use `#8C5A12` so they pass WCAG AA on the canvas. Bright yellow is for fills, dots, and text on dark surfaces. Pills are used for section labels and primary actions. Motion is CSS-only, including a view-timeline rise, and is skipped when `prefers-reduced-motion` is set.
+The visual language uses Playfair Display and Raleway, matching the live Wix site, with the working brand yellow `#F7C006` and warm paper. Italic accent words are Playfair italic in `#8C5A12` so they pass WCAG AA on the canvas. Bright yellow is for fills, dots, and text on dark surfaces. Pills are used for section labels and primary actions. Motion is CSS-only, including a view-timeline rise, and is skipped when `prefers-reduced-motion` is set.
 
 Reviews, unpublished prices, and missing photography stay explicitly marked. No invented testimonials.
 

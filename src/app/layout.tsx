@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
-import { Fraunces, Source_Sans_3 } from "next/font/google";
+import { Playfair_Display, Raleway } from "next/font/google";
 import { site } from "@/content/site";
 import { SiteChrome } from "@/components/motion/site-chrome";
 import { loadSite } from "@/sanity/load";
 import "./globals.css";
 
-const sourceSans = Source_Sans_3({
+const raleway = Raleway({
   subsets: ["latin", "latin-ext"],
   display: "swap",
   variable: "--font-sans",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
 });
 
-const fraunces = Fraunces({
+const playfair = Playfair_Display({
   subsets: ["latin", "latin-ext"],
   display: "swap",
   variable: "--font-display",
-  // Variable, so opsz / SOFT / WONK can be pinned. A weight list drops those axes.
-  axes: ["opsz", "SOFT", "WONK"],
+  weight: ["500", "600", "700"],
+  style: ["normal", "italic"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -55,7 +55,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={current.locale}
-      className={`${sourceSans.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${raleway.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-canvas text-ink">
         <a

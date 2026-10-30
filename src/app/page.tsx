@@ -80,7 +80,7 @@ export default async function HomePage() {
                   href={path.href}
                   className="group flex min-h-[5.25rem] items-center gap-4 py-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-focus)]"
                 >
-                  <span className="w-8 font-sans text-xl font-semibold text-accent">{path.n}</span>
+                  <span className="nums w-8 font-sans text-xl font-semibold text-accent">{path.n}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block font-sans text-[1.7rem] font-semibold leading-tight">{path.title}</span>
                     <span className="text-meta mt-0.5 block">{path.note}</span>

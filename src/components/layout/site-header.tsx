@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
 import { bookingNavigation, serviceGroups, topLinks } from "@/content/navigation";
+import { Wordmark } from "@/components/brand/wordmark";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 
 type SiteHeaderProps = {
@@ -17,6 +18,7 @@ type SiteHeaderProps = {
   phone?: string;
   phoneHref?: string;
   email?: string;
+  logo?: string | null;
 };
 
 function isActive(pathname: string, href: string) {
@@ -25,17 +27,14 @@ function isActive(pathname: string, href: string) {
   return pathname === path || pathname.startsWith(`${path}/`);
 }
 
-function BrandMark() {
+function BrandMark({ logo }: { logo?: string | null }) {
   return (
     <Link
       href="/"
-      className="group flex min-h-11 items-center gap-2 rounded-full pr-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+      className="flex min-h-11 min-w-0 items-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
       aria-label="Yellow Music United, startsida"
     >
-      <span className="font-display text-[1.35rem] font-medium leading-none tracking-[-0.03em] text-ink">
-        Yellow Music
-      </span>
-      <span className="size-1.5 translate-y-1 rounded-full bg-brand" aria-hidden />
+      <Wordmark src={logo} priority className="brand-wordmark" />
     </Link>
   );
 }
@@ -112,7 +111,7 @@ function ServicesMenu({ groups }: { groups: typeof serviceGroups }) {
                   onClick={() => setOpen(false)}
                   className="block rounded-xl px-3 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                 >
-                  <span className="block font-display text-xl text-ink">{group.label}</span>
+                  <span className="block font-sans text-xl text-ink">{group.label}</span>
                   <span className="text-meta mt-0.5 block">{group.description}</span>
                 </Link>
                 {group.children.length > 0 ? (
@@ -155,6 +154,7 @@ export function SiteHeader({
   phone,
   phoneHref,
   email,
+  logo = null,
 }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
@@ -198,7 +198,7 @@ export function SiteHeader({
         )}
       >
         <div className="mx-auto flex h-16 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-4 sm:px-6">
-          <BrandMark />
+          <BrandMark logo={logo} />
           <nav className="hidden items-center min-[1080px]:flex" aria-label="Primär">
             <ServicesMenu groups={groups} />
             {links.map((link) => (

@@ -86,7 +86,7 @@ export function MobileMenu({
         <div className="border-b border-border">
           <button
             type="button"
-            className="flex min-h-14 w-full items-center justify-between text-left font-display text-[2rem] leading-none text-ink"
+            className="flex min-h-14 w-full items-center justify-between text-left font-sans text-[2rem] font-semibold leading-none text-ink"
             aria-expanded={servicesOpen}
             onClick={() => setServicesOpen((value) => !value)}
           >
@@ -102,7 +102,7 @@ export function MobileMenu({
                   <Link
                     href={group.href}
                     onClick={onClose}
-                    className="font-display text-[1.45rem] leading-tight text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-focus)]"
+                    className="font-sans text-[1.45rem] font-semibold leading-tight text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-focus)]"
                   >
                     {group.label}
                   </Link>
@@ -133,7 +133,7 @@ export function MobileMenu({
                 href={link.href}
                 onClick={onClose}
                 className={cn(
-                  "flex min-h-14 items-center font-display text-[2rem] leading-none text-ink",
+                  "flex min-h-14 items-center font-sans text-[2rem] font-semibold leading-none text-ink",
                   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-focus)]",
                 )}
               >

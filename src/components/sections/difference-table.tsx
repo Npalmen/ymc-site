@@ -28,11 +28,11 @@ export function DifferenceTable({
         <div className="mt-8 overflow-hidden rounded-[var(--radius-card)] border border-border bg-surface">
           <div className="grid grid-cols-2 bg-studio text-ink-inverse">
             <div className="px-3 py-4 sm:px-5">
-              <p className="font-display text-lg italic text-brand sm:text-2xl">{copy.ours.name}</p>
+              <p className="font-sans text-lg font-semibold text-brand sm:text-2xl">{copy.ours.name}</p>
               <p className="mt-1 text-[0.75rem] text-ink-inverse/70 sm:text-body-sm">{copy.ours.sub}</p>
             </div>
             <div className="border-l border-white/10 px-3 py-4 sm:px-5">
-              <p className="font-display text-lg italic text-ink-inverse/80 sm:text-2xl">{copy.other.name}</p>
+              <p className="font-sans text-lg font-semibold text-ink-inverse/80 sm:text-2xl">{copy.other.name}</p>
               <p className="mt-1 text-[0.75rem] text-ink-inverse/75 sm:text-body-sm">{copy.other.sub}</p>
             </div>
           </div>

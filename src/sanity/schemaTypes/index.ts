@@ -81,6 +81,21 @@ export const schemaTypes = [
       defineField({ name: "email", title: "E-post", type: "string", validation: (rule) => rule.email() }),
       defineField({ name: "phone", title: "Telefon", type: "string" }),
       defineField({ name: "bookingLabel", title: "Text på Boka-knappen", type: "string", initialValue: "Boka nu" }),
+      defineField({
+        name: "logo",
+        title: "Logotyp",
+        type: "image",
+        description: "Ordmärket Yellow Music. Lämna tomt för logotypen som redan ligger på sajten.",
+        options: { hotspot: true },
+        fields: [
+          defineField({
+            name: "alt",
+            title: "Bildtext",
+            type: "string",
+            initialValue: "Yellow Music United",
+          }),
+        ],
+      }),
       defineField({ name: "trustpilot", title: "Trustpilot-länk", type: "url" }),
       defineField({ name: "postalStreet", title: "Postadress, gata", type: "string" }),
       defineField({ name: "postalCode", title: "Postnummer", type: "string" }),
@@ -621,21 +636,6 @@ export const schemaTypes = [
           defineField({ name: "paragraphs", title: "Stycken", type: "array", of: [defineArrayMember({ type: "text" })] }),
           defineField({ name: "imageLabel", title: "Text om bilden saknas", type: "string" }),
           imageField(),
-        ],
-      }),
-      defineField({
-        name: "partners",
-        title: "Samarbeten",
-        type: "array",
-        of: [
-          defineArrayMember({
-            type: "object",
-            name: "partner",
-            fields: [
-              defineField({ name: "name", title: "Namn", type: "string" }),
-              defineField({ name: "body", title: "Text", type: "text", rows: 3 }),
-            ],
-          }),
         ],
       }),
       extraSectionsField(),

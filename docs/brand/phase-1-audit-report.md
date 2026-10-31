@@ -20,7 +20,7 @@
 
 - **54** unique Wix media references across crawl; **~12** strategically important brand assets catalogued.
 - **PRIMARY:** header logos (2), Biim-Solrosfält, Biim portrait, Yellow Studio photo, OG brand image.
-- **SECONDARY:** service heroes, community images, partner logos (Tremoloop, MTMax).
+- **SECONDARY:** service heroes, community images.
 - **OBSERVED yellows:** `#F7C006`, `#F7CC39`, `#F6B33B`, `#FFD261`, `#ffcd00`, `#FFF2D4` — inconsistent; consolidation deferred to Area 01.
 - Assets **not downloaded**; rights marked **RIGHTS_TO_VERIFY** where applicable.
 
@@ -72,8 +72,6 @@ All marked **VERIFY_WITH_OWNER** in content inventory.
 - **Trustpilot** link verified sitewide — **THIRD_PARTY_VERIFIABLE** (rating not embedded in HTML).
 - **No verified social profile URLs** in page HTML — owner must confirm official accounts.
 - **No on-site testimonials** — do not fabricate social proof for homepage.
-- Partner logos on `/om-oss` — **OWNER_VERIFICATION_REQUIRED** for continued use.
-
 ---
 
 ## 8. ASSETS_TO_REQUEST_FROM_OWNER
@@ -84,7 +82,6 @@ All marked **VERIFY_WITH_OWNER** in content inventory.
 | Highest-resolution **logo raster** if vector unavailable short-term | **REQUIRED_BEFORE_DESIGN** |
 | **Canonical business address** (+ map pin intent) | **REQUIRED_BEFORE_LAUNCH** |
 | Confirmation of **reusable photo originals** (sunflower, studio, portrait) | **REQUIRED_BEFORE_LAUNCH** |
-| **Partner logo** usage permission (Tremoloop, MTMax) | **REQUIRED_BEFORE_LAUNCH** |
 | Current **service list + pricing** (if any fixed prices exist off-site) | **REQUIRED_BEFORE_LAUNCH** |
 | Official **social profile URLs** | **NICE_TO_HAVE** before SEO/social areas |
 | Updated **team/studio photography** if existing assets are outdated | **NICE_TO_HAVE** |
@@ -99,9 +96,8 @@ All marked **VERIFY_WITH_OWNER** in content inventory.
 4. Which services on the site are **actively sold** vs legacy pages that can be retired?
 5. Are there **fixed prices or durations** for booking-relevant services (even if not on the website)?
 6. Can you provide the **original logo files** and confirm **image reuse rights** for website redesign?
-7. May we continue displaying **Tremoloop Music** and **MTMax Music** partner logos?
-8. What are the official **Instagram / Facebook / other social** profile URLs?
-9. Which **Google Business Profile** and **Google Calendar(s)** will eventually be authoritative for booking?
+7. What are the official **Instagram / Facebook / other social** profile URLs?
+8. Which **Google Business Profile** and **Google Calendar(s)** will eventually be authoritative for booking?
 
 ---
 

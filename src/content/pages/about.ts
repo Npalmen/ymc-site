@@ -89,14 +89,4 @@ export const aboutPage = {
     ],
     imageLabel: "Starlight Studios, interiör. Foto saknas.",
   },
-  partners: [
-    {
-      name: "Tremoloop Music",
-      body: "Drivs av multiinstrumentalisten och producenten Andreas Forsberg. Gitarr, band och mångårig ljud- och musikproduktion, med viljan att hjälpa andra nå sina mål.",
-    },
-    {
-      name: "MTMax Music",
-      body: "Drivs av producenten Martin Axelsson. Ett prisvärt alternativ med hög kvalitet, för artister och låtskrivare som vill utvecklas i sin musik.",
-    },
-  ],
 };

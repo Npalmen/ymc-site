@@ -61,7 +61,7 @@ export function PlanningMeeting({
       {variant === "sheet" ? null : (
         <h3 className="font-display text-3xl italic text-accent">Ansök om ett möte</h3>
       )}
-      <form className={variant === "sheet" ? "mt-4 flex flex-col gap-4" : "mt-6 flex flex-col gap-4"} onSubmit={onSubmit}>
+      <form className={variant === "sheet" ? "sheet-fields mt-4" : "mt-6 flex flex-col gap-4"} onSubmit={onSubmit}>
         <Field id={`${baseId}-name`} label="Namn *" appearance="plain">
           <Input id={`${baseId}-name`} name="name" autoComplete="name" required placeholder="Ditt namn" />
         </Field>
@@ -93,7 +93,7 @@ export function PlanningMeeting({
             ))}
           </Select>
         </Field>
-        <Field id={`${baseId}-message`} label="Meddelande" appearance="plain">
+        <Field id={`${baseId}-message`} label="Meddelande" appearance="plain" className="sheet-span">
           <Textarea
             id={`${baseId}-message`}
             name="message"
@@ -102,13 +102,13 @@ export function PlanningMeeting({
         </Field>
         <button
           type="submit"
-          className="inline-flex min-h-12 w-full items-center justify-center rounded-[var(--radius-pill)] bg-brand px-6 font-semibold text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+          className="sheet-submit inline-flex min-h-12 w-full items-center justify-center rounded-[var(--radius-pill)] bg-brand px-6 font-semibold text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
         >
           Skicka förfrågan
         </button>
-        <p className="text-body-sm text-ink-muted">{copy.note}</p>
+        <p className="sheet-note text-body-sm text-ink-muted">{copy.note}</p>
         {status ? (
-          <p className="text-body-sm text-ink" role="status">
+          <p className="sheet-span text-body-sm text-ink" role="status">
             {status}
           </p>
         ) : null}

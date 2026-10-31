@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Wordmark } from "@/components/brand/wordmark";
 import { footerColumns as fallbackColumns, type NavLink } from "@/content/navigation";
 import { site as fallbackSite, type SiteConfig } from "@/content/site";
 
@@ -14,9 +15,8 @@ export function SiteFooter({
       <div className="mx-auto w-full max-w-[var(--container-wide)] px-5 py-14 sm:px-6 lg:py-16">
         <div className="flex flex-col gap-10 lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
-            <Link href="/" className="inline-flex items-baseline gap-2 font-display text-3xl">
-              Yellow Music
-              <span className="size-1.5 translate-y-[-0.35rem] rounded-full bg-brand" aria-hidden />
+            <Link href="/" className="inline-flex rounded-full" aria-label="Yellow Music United, startsida">
+              <Wordmark src={site.logo} className="brand-wordmark brand-wordmark-footer" />
             </Link>
             <p className="mt-4 max-w-sm text-body-sm text-ink-inverse/70">{site.description}</p>
             <p className="mt-6 text-body-sm text-ink-inverse/80">

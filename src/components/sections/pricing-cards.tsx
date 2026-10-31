@@ -38,7 +38,7 @@ export function PricingCards({
                   {pack.price}
                 </p>
               ) : (
-                <p className="font-display text-[2.4rem] italic leading-none text-accent">{pack.price}</p>
+                <p className="font-sans text-[2.4rem] font-semibold leading-none text-accent">{pack.price}</p>
               )}
               <p className="mt-2 text-body-sm text-ink">{pack.note}</p>
             </div>

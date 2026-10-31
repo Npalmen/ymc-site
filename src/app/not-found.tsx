@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <PageShell>
       <Container className="py-24">
-        <p className="font-display italic text-accent">404</p>
+        <p className="font-sans text-sm font-semibold uppercase tracking-[0.18em] text-accent">404</p>
         <h1 className="text-hero mt-3 max-w-[10em]">Sidan finns inte.</h1>
         <p className="mt-4 max-w-md text-body text-ink-muted">
           Länken kan vara gammal. Sång, utbildning och utgivning finns under tjänster.

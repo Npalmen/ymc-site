@@ -18,7 +18,6 @@ Phase 1 audit of publicly visible assets on [yellowmusicunited.se](https://www.y
 | SUNFLOWER / BRAND | Biim-Solrosfält, OG photo | Yellow-toned sections | |
 | COMMUNITY | Community page images | Blog thumbnails | |
 | PODCAST / RELEASE | Distribution cluster | Blog post images | |
-| PARTNER | Tremoloop, MTMax logos (PNG) | — | **RIGHTS_TO_VERIFY** |
 | LOCATION | Map/embed on contact | — | Address **VERIFY_WITH_OWNER** |
 
 ---
@@ -129,13 +128,6 @@ Wix `color_43` class used for body copy — maps to theme brown/dark tone, not a
 | Distribution visuals | `/distribution` | MUSIC PRODUCTION | SECONDARY |
 | Podcast blog image | `/post/vad-är-en-podcast` | PODCAST | OPTIONAL |
 | Singing blog image | `/post/jag-vill-sjunga…` | VOCAL | OPTIONAL |
-
-### PARTNER (third-party)
-
-| Name | Source page | Type | Importance | Rights |
-|------|-------------|------|------------|--------|
-| Tremoloop Music logo | `/om-oss` | OTHER | SECONDARY | RIGHTS_TO_VERIFY |
-| MTMax Music logo | `/om-oss` | OTHER | SECONDARY | RIGHTS_TO_VERIFY |
 
 ---
 

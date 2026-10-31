@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useCallback, useEffect, useId, useRef } from "react";
+import Image from "next/image";
 import { PlanningMeeting } from "@/components/sections/planning-meeting";
 import type { PlanningTopic } from "@/content/pages/shared";
 import type { RichLine } from "@/content/rich-text";
@@ -22,12 +23,43 @@ type BookingSheetProps = {
   onClose: () => void;
 };
 
+const modalQuery = "(min-width: 768px) and (pointer: fine)";
+
+function isDesktopModal() {
+  return window.matchMedia(modalQuery).matches;
+}
+
 export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingSheetProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
+  const closing = useRef(false);
+  const closeRef = useRef<() => void>(() => {});
+  const requestClose = useCallback(() => {
+    if (closing.current) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const panel = panelRef.current;
+    if (!panel || reduced || !isDesktopModal()) {
+      onClose();
+      return;
+    }
+    closing.current = true;
+    panel.classList.remove("is-entering");
+    panel.classList.add("is-leaving");
+    rootRef.current?.classList.add("is-leaving");
+    window.setTimeout(() => {
+      onClose();
+      window.setTimeout(() => {
+        closing.current = false;
+      }, 50);
+    }, 220);
+  }, [onClose]);
+
+  useEffect(() => {
+    closeRef.current = requestClose;
+  }, [requestClose]);
   const drag = useRef({
     active: false,
     tracking: false,
@@ -40,7 +72,10 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
   });
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      closing.current = false;
+      return;
+    }
     const previous = document.activeElement as HTMLElement | null;
     const scrollY = window.scrollY;
     const lockedPath = window.location.pathname;
@@ -57,6 +92,13 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
       const root = rootRef.current;
       const viewport = window.visualViewport;
       if (!node || !root || !viewport) return;
+      if (isDesktopModal()) {
+        node.style.bottom = "";
+        node.style.maxHeight = "";
+        node.style.left = "";
+        node.style.right = "";
+        return;
+      }
       const rootRect = root.getBoundingClientRect();
       const hangBelow = Math.max(0, Math.round(rootRect.bottom - viewport.height));
       const visible = Math.round(viewport.height);
@@ -67,6 +109,8 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
     const placeFrame = requestAnimationFrame(place);
     window.visualViewport?.addEventListener("resize", place);
     window.visualViewport?.addEventListener("scroll", place);
+    const modalMedia = window.matchMedia(modalQuery);
+    modalMedia.addEventListener("change", place);
     const body = bodyRef.current;
     const onTouchMove = (event: TouchEvent) => {
       if (!drag.current.active) return;
@@ -87,7 +131,7 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        onClose();
+        closeRef.current();
         return;
       }
       if (event.key !== "Tab" || !panel) return;
@@ -124,9 +168,10 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
       }
       window.visualViewport?.removeEventListener("resize", place);
       window.visualViewport?.removeEventListener("scroll", place);
+      modalMedia.removeEventListener("change", place);
       panel?.removeEventListener("touchmove", onTouchMove);
       document.removeEventListener("keydown", onKey);
-      previous?.focus();
+      previous?.focus({ preventScroll: true });
     };
   }, [open, onClose]);
 
@@ -137,13 +182,14 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
     const backdrop = backdropRef.current;
     if (!panel) return;
     drag.current.shift = shift;
-    panel.style.transform = `translate3d(0, ${shift}px, 0)`;
+    panel.style.transform = shift === 0 ? "" : `translate3d(0, ${shift}px, 0)`;
     const height = panel.getBoundingClientRect().height || 1;
     const progress = Math.max(0, Math.min(1, shift / height));
     if (backdrop) backdrop.style.opacity = String(1 - progress);
   }
 
   function beginDrag(event: React.PointerEvent<HTMLElement>) {
+    if (isDesktopModal()) return;
     const target = event.target as HTMLElement;
     if (target.closest("input, textarea, select, option, a, button, label")) return;
     const fromHandle = Boolean(target.closest("[data-sheet-handle]"));
@@ -211,16 +257,25 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
     window.setTimeout(() => panel.classList.remove("is-settling"), 480);
   }
 
+  function stopAndClose(event: React.SyntheticEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    requestClose();
+  }
+
   return (
-    <div ref={rootRef} className="sheet-root">
-      <button ref={backdropRef} type="button" className="sheet-backdrop" aria-label="Stäng bokning" onClick={onClose} />
+    <div ref={rootRef} className="sheet-root" onPointerDown={(event) => {
+      if (event.target === event.currentTarget) stopAndClose(event);
+    }}>
+      <div className="sheet-scrim" aria-hidden />
+      <button ref={backdropRef} type="button" className="sheet-backdrop" aria-label="Stäng bokning" onPointerDown={stopAndClose} />
       <div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="sheet-panel glass is-entering"
+        className="sheet-panel is-entering"
         onAnimationEnd={(event) => {
           if (event.target === event.currentTarget) event.currentTarget.classList.remove("is-entering");
         }}
@@ -229,10 +284,15 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
       >
+        <div className="sheet-surface glass" aria-hidden />
+        <button type="button" className="sheet-close" aria-label="Stäng bokning" onPointerDown={stopAndClose}>
+          <span aria-hidden>×</span>
+        </button>
         <div className="sheet-handle" data-sheet-handle>
           <span />
         </div>
         <div ref={bodyRef} className="sheet-body">
+          <Image src="/brand/mark-160.webp" alt="" width={72} height={74} className="sheet-mark" />
           <h2 id={titleId} className="font-display text-3xl">
             Boka nu
           </h2>

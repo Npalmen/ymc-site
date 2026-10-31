@@ -27,18 +27,23 @@ export function MotionRoot({ children, copy, recipient, label }: MotionRootProps
   const previousHash = useRef("");
   const pendingHash = useRef<string | null>(null);
   const skipFirstScroll = useRef(true);
+  const closingSheet = useRef(false);
 
   const close = useCallback(() => {
     setOpen(false);
-    if (window.history.state?.bookingSheet) {
+    const url = new URL(window.location.href);
+    const pushed = Boolean(window.history.state?.bookingPushed);
+    url.searchParams.delete("boka");
+    url.searchParams.delete("amne");
+    if (pushed) {
+      closingSheet.current = true;
       window.history.back();
+      window.setTimeout(() => {
+        closingSheet.current = false;
+      }, 400);
       return;
     }
-    const url = new URL(window.location.href);
-    if (url.searchParams.has("boka")) {
-      url.searchParams.delete("boka");
-      window.history.replaceState(window.history.state, "", url);
-    }
+    window.history.replaceState({ ...(window.history.state || {}), bookingSheet: false, bookingPushed: false }, "", url);
   }, []);
 
   const openSheet = useCallback((nextTopic: string, push: boolean) => {
@@ -49,17 +54,15 @@ export function MotionRoot({ children, copy, recipient, label }: MotionRootProps
     if (url.pathname === "/boka") return;
     url.searchParams.set("boka", "1");
     if (nextTopic && nextTopic !== "planering") url.searchParams.set("amne", nextTopic);
-    if (push && !window.history.state?.bookingSheet) {
-      window.history.pushState({ bookingSheet: true }, "", url);
-    } else {
-      window.history.replaceState({ bookingSheet: true }, "", url);
-    }
+    const state = { ...(window.history.state || {}), bookingSheet: true, bookingPushed: push && !window.history.state?.bookingSheet };
+    if (state.bookingPushed) window.history.pushState(state, "", url);
+    else window.history.replaceState(state, "", url);
   }, []);
 
   useEffect(() => {
     const url = new URL(window.location.href);
     let frame = 0;
-    if (url.searchParams.get("boka") === "1" && url.pathname !== "/boka") {
+    if (!closingSheet.current && url.searchParams.get("boka") === "1" && url.pathname !== "/boka") {
       const initialTopic = url.searchParams.get("amne") || "planering";
       frame = requestAnimationFrame(() => openSheet(initialTopic, false));
     }
@@ -130,6 +133,11 @@ export function MotionRoot({ children, copy, recipient, label }: MotionRootProps
       }
       pathRef.current = nextPath;
       previousHash.current = nextHash;
+      if (closingSheet.current) {
+        closingSheet.current = false;
+        setOpen(false);
+        return;
+      }
       const sheet = Boolean(window.history.state?.bookingSheet);
       const query = new URL(window.location.href).searchParams.get("boka") === "1";
       if (sheet || (query && window.location.pathname !== "/boka")) {

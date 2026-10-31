@@ -1,8 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
-
-const PETALS = Array.from({ length: 12 }, (_, index) => index * 30);
 
 export function ScrollSunflower() {
   const [bloom, setBloom] = useState(false);
@@ -21,14 +20,13 @@ export function ScrollSunflower() {
 
   return (
     <div className={`scroll-sunflower${bloom ? " is-bloomed" : ""}`} aria-hidden>
-      <svg viewBox="0 0 64 64" className="scroll-sunflower-spin">
-        <g className="scroll-sunflower-petals">
-          {PETALS.map((angle) => (
-            <ellipse key={angle} cx="32" cy="14" rx="5" ry="12" transform={`rotate(${angle} 32 32)`} />
-          ))}
-        </g>
-        <circle cx="32" cy="32" r="8" className="scroll-sunflower-core" />
-      </svg>
+      <Image
+        src="/brand/mark-320.webp"
+        alt=""
+        width={320}
+        height={328}
+        className="scroll-sunflower-spin"
+      />
     </div>
   );
 }

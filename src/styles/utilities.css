@@ -179,6 +179,14 @@
   z-index: 80;
 }
 
+.sheet-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(8px) saturate(1.2);
+  backdrop-filter: blur(8px) saturate(1.2);
+}
+
 .sheet-backdrop {
   position: absolute;
   inset: 0;
@@ -186,8 +194,6 @@
   background: rgb(26 23 20 / 38%);
   opacity: 1;
   transition: opacity 460ms cubic-bezier(0.22, 1.15, 0.36, 1);
-  -webkit-backdrop-filter: blur(8px) saturate(1.2);
-  backdrop-filter: blur(8px) saturate(1.2);
 }
 
 .sheet-root:has(.is-dragging) .sheet-backdrop {
@@ -224,8 +230,7 @@ html.sheet-open [data-vercel-toolbar] {
   overflow: hidden;
   border-bottom: 0;
   border-radius: 1.75rem 1.75rem 0 0;
-  background: rgb(247 243 236 / 96%);
-  transform: translate3d(0, 0, 0);
+  background: transparent;
 }
 
 .sheet-panel.is-entering {
@@ -251,6 +256,21 @@ html.sheet-open [data-vercel-toolbar] {
   transition: transform 460ms cubic-bezier(0.22, 1.25, 0.36, 1);
 }
 
+.sheet-surface {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: rgb(247 243 236 / 96%);
+}
+
+.sheet-body,
+.sheet-handle {
+  position: relative;
+  z-index: 1;
+}
+
 .sheet-body {
   min-height: 0;
   flex: 1 1 auto;
@@ -260,6 +280,30 @@ html.sheet-open [data-vercel-toolbar] {
   padding: 0.15rem 1.25rem max(1.25rem, env(safe-area-inset-bottom));
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
+}
+
+.sheet-close {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.7rem;
+  z-index: 3;
+  display: inline-flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(23 20 16 / 12%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 72%);
+  color: var(--color-ink);
+  font-size: 1.35rem;
+  line-height: 1;
+  pointer-events: auto;
+}
+
+.sheet-close:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 .sheet-handle {
@@ -276,6 +320,151 @@ html.sheet-open [data-vercel-toolbar] {
   height: 0.28rem;
   border-radius: 999px;
   background: rgb(26 23 20 / 28%);
+}
+
+.sheet-mark {
+  display: none;
+}
+
+.sheet-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) and (pointer: fine) {
+  .sheet-root {
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+  }
+
+  .sheet-scrim {
+    -webkit-backdrop-filter: blur(5px) saturate(1.05);
+    backdrop-filter: blur(5px) saturate(1.05);
+  }
+
+  .sheet-backdrop {
+    background: rgb(23 20 16 / 16%);
+    animation: sheet-fade-in 240ms ease;
+  }
+
+  .sheet-root.is-leaving .sheet-backdrop {
+    opacity: 0;
+    transition: opacity 220ms ease;
+  }
+
+  .sheet-panel {
+    position: relative !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    z-index: 1;
+    width: min(35rem, calc(100vw - 3rem));
+    max-height: min(85dvh, calc(100dvh - 3rem)) !important;
+    border-radius: 1.75rem;
+    border-bottom: 1px solid rgb(255 255 255 / 70%);
+    background: rgb(247 243 236 / 96%);
+    box-shadow:
+      0 28px 80px rgb(23 20 16 / 18%),
+      0 2px 10px rgb(23 20 16 / 6%);
+  }
+
+  .sheet-panel.is-entering {
+    animation: sheet-modal-in 240ms cubic-bezier(0.22, 1.15, 0.36, 1);
+  }
+
+  .sheet-panel.is-leaving {
+    animation: sheet-modal-out 220ms cubic-bezier(0.4, 0, 0.68, 0.2) forwards;
+  }
+
+  .sheet-handle {
+    display: none;
+  }
+
+  .sheet-body {
+    padding: 1.85rem 2rem 1.5rem;
+    touch-action: auto;
+  }
+
+  .sheet-close {
+    top: 1rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .sheet-mark {
+    display: block;
+    width: 2.4rem;
+    height: auto;
+    margin-bottom: 0.65rem;
+  }
+
+  .sheet-root .sheet-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem 1rem;
+  }
+
+  .sheet-root .sheet-span,
+  .sheet-root .sheet-submit,
+  .sheet-root .sheet-note {
+    grid-column: 1 / -1;
+  }
+
+  .sheet-root .sheet-submit {
+    width: auto;
+    min-width: 12.5rem;
+    justify-self: start;
+    margin-top: 0.25rem;
+  }
+
+  .sheet-root .sheet-note {
+    max-width: 36rem;
+    margin-top: -0.15rem;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+}
+
+@keyframes sheet-modal-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes sheet-modal-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.98);
+  }
+}
+
+@keyframes sheet-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-panel.is-entering,
+  .sheet-panel.is-leaving,
+  .sheet-backdrop {
+    animation: none;
+  }
 }
 
 .sticky-book {
@@ -322,24 +511,36 @@ html.sheet-open [data-vercel-toolbar] {
 .scroll-sunflower-spin {
   width: 100%;
   height: 100%;
+  object-fit: contain;
   animation: sunflower-spin linear both;
   animation-timeline: scroll(root);
   animation-range: 0% 100%;
 }
 
-.scroll-sunflower-petals {
-  fill: rgb(247 192 6 / 88%);
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 700ms cubic-bezier(0.22, 1.2, 0.36, 1);
+.brand-wordmark {
+  height: 2rem;
+  width: auto;
+  max-width: 10.75rem;
+  filter: drop-shadow(0 1px 1px rgb(23 20 16 / 20%));
 }
 
-.scroll-sunflower.is-bloomed .scroll-sunflower-petals {
-  transform: scale(1.12);
+@media (min-width: 640px) {
+  .brand-wordmark {
+    height: 2.35rem;
+    max-width: none;
+  }
 }
 
-.scroll-sunflower-core {
-  fill: #8c5a12;
+@media (min-width: 1080px) {
+  .brand-wordmark {
+    height: 2.65rem;
+  }
+}
+
+.brand-wordmark-footer {
+  height: 2.75rem;
+  max-width: 16rem;
+  filter: none;
 }
 
 @keyframes sunflower-spin {
@@ -366,8 +567,20 @@ html.sheet-open [data-vercel-toolbar] {
 .review-scroller {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  padding-bottom: 0.5rem;
   scrollbar-width: none;
+  /* overflow-x: auto forces overflow-y to auto, so tilt and shadow cannot
+     paint outside the scrollport. The padding is the room they need. */
+  padding: 1.5rem 1.25rem 2rem;
+  margin-inline: -1.25rem;
+  scroll-padding-inline: 1.25rem;
+}
+
+.review-face {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 18px 36px -14px rgb(44 36 20 / 16%),
+    0 4px 10px rgb(44 36 20 / 5%);
 }
 
 .review-scroller::-webkit-scrollbar {

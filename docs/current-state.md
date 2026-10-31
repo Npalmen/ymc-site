@@ -2,10 +2,10 @@
 
 > Fast entry point for a new Cursor agent. Update this file whenever project truth changes.
 
-**Last updated:** 2026-10-29  
-**Branch:** `cursor/ymu-redesign-dfcf`
+**Last updated:** 2026-10-30  
+**Branch:** `cursor/ymu-logos-dfcf`
 
-Production target is Cloudflare Workers via OpenNext. Vercel previews still use `next build`. Content can be edited in Sanity project `vjv9ko18` (dataset `production`) at `/studio`. Until that project is seeded, the site uses `src/content`. Booking CTAs open a glass bottom sheet that leaves about a fifth of the viewport free and follows a downward drag as one panel; `/boka` stays a full page, and `?boka=1` opens the sheet. A new route starts at the top; back and forward restore the previous offset. Sånglektioner submenu items open `#steg-for-steg` and `#lektionspaket` on that page. Utbildning’s courses stay on their own pages. See [deploy-cloudflare.md](deploy-cloudflare.md), [cms.md](cms.md), and ADR-003.
+Production target is Cloudflare Workers via OpenNext. Vercel previews still use `next build`. Content can be edited in Sanity project `vjv9ko18` (dataset `production`) at `/studio`. Until that project is seeded, the site uses `src/content`. The header, footer, favicon and scroll sunflower use Biim’s wordmark and watercolor mark from `public/brand`; `siteSettings.logo` in Sanity can replace the wordmark. Booking CTAs open a glass bottom sheet on phones and a centered card from 768px with a fine pointer. The sheet leaves about a fifth of the viewport free and follows a downward drag as one panel; `/boka` stays a full page, and `?boka=1` opens the sheet. A new route starts at the top; back and forward restore the previous offset. Sånglektioner submenu items open `#steg-for-steg` and `#lektionspaket` on that page. Utbildning’s courses stay on their own pages. See [deploy-cloudflare.md](deploy-cloudflare.md), [cms.md](cms.md), and ADR-003.
 
 ## Planning status
 
@@ -19,7 +19,7 @@ Production target is Cloudflare Workers via OpenNext. Vercel previews still use 
 
 ## What shipped in this revision
 
-Mobile-first public site in Swedish. Adviora-adapted editorial system on the existing yellow identity (Fraunces + Source Sans 3, brand `#F7C006`, accent text `#8C5A12`).
+Mobile-first public site in Swedish. Typography matches the last Vercel production deploy before the redesign, commit `a6c2352`: Fraunces weights 400/500/600 for headings and quotes, Source Sans 3 weights 400/500/600/700 for body and UI. No variable axes and no italic cut. Brand `#F7C006`, accent text `#8C5A12`.
 
 Navigation matches Biim’s menu. Detail pages exist for sånglektioner (steg för steg, lektionspaket), utbildning (musikproduktion för tjejer, låtskrivning), distribution, community, om oss, kontakt, boka and FAQ.
 
@@ -49,12 +49,10 @@ Temporary redirects (307) from the previous preview routes and the main Wix path
 
 ## Placeholders Biim needs to fill
 
-- **Logo:** vector/source file. The header is a typographic wordmark until then.
 - **Photos:** Biim in the sunflower field, portrait, Starlight interior, a lesson, education, community. Do not hotlink Wix. The lesson photo on the current site is credited to Stefan Lindgren.
 - **Prices:** six-lesson and twelve-lesson courses. Length and price for both education courses. Praktik details.
 - **Reviews:** real quotes, names, roles and ratings from Google or Trustpilot. The tilted cards are empty slots. Trustpilot is linked. Do not invent reviews.
 - **Copy still open:** whether the free first lesson and the free planning meeting are both still offered, community membership terms, and confirmation that the studio visit address is Svederusgatan 3A, Fyrislund. Postal address used in the UI is Östra Ågatan 67. Salabacksgatan is omitted.
-- **Partner logos:** Tremoloop and MTMax are named in text only.
 
 ## Not started
 

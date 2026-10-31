@@ -47,13 +47,13 @@ export function TimelineRail({ items }: { items: readonly Item[] }) {
         return (
           <li key={item.title} className="timeline-item relative pb-10 pl-10 last:pb-0">
             <span className="timeline-node" aria-hidden />
-            <p className="font-display text-2xl italic text-accent">
+            <p className="font-sans text-2xl font-semibold text-accent">
               {countable ? <CountUp value={year} /> : item.year}
             </p>
             <p className="mt-2 inline-flex min-h-7 items-center rounded-[var(--radius-pill)] border border-border bg-surface px-2.5 text-[0.75rem] font-medium">
               {item.tag}
             </p>
-            <h3 className="mt-3 font-display text-2xl">{item.title}</h3>
+            <h3 className="mt-3 font-sans text-2xl font-semibold">{item.title}</h3>
             <p className="mt-2 text-body text-ink-muted">{item.body}</p>
           </li>
         );

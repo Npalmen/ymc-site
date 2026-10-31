@@ -26,7 +26,7 @@ export function ReviewRail({
 }) {
   const copy = reviews ?? homePage.reviews;
   return (
-    <section className="overflow-x-clip bg-canvas py-16 sm:py-24" aria-labelledby="omdomen-rubrik">
+    <section className="bg-canvas py-16 sm:py-24" aria-labelledby="omdomen-rubrik">
       <Container>
         <Pill>{copy.eyebrow}</Pill>
         <h2 id="omdomen-rubrik" className="text-section mt-5 max-w-[16em]">

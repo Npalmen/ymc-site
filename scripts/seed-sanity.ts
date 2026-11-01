@@ -12,6 +12,7 @@ import { site } from "../src/content/site";
 import type { RichLine } from "../src/content/rich-text";
 import { SANITY_DATASET, SANITY_PROJECT_ID } from "../src/sanity/env";
 import { richToMarked } from "../src/sanity/rich";
+import { withArrayKeys } from "./seed-keys";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID?.trim() || SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET?.trim() || SANITY_DATASET;
@@ -357,7 +358,7 @@ courseDoc("course-musikproduktion", "musikproduktion-for-tjejer", productionCour
 courseDoc("course-latskrivning", "latskrivning", songwritingCourse, 1);
 
 const tx = client.transaction();
-for (const doc of documents) tx.createOrReplace(doc);
+for (const doc of documents) tx.createOrReplace(withArrayKeys(doc));
 tx.commit()
   .then(() => {
     console.log(`Skrev ${documents.length} dokument till ${projectId}/${dataset}.`);

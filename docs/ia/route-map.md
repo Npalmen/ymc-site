@@ -22,7 +22,7 @@
 | `/faq` | Questions from verified facts | — |
 | `/design-system` | Internal preview | — |
 
-Preview routes `/sang`, `/studio`, `/utbildning`, `/ge-ut-musik` and `/yellow-music` 307-redirect. Wix paths redirect in `next.config.ts` as temporary 307s until Area 07 sets final 301s.
+Preview routes `/sang`, `/utbildning`, `/ge-ut-musik` and `/yellow-music` 307-redirect. `/studio` is the Sanity Studio and is not redirected. Wix paths redirect in `next.config.ts` as temporary 307s until Area 07 sets final 301s.
 
 ## Earlier child-route notes
 

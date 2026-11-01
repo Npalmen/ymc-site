@@ -1,7 +1,7 @@
 import type { RichLine } from "@/content/rich-text";
 
 export const aboutPage = {
-  metaTitle: "Om oss",
+  metaTitle: "Om Yellow Music United i Uppsala",
   metaDescription:
     "Om Biim Frischenfeldt och Yellow Music United, grundat 2020 i Uppsala. Värderingar, berättelse och Starlight Studios.",
   eyebrow: "Berättelsen",

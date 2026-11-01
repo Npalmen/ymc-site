@@ -10,11 +10,17 @@ import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import { RichLine } from "@/components/ui/rich-line";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, serviceJson } from "@/lib/seo";
 import { loadPackages, loadSinging, loadSteps } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { page } = await loadSinging();
-  return { title: page.metaTitle, description: page.metaDescription };
+  return pageMetadata({
+    title: page.metaTitle,
+    description: page.metaDescription,
+    path: "/tjanster/sanglektioner",
+  });
 }
 
 export default async function SingingPage() {
@@ -25,7 +31,20 @@ export default async function SingingPage() {
   ]);
   return (
     <PageShell>
-      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede}>
+      <JsonLd
+        data={serviceJson({
+          name: page.metaTitle,
+          description: page.metaDescription,
+          path: "/tjanster/sanglektioner",
+        })}
+      />
+      <PageHero
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lede={page.lede}
+        path="/tjanster/sanglektioner"
+        trail={[{ href: "/tjanster", label: "Tjänster" }]}
+      >
         <Button href="#lektionspaket" size="lg">
           Mina lektionspaket
         </Button>

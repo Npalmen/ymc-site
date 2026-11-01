@@ -11,7 +11,7 @@ export function SoulSplit({ soul = homePage.soul }: { soul?: Soul }) {
     <div className="relative">
       <section className="bg-canvas" aria-labelledby="sjal-rubrik">
         <div className="grid grid-cols-[minmax(0,1.4fr)_minmax(6.75rem,0.82fr)] lg:grid-cols-[minmax(0,1.05fr)_minmax(16rem,0.9fr)]">
-          <div className="px-4 py-10 sm:px-8 lg:px-14 lg:py-20">
+          <div className="px-5 py-10 sm:px-8 lg:px-14 lg:py-20">
             <p className="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-ink-muted">
               {soul.eyebrow}
             </p>

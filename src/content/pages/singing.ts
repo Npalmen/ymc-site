@@ -3,7 +3,7 @@ import type { RichLine } from "@/content/rich-text";
 export const singingPage = {
   metaTitle: "Sånglektioner i Uppsala",
   metaDescription:
-    "Sånglektioner hos Yellow Music i Uppsala. Första lektionen är kostnadsfri. Kurser om sex eller tolv tillfällen.",
+    "Sånglektioner och sångpedagogik i Uppsala hos Yellow Music. Första lektionen är kostnadsfri. Sångkurs om sex eller tolv tillfällen.",
   eyebrow: "Sånglektioner",
   title: [
     { text: "Lär dig sjunga. Börja " },
@@ -63,9 +63,9 @@ export const lessonPackages = [
 ] as const;
 
 export const packagesPage = {
-  metaTitle: "Mina lektionspaket",
+  metaTitle: "Sångkurs och lektionspaket i Uppsala",
   metaDescription:
-    "Sångpaket hos Yellow Music: prova på kostnadsfritt, eller kurs om sex eller tolv tillfällen. Priser för kurserna saknas.",
+    "Sångkurs hos Yellow Music i Uppsala: prova på kostnadsfritt, eller kurs om sex eller tolv tillfällen. Priser för kurserna saknas.",
   eyebrow: "Mina lektionspaket",
   title: [
     { text: "Tre sätt att börja. Byggt för " },
@@ -78,9 +78,9 @@ export const packagesPage = {
 };
 
 export const stepsPage = {
-  metaTitle: "Steg för steg",
+  metaTitle: "Sångkurs steg för steg i Uppsala",
   metaDescription:
-    "Så går en sångresa hos Yellow Music till: kontakt, kostnadsfri första lektion, sedan sex eller tolv tillfällen.",
+    "Så går en sångkurs hos Yellow Music i Uppsala till: kontakt, kostnadsfri första lektion, sedan sex eller tolv tillfällen.",
   eyebrow: "Steg för steg",
   title: [
     { text: "Från första mejlet till " },

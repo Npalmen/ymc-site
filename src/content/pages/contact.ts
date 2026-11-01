@@ -1,7 +1,7 @@
 import type { RichLine } from "@/content/rich-text";
 
 export const contactPage = {
-  metaTitle: "Kontakt",
+  metaTitle: "Kontakt med sångpedagog i Uppsala",
   metaDescription:
     "Kontakta Yellow Music United i Uppsala. Telefon, e-post, postadress och kostnadsfritt planeringsmöte.",
   eyebrow: "Kontakt",
@@ -14,7 +14,7 @@ export const contactPage = {
 };
 
 export const bookingPage = {
-  metaTitle: "Boka nu",
+  metaTitle: "Boka sånglektion i Uppsala",
   metaDescription:
     "Boka ett kostnadsfritt planeringsmöte med Yellow Music United. Formuläret öppnar ett mejl. Ingen bokningsmotor är igång ännu.",
   eyebrow: "Boka nu",
@@ -27,7 +27,7 @@ export const bookingPage = {
 };
 
 export const faqPage = {
-  metaTitle: "FAQ",
+  metaTitle: "Vanliga frågor om sånglektioner i Uppsala",
   metaDescription:
     "Vanliga frågor om Yellow Music United: sånglektioner, priser, studio, utbildning och distribution i Uppsala.",
   eyebrow: "FAQ",

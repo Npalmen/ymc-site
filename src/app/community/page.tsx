@@ -6,18 +6,19 @@ import { PlanningBlock } from "@/components/sections/planning-block";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
+import { pageMetadata } from "@/lib/seo";
 import { loadCommunity } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await loadCommunity();
-  return { title: page.metaTitle, description: page.metaDescription };
+  return pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/community" });
 }
 
 export default async function CommunityPage() {
   const page = await loadCommunity();
   return (
     <PageShell>
-      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede}>
+      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede} path="/community">
         <Button href="/kontakt" size="lg">
           Hör av dig
         </Button>

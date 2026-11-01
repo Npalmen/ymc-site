@@ -3,18 +3,34 @@ import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
 import { PageHero } from "@/components/sections/page-hero";
 import { Container } from "@/components/ui/container";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, siteUrl } from "@/lib/seo";
 import { loadNavigation } from "@/sanity/load";
 
-export const metadata: Metadata = {
-  title: "Tjänster",
-  description: "Sånglektioner, utbildning och distribution hos Yellow Music United i Uppsala.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Sånglektioner, sångkurs och utbildning i Uppsala",
+  description: "Sånglektioner, sångkurs, utbildning och distribution hos Yellow Music United i Uppsala.",
+  path: "/tjanster",
+});
 
 export default async function ServicesPage() {
   const nav = await loadNavigation();
   return (
     <PageShell>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: nav.serviceGroups.map((group, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: group.label,
+            url: `${siteUrl()}${group.href}`,
+          })),
+        }}
+      />
       <PageHero
+        path="/tjanster"
         eyebrow="Tjänster"
         title={[
           { text: "Välj var du vill " },

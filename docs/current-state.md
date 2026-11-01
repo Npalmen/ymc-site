@@ -2,8 +2,8 @@
 
 > Fast entry point for a new Cursor agent. Update this file whenever project truth changes.
 
-**Last updated:** 2026-10-30  
-**Branch:** `cursor/ymu-logos-dfcf`
+**Last updated:** 2026-11-01  
+**Branch:** `cursor/seo-spacing-dfcf`
 
 Production target is Cloudflare Workers via OpenNext. Vercel previews still use `next build`. Content can be edited in Sanity project `vjv9ko18` (dataset `production`) at `/studio`. Until that project is seeded, the site uses `src/content`. The header, footer, favicon and scroll sunflower use Biim’s wordmark and watercolor mark from `public/brand`; `siteSettings.logo` in Sanity can replace the wordmark. Booking CTAs open a glass bottom sheet on phones and a centered card from 768px with a fine pointer. The sheet leaves about a fifth of the viewport free and follows a downward drag as one panel; `/boka` stays a full page, and `?boka=1` opens the sheet. A new route starts at the top; back and forward restore the previous offset. Sånglektioner submenu items open `#steg-for-steg` and `#lektionspaket` on that page. Utbildning’s courses stay on their own pages. See [deploy-cloudflare.md](deploy-cloudflare.md), [cms.md](cms.md), and ADR-003.
 
@@ -23,7 +23,7 @@ Mobile-first public site in Swedish. Typography matches the last Vercel producti
 
 Navigation matches Biim’s menu. Detail pages exist for sånglektioner (steg för steg, lektionspaket), utbildning (musikproduktion för tjejer, låtskrivning), distribution, community, om oss, kontakt, boka and FAQ.
 
-`/boka` and the planning block are UI only. Submit opens `mailto:info@yellowmusicunited.se`. No Google integrations.
+`/boka` and the planning block are UI only. Submit opens `mailto:info@yellowmusicunited.se`. No Google integrations. Canonical URLs use `NEXT_PUBLIC_SITE_URL` (default `https://yellowmusicunited.se`). Other hosts are `noindex`. A Google tag loads only if `NEXT_PUBLIC_GTAG_ID` is set, with Consent Mode v2 denied by default. See [seo.md](seo.md).
 
 ## Implemented public routes
 

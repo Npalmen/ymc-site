@@ -4,11 +4,12 @@ import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
 import { PlanningBlock } from "@/components/sections/planning-block";
 import { Container } from "@/components/ui/container";
+import { pageMetadata } from "@/lib/seo";
 import { loadContact, loadSite } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await loadContact();
-  return { title: page.metaTitle, description: page.metaDescription };
+  return pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/kontakt" });
 }
 
 export default async function ContactPage() {
@@ -27,7 +28,7 @@ export default async function ContactPage() {
   ];
   return (
     <PageShell>
-      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede} />
+      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede} path="/kontakt" />
       <Container className="pb-4">
         <ul className="grid gap-3 sm:grid-cols-2">
           {facts.map((fact) => (

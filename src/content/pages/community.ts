@@ -1,7 +1,7 @@
 import type { RichLine } from "@/content/rich-text";
 
 export const communityPage = {
-  metaTitle: "Community",
+  metaTitle: "Community för musiker i Uppsala",
   metaDescription:
     "Yellow Music community i Uppsala. Ett sammanhang som förenar musik med människor.",
   eyebrow: "Community",

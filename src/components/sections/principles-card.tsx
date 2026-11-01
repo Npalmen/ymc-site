@@ -15,7 +15,7 @@ export function PrinciplesCard({
   valuesLine?: string;
 }) {
   return (
-    <section className="bg-canvas px-4 py-6 sm:px-6">
+    <section className="bg-canvas px-5 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-[var(--container-default)] rounded-[var(--radius-card)] bg-studio px-5 py-8 text-ink-inverse sm:px-8 sm:py-12">
         <Pill tone="dark">{principles.eyebrow}</Pill>
         <h2 className="text-section mt-5 max-w-[14em]">

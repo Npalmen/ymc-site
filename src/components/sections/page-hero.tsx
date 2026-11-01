@@ -1,8 +1,10 @@
 import Link from "next/link";
 import type { RichLine } from "@/content/rich-text";
+import { JsonLd } from "@/components/seo/json-ld";
 import { Container } from "@/components/ui/container";
 import { Pill } from "@/components/ui/pill";
 import { RichLine as RichLineView } from "@/components/ui/rich-line";
+import { siteUrl } from "@/lib/seo";
 
 type Crumb = { href: string; label: string };
 
@@ -11,16 +13,36 @@ export function PageHero({
   title,
   lede,
   trail,
+  path,
   children,
 }: {
   eyebrow: string;
   title: RichLine;
   lede: string;
   trail?: Crumb[];
+  path?: string;
   children?: React.ReactNode;
 }) {
+  const currentLabel = title.map((part) => part.text).join("").replace(/\s+/g, " ").trim();
+  const crumbs = path
+    ? [{ href: "/", label: "Hem" }, ...(trail ?? []), { href: path, label: currentLabel }]
+    : [];
   return (
     <section className="pb-4 pt-8 sm:pb-6 sm:pt-14">
+      {crumbs.length > 1 ? (
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: crumbs.map((crumb, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: crumb.label,
+              item: `${siteUrl()}${crumb.href}`,
+            })),
+          }}
+        />
+      ) : null}
       <Container>
         {trail && trail.length > 0 ? (
           <nav aria-label="Brödsmulor" className="mb-5">

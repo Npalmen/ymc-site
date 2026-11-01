@@ -11,14 +11,17 @@ import { ScrollSunflower } from "@/components/motion/sunflower";
 import { Pill } from "@/components/ui/pill";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import { RichLine } from "@/components/ui/rich-line";
+import { pageMetadata } from "@/lib/seo";
 import { loadHome, loadSite } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const current = await loadSite();
-  return {
-    title: { absolute: `${current.shortName} — Musikbolag i Uppsala` },
+  return pageMetadata({
+    title: "Sånglektioner i Uppsala — Yellow Music United",
     description: current.description,
-  };
+    path: "/",
+    absoluteTitle: true,
+  });
 }
 
 export default async function HomePage() {
@@ -62,7 +65,7 @@ export default async function HomePage() {
               </ul>
             </div>
             <div className="mt-10 lg:mt-0">
-              <PlaceholderFrame image={hero.image} label={hero.imageLabel} caption={hero.imageCaption} ratio="4/5" />
+              <PlaceholderFrame image={hero.image} label={hero.imageLabel} caption={hero.imageCaption} ratio="4/5" priority />
             </div>
           </div>
         </Container>

@@ -5,11 +5,16 @@ import { PageHero } from "@/components/sections/page-hero";
 import { PlanningBlock } from "@/components/sections/planning-block";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { pageMetadata } from "@/lib/seo";
 import { loadSteps } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await loadSteps();
-  return { title: page.metaTitle, description: page.metaDescription };
+  return pageMetadata({
+    title: page.metaTitle,
+    description: page.metaDescription,
+    path: "/tjanster/sanglektioner/steg-for-steg",
+  });
 }
 
 export default async function StepsPage() {
@@ -20,6 +25,7 @@ export default async function StepsPage() {
         eyebrow={page.eyebrow}
         title={page.title}
         lede={page.lede}
+        path="/tjanster/sanglektioner/steg-for-steg"
         trail={[
           { href: "/tjanster", label: "Tjänster" },
           { href: "/tjanster/sanglektioner", label: "Sånglektioner" },

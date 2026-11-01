@@ -3,8 +3,8 @@ export const site = {
   legalName: "Yellow Music United AB",
   shortName: "Yellow Music",
   description:
-    "Yellow Music United är ett musikbolag i Uppsala. Sånglektioner, utbildning, distribution och community — med positivitet, trygghet och mod.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ymc-site.vercel.app",
+    "Sånglektioner och sångpedagogik i Uppsala. Yellow Music United erbjuder sångkurs, utbildning, distribution och community.",
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://yellowmusicunited.se").replace(/\/$/, ""),
   locale: "sv-SE",
   contact: {
     email: "info@yellowmusicunited.se",

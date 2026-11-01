@@ -8,17 +8,23 @@ import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import { PageHero } from "@/components/sections/page-hero";
 import { PageShell } from "@/components/layout/page-shell";
 import { PlanningBlock } from "@/components/sections/planning-block";
+import { JsonLd } from "@/components/seo/json-ld";
+import { serviceJson } from "@/lib/seo";
 export function CourseView({
   course,
+  path,
 }: {
   course: CoursePageContent & { image?: CmsImage | null; extraSections?: ExtraSection[] };
+  path: string;
 }) {
   return (
     <PageShell>
+      <JsonLd data={serviceJson({ name: course.metaTitle, description: course.metaDescription, path })} />
       <PageHero
         eyebrow={course.eyebrow}
         title={course.title}
         lede={course.lede}
+        path={path}
         trail={[
           { href: "/tjanster", label: "Tjänster" },
           { href: "/tjanster/utbildning", label: "Utbildning" },

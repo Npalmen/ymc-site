@@ -4,11 +4,12 @@ import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
 import { FaqList } from "@/components/sections/faq-list";
 import { Container } from "@/components/ui/container";
+import { pageMetadata } from "@/lib/seo";
 import { loadFaqPage } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await loadFaqPage();
-  return { title: page.metaTitle, description: page.metaDescription };
+  return pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/faq" });
 }
 
 export default async function FaqRoute() {
@@ -26,7 +27,7 @@ export default async function FaqRoute() {
   return (
     <PageShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede} />
+      <PageHero eyebrow={page.eyebrow} title={page.title} lede={page.lede} path="/faq" />
       <Container className="pb-8">
         <FaqList items={page.items} />
       </Container>

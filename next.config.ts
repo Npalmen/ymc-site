@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const legacyRedirects: [string, string][] = [
   ["/sang", "/tjanster/sanglektioner"],
-  ["/studio", "/om-oss"],
   ["/utbildning", "/tjanster/utbildning"],
   ["/ge-ut-musik", "/tjanster/distribution"],
   ["/yellow-music", "/om-oss"],

@@ -12,7 +12,7 @@ export function SiteFooter({
 }) {
   return (
     <footer className="bg-studio text-ink-inverse">
-      <div className="mx-auto w-full max-w-[var(--container-wide)] px-5 py-14 sm:px-6 lg:py-16">
+      <div className="mx-auto w-full max-w-[var(--container-wide)] px-5 py-14 pb-[max(3.5rem,env(safe-area-inset-bottom))] sm:px-6 lg:px-8 lg:py-16">
         <div className="flex flex-col gap-10 lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
             <Link href="/" className="inline-flex rounded-full" aria-label="Yellow Music United, startsida">

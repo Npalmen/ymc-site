@@ -5,22 +5,32 @@ import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
 import { PlanningBlock } from "@/components/sections/planning-block";
 import { Container } from "@/components/ui/container";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, serviceJson } from "@/lib/seo";
 import { loadEducation } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { page } = await loadEducation();
-  return { title: page.metaTitle, description: page.metaDescription };
+  return pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/tjanster/utbildning" });
 }
 
 export default async function EducationPage() {
   const { page, courses, extraSections } = await loadEducation();
   return (
     <PageShell>
+      <JsonLd
+        data={serviceJson({
+          name: page.metaTitle,
+          description: page.metaDescription,
+          path: "/tjanster/utbildning",
+        })}
+      />
       <PageHero
+        path="/tjanster/utbildning"
+        trail={[{ href: "/tjanster", label: "Tjänster" }]}
         eyebrow={page.eyebrow}
         title={page.title}
         lede={page.lede}
-        trail={[{ href: "/tjanster", label: "Tjänster" }]}
       />
       <Container className="pb-6">
         <ul className="border-t border-border">

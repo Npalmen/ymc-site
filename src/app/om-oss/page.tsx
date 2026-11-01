@@ -8,17 +8,30 @@ import { Timeline } from "@/components/sections/timeline";
 import { Container } from "@/components/ui/container";
 import { Pill } from "@/components/ui/pill";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, siteUrl } from "@/lib/seo";
 import { loadAbout } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await loadAbout();
-  return { title: page.metaTitle, description: page.metaDescription };
+  return pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/om-oss" });
 }
 
 export default async function AboutPage() {
   const page = await loadAbout();
   return (
     <PageShell>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "Biim Frischenfeldt",
+          jobTitle: "Grundare",
+          url: `${siteUrl()}/om-oss`,
+          worksFor: { "@type": "MusicSchool", name: "Yellow Music United AB", url: siteUrl() },
+          description: page.paragraphs[0],
+        }}
+      />
       <StoryBlock about={page} portrait={page.portrait} />
       <Timeline items={page.timeline} title={page.timelineTitle} />
       <PrinciplesCard principles={page.principles} valuesLine={page.valuesLine} />

@@ -7,6 +7,7 @@ import { PlanningBlock } from "@/components/sections/planning-block";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
+import { pageMetadata } from "@/lib/seo";
 import { loadSimpleService } from "@/sanity/load";
 
 type Params = { slug: string[] };
@@ -14,7 +15,12 @@ type Params = { slug: string[] };
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
   const page = await loadSimpleService(`/tjanster/${slug.join("/")}`);
-  return { title: page?.title ?? "Tjänst", description: page?.lede };
+  const path = `/tjanster/${slug.join("/")}`;
+  return pageMetadata({
+    title: page?.title ?? "Tjänst",
+    description: page?.lede || page?.description || "",
+    path,
+  });
 }
 
 export default async function SimpleServicePage({ params }: { params: Promise<Params> }) {
@@ -27,6 +33,7 @@ export default async function SimpleServicePage({ params }: { params: Promise<Pa
         eyebrow="Tjänster"
         title={[{ text: page.title }]}
         lede={page.lede || page.description || ""}
+        path={`/tjanster/${slug.join("/")}`}
         trail={[{ href: "/tjanster", label: "Tjänster" }]}
       >
         {page.ctaLabel && page.ctaHref ? (

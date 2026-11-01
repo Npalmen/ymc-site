@@ -119,7 +119,7 @@ export function PlanningMeeting({
   if (variant === "sheet") return form;
 
   return (
-    <section id="planering" className="bg-canvas px-4 py-14 sm:px-6 sm:py-20">
+    <section id="planering" className="bg-canvas px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
       <div className="mx-auto grid max-w-[var(--container-default)] overflow-hidden rounded-[var(--radius-card)] bg-studio text-ink-inverse lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <div className="px-5 py-8 sm:px-8 sm:py-10">
           <Pill tone="dark">{copy.eyebrow}</Pill>

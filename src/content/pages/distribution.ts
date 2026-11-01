@@ -1,7 +1,7 @@
 import type { RichLine } from "@/content/rich-text";
 
 export const distributionPage = {
-  metaTitle: "Distribution",
+  metaTitle: "Musikutgivning och distribution i Uppsala",
   metaDescription:
     "Musikutgivning och distribution med Yellow Music. Du behåller rättigheterna. Hjälp med singel, EP, album, podcast och studio.",
   eyebrow: "Distribution",

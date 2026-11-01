@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+
+export const metadata: Metadata = {
+  title: "Sidan finns inte",
+  description: "Sidan finns inte hos Yellow Music United i Uppsala.",
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   return (

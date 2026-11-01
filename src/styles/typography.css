@@ -13,6 +13,14 @@
   text-wrap: balance;
 }
 
+/* “Musikproduktion” at the display minimum overflows a 375px screen. */
+@media (max-width: 380px) {
+  .text-hero,
+  .text-display-xl {
+    font-size: 2.45rem;
+  }
+}
+
 .text-section {
   font-family: var(--font-display), Georgia, serif;
   font-weight: 500;

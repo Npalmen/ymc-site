@@ -197,7 +197,7 @@ export function SiteHeader({
           className,
         )}
       >
-        <div className="mx-auto flex h-16 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-4 sm:px-6">
+        <div className="mx-auto flex h-16 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-5 sm:px-6 lg:px-8">
           <BrandMark logo={logo} />
           <nav className="hidden items-center min-[1080px]:flex" aria-label="Primär">
             <ServicesMenu groups={groups} />

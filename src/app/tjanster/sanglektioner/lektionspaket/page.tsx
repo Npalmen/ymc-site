@@ -5,11 +5,16 @@ import { PageHero } from "@/components/sections/page-hero";
 import { PlanningBlock } from "@/components/sections/planning-block";
 import { PricingCards } from "@/components/sections/pricing-cards";
 import { Container } from "@/components/ui/container";
+import { pageMetadata } from "@/lib/seo";
 import { loadPackages } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { page } = await loadPackages();
-  return { title: page.metaTitle, description: page.metaDescription };
+  return pageMetadata({
+    title: page.metaTitle,
+    description: page.metaDescription,
+    path: "/tjanster/sanglektioner/lektionspaket",
+  });
 }
 
 export default async function PackagesPage() {
@@ -20,6 +25,7 @@ export default async function PackagesPage() {
         eyebrow={page.eyebrow}
         title={page.title}
         lede={page.lede}
+        path="/tjanster/sanglektioner/lektionspaket"
         trail={[
           { href: "/tjanster", label: "Tjänster" },
           { href: "/tjanster/sanglektioner", label: "Sånglektioner" },

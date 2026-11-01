@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
-import { site } from "@/content/site";
 import { SiteChrome } from "@/components/motion/site-chrome";
+import { GoogleConsent } from "@/components/seo/google-consent";
+import { JsonLd } from "@/components/seo/json-ld";
+import { isIndexableHost, siteUrl } from "@/lib/seo";
 import { loadSite } from "@/sanity/load";
 import "./globals.css";
 
@@ -21,14 +24,20 @@ const fraunces = Fraunces({
 
 export async function generateMetadata(): Promise<Metadata> {
   const current = await loadSite();
-  const title = `${current.shortName} — Musikbolag i Uppsala`;
+  const headerList = await headers();
+  const host = headerList.get("x-forwarded-host") ?? headerList.get("host");
+  const indexable = isIndexableHost(host);
+  const title = `${current.shortName} — Sånglektioner i Uppsala`;
   return {
-    metadataBase: new URL(site.url),
+    metadataBase: new URL(siteUrl()),
     title: {
       default: title,
       template: `%s | ${current.shortName}`,
     },
     description: current.description,
+    robots: indexable
+      ? { index: true, follow: true }
+      : { index: false, follow: false, nocache: true },
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "32x32" },
@@ -44,7 +53,13 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: current.name,
       title,
       description: current.description,
-      images: [{ url: "/brand/og.png", width: 1200, height: 630, alt: "Yellow Music United" }],
+      images: [{ url: "/brand/og.png", width: 1200, height: 630, alt: "Yellow Music United — musikbolag i Uppsala" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: current.description,
+      images: ["/brand/og.png"],
     },
   };
 }
@@ -63,27 +78,30 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         >
           Hoppa till innehåll
         </a>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "MusicSchool",
-              name: current.legalName,
-              url: site.url,
-              email: current.contact.email,
-              telephone: current.contact.phoneHref.replace("tel:", ""),
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: current.addresses.registered.street,
-                postalCode: current.addresses.registered.postalCode,
-                addressLocality: current.addresses.registered.city,
-                addressCountry: "SE",
-              },
-              areaServed: "Uppsala",
-              founder: { "@type": "Person", name: "Biim Frischenfeldt" },
-              sameAs: [current.social.trustpilot],
-            }),
+        <GoogleConsent />
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": ["MusicSchool", "LocalBusiness"],
+            name: current.legalName,
+            url: siteUrl(),
+            image: `${siteUrl()}/brand/og.png`,
+            email: current.contact.email,
+            telephone: current.contact.phoneHref.replace("tel:", ""),
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: current.addresses.registered.street,
+              postalCode: current.addresses.registered.postalCode,
+              addressLocality: current.addresses.registered.city,
+              addressCountry: "SE",
+            },
+            areaServed: { "@type": "City", name: "Uppsala" },
+            founder: {
+              "@type": "Person",
+              name: "Biim Frischenfeldt",
+              jobTitle: "Grundare",
+            },
+            sameAs: [current.social.trustpilot].filter(Boolean),
           }}
         />
         <SiteChrome>

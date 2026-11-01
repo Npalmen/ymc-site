@@ -6,18 +6,28 @@ import { PlanningBlock } from "@/components/sections/planning-block";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, serviceJson } from "@/lib/seo";
 import { loadDistribution } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await loadDistribution();
-  return { title: page.metaTitle, description: page.metaDescription };
+  return pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/tjanster/distribution" });
 }
 
 export default async function DistributionPage() {
   const page = await loadDistribution();
   return (
     <PageShell>
+      <JsonLd
+        data={serviceJson({
+          name: page.metaTitle,
+          description: page.metaDescription,
+          path: "/tjanster/distribution",
+        })}
+      />
       <PageHero
+        path="/tjanster/distribution"
         eyebrow={page.eyebrow}
         title={page.title}
         lede={page.lede}

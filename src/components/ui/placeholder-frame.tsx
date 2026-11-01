@@ -19,6 +19,7 @@ type PlaceholderFrameProps = {
   className?: string;
   framed?: boolean;
   image?: CmsImage | null;
+  priority?: boolean;
 };
 
 /** Explicit stand-in until Biim supplies approved photography. No hotlinked Wix files. */
@@ -29,6 +30,7 @@ export function PlaceholderFrame({
   className,
   framed = true,
   image,
+  priority = false,
 }: PlaceholderFrameProps) {
   const src = hasCmsImage(image) ? cmsImageUrl(image) : null;
   if (src) {
@@ -36,7 +38,14 @@ export function PlaceholderFrame({
     return (
       <figure className={cn("flex h-full flex-col", className)}>
         <div className={cn("relative w-full overflow-hidden", framed && "rounded-[var(--radius-card)]", ratios[ratio])}>
-          <Image src={src} alt={alt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            priority={priority}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
+          />
         </div>
         {caption ? <figcaption className="text-meta mt-2">{caption}</figcaption> : null}
       </figure>

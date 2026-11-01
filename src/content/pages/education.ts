@@ -15,9 +15,9 @@ export type CoursePageContent = {
 };
 
 export const educationHub = {
-  metaTitle: "Utbildning",
+  metaTitle: "Utbildning i musikproduktion i Uppsala",
   metaDescription:
-    "Utbildning hos Yellow Music: musikproduktion för tjejer och låtskrivning, i Uppsala.",
+    "Utbildning hos Yellow Music i Uppsala: musikproduktion för tjejer och låtskrivning.",
   eyebrow: "Utbildning",
   title: [
     { text: "Lär dig göra musiken " },
@@ -44,7 +44,7 @@ export const educationHub = {
 };
 
 export const productionCourse: CoursePageContent = {
-  metaTitle: "Musikproduktion för tjejer",
+  metaTitle: "Musikproduktion för tjejer i Uppsala",
   metaDescription:
     "Kurs i musikproduktion för tjejer hos Yellow Music. Grunderna, en låt som projekt, och målet att kunna påbörja och avsluta en inspelning.",
   eyebrow: "Utbildning",
@@ -76,7 +76,7 @@ export const productionCourse: CoursePageContent = {
 };
 
 export const songwritingCourse: CoursePageContent = {
-  metaTitle: "Låtskrivning",
+  metaTitle: "Låtskrivning i Uppsala",
   metaDescription:
     "Låtskrivning hos Yellow Music: workshop och kurs, individuellt eller i grupp, med möjlighet att ge ut låten.",
   eyebrow: "Utbildning",

@@ -9,7 +9,10 @@ export type CoursePageContent = {
   imageLabel: string;
   sections: { heading: string; paragraphs: string[] }[];
   points: string[];
-  missing: string;
+  price: string;
+  paymentInfo: string;
+  note: string;
+  cardDescription: string;
   cta: { label: string; href: string };
   topic: string;
 };
@@ -24,7 +27,7 @@ export const educationHub = {
     { text: "själv", accent: true },
     { text: "." },
   ] satisfies RichLine,
-  lede: "Två spår just nu: en kurs i musikproduktion för tjejer, och låtskrivning för den som vill skriva och färdigställa egna låtar. Praktik finns också hos Yellow Music i Uppsala.",
+  lede: "Två spår just nu: en kurs i musikproduktion för tjejer, och låtskrivning för den som vill skriva och färdigställa egna låtar.",
   courses: [
     {
       n: "01",
@@ -39,8 +42,6 @@ export const educationHub = {
       href: "/tjanster/utbildning/latskrivning",
     },
   ],
-  praktik:
-    "Praktik hos Yellow Music i Uppsala finns som väg in i verksamheten. Upplägg, längd och vad praktiken innehåller är inte beskrivet i detalj här ännu.",
 };
 
 export const productionCourse: CoursePageContent = {
@@ -70,9 +71,12 @@ export const productionCourse: CoursePageContent = {
     "Påbörja och avsluta en inspelning",
     "En lättare mix och ett avslut",
   ],
-  missing: "Antal tillfällen, tider och pris är inte publicerade. De fylls i när Biim satt dem.",
+  price: "6 150 kr",
+  paymentInfo: "Betalas månadsvis: 3 075 kr/månad i 2 månader.",
+  note: "6 x 90 minuter",
   cta: { label: "Ansök nu", href: "/boka?amne=musikproduktion" },
   topic: "musikproduktion",
+  cardDescription: educationHub.courses[0].note,
 };
 
 export const songwritingCourse: CoursePageContent = {
@@ -102,7 +106,10 @@ export const songwritingCourse: CoursePageContent = {
     "Från start till en färdig låt",
     "Möjlighet att gå vidare till utgivning",
   ],
-  missing: "Antal tillfällen, tider och pris är inte publicerade. De fylls i när Biim satt dem.",
+  price: "6 150 kr",
+  paymentInfo: "Betalas månadsvis: 3 075 kr/månad i 2 månader.",
+  note: "6 x 90 minuter",
   cta: { label: "Ansök nu", href: "/boka?amne=latskrivning" },
   topic: "latskrivning",
+  cardDescription: educationHub.courses[1].note,
 };

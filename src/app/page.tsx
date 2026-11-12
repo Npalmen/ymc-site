@@ -1,3 +1,4 @@
+import { isPublicHref } from "@/content/visibility";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
@@ -6,8 +7,6 @@ import { SoulSplit } from "@/components/sections/soul-split";
 import { ReviewRail } from "@/components/sections/review-rail";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { CountUp } from "@/components/motion/count-up";
-import { ScrollSunflower } from "@/components/motion/sunflower";
 import { Pill } from "@/components/ui/pill";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import { RichLine } from "@/components/ui/rich-line";
@@ -54,7 +53,7 @@ export default async function HomePage() {
                       <span className="size-1.5 rounded-full bg-brand" aria-hidden />
                       {year ? (
                         <>
-                          Sedan <CountUp value={Number(year[1])} />
+                          Sedan {year[1]}
                         </>
                       ) : (
                         item
@@ -77,7 +76,7 @@ export default async function HomePage() {
             Vägar in
           </h2>
           <ul className="border-t border-border">
-            {paths.map((path) => (
+            {paths.filter((path) => isPublicHref(path.href, current.communityEnabled)).map((path) => (
               <li key={path.href} className="border-b border-border">
                 <Link
                   href={path.href}
@@ -98,11 +97,11 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
-          <p className="mt-4">
+          {current.communityEnabled ? <p className="mt-4">
             <Link href={home.communityLink.href} className="inline-flex min-h-11 items-center font-medium">
               {home.communityLink.label} →
             </Link>
-          </p>
+          </p> : null}
         </Container>
       </section>
 
@@ -134,7 +133,6 @@ export default async function HomePage() {
       <ExtraSections sections={home.extraSections} />
 
       <section id="boka-slut" className="relative overflow-hidden bg-accent-soft py-16 sm:py-20">
-        <ScrollSunflower />
         <Container>
           <h2 className="text-section max-w-[12em]">
             <RichLine parts={close.title} />

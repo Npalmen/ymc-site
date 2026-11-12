@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
 import { ExtraSections } from "@/components/sections/extra-sections";
@@ -7,14 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import { pageMetadata } from "@/lib/seo";
-import { loadCommunity } from "@/sanity/load";
+import { loadCommunity, loadSite } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
+  if (!(await loadSite()).communityEnabled) notFound();
   const page = await loadCommunity();
   return pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/community" });
 }
 
 export default async function CommunityPage() {
+  if (!(await loadSite()).communityEnabled) notFound();
   const page = await loadCommunity();
   return (
     <PageShell>

@@ -10,7 +10,7 @@ export const utbildningHub: HubContent = {
   intro:
     "Kurser och program för dig som vill lära dig skriva, producera och utvecklas i en stödjande miljö.",
   whoFor:
-    "Dig som söker tydlig progression — från första låten till praktik i branschen.",
+    "Dig som söker tydlig progression — från första idén till en färdig låt.",
   approach:
     "Praktisk inspiration kombinerat med trygg vägledning. Inte LMS-dashboard — levande lärande.",
   difference:
@@ -26,11 +26,6 @@ export const utbildningHub: HubContent = {
       title: "Musikproduktionskurs",
       summary: "Introkurs i musikproduktion — verifierat erbjudande på sajten.",
       bookingIntent: "musikproduktionskurs",
-    },
-    {
-      title: "Praktik",
-      summary: "Praktik hos Yellow Music United i Uppsala.",
-      bookingIntent: "praktik",
     },
   ],
   imageLabel: "Utbildning — platsmarkör",

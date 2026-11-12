@@ -77,3 +77,14 @@ Rubriker: sätt stjärnor runt ordet som ska vara gult och kursivt. `Låt oss v�
 Bilder: ladda upp, skriv vad bilden föreställer, och dra beskärningen. Publicera med **Publish**. Sidan uppdateras strax efter det. Inget sparas om du bara stänger fönstret.
 
 Skriv inte andras namn i en recension om du inte har omdömet. Lämna pris tomt hellre än att hitta på ett.
+
+
+## November fields and existing content
+
+- Webbplats: `communityEnabled` (off by default), `footerLogo` (text wordmark), `lineArt`, `lineArtOpacity` (0–0.2, default 0.06).
+- Sånglektioner: `pedagogy` replaces the comparison table with tag, title, intro and five icon/title/body points.
+- Lektionspaket: `price` is only the amount; `paymentInfo` is separate from duration (`note`).
+- Kurser: same price/payment/duration fields; `cardDescription` is the independent “Vägar in” description.
+- Om oss: `portraitCutout` accepts Biim's transparent PNG. Empty retains the original portrait layout.
+
+Use `npm run sanity:migrate:nov4` to preview the targeted migration; add `-- --apply` with a write token to persist it. The full seed overwrites existing copy and is not the migration command. See [verification](verification/nov4/README.md).

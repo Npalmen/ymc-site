@@ -65,7 +65,7 @@ export function YellowOrbit({
           className={cn("flex flex-col", isCompact ? "gap-0" : "mt-12 gap-0")}
           aria-label="Kreativa världar"
         >
-          {creativeWorlds.map((world) => {
+          {creativeWorlds.filter((world) => world.id !== "community").map((world) => {
             const active = activeWorldId === world.id;
             return (
               <Link

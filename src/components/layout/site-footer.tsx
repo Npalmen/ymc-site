@@ -11,13 +11,13 @@ export function SiteFooter({
   columns?: { title: string; links: NavLink[] }[];
 }) {
   return (
-    <footer className="bg-studio text-ink-inverse">
+    <footer className="studio-gradient text-ink-inverse">
       <div className="mx-auto w-full max-w-[var(--container-wide)] px-5 py-14 pb-[max(3.5rem,env(safe-area-inset-bottom))] sm:px-6 lg:px-8 lg:py-16">
+        <Link href="/" className="mx-auto mb-10 flex w-fit max-w-full rounded-xl px-6 py-4" aria-label="Yellow Music United, startsida">
+          <Wordmark src={site.footerLogo} className="brand-wordmark brand-wordmark-footer" />
+        </Link>
         <div className="flex flex-col gap-10 lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
-            <Link href="/" className="inline-flex rounded-full" aria-label="Yellow Music United, startsida">
-              <Wordmark src={site.logo} className="brand-wordmark brand-wordmark-footer" />
-            </Link>
             <p className="mt-4 max-w-sm text-body-sm text-ink-inverse/70">{site.description}</p>
             <p className="mt-6 text-body-sm text-ink-inverse/80">
               {site.legalName}
@@ -38,7 +38,7 @@ export function SiteFooter({
                   {column.title}
                 </p>
                 <ul className="mt-2">
-                  {column.links.map((link) => (
+                  {column.links.filter((link) => site.communityEnabled || link.href !== "/community").map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}

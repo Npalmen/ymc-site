@@ -4,6 +4,8 @@
 **Role:** Product-level source of truth  
 **Status:** ACTIVE
 
+**Authorized revision (2026-11-05):** The owner explicitly requested the 16-point November UI/content revision, including Sanity changes, internship removal and Community hidden by default. ADR-005 and the area status updates govern this revision; older phase summaries below do not undo already implemented functionality. No booking/backend or deployment scope is added.
+
 ---
 
 # 1. Product objective

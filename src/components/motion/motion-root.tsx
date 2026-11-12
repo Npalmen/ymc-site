@@ -189,7 +189,7 @@ export function MotionRoot({ children, copy, recipient, label }: MotionRootProps
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const headings = () => document.querySelectorAll<HTMLElement>("main h1, main h2.text-section, main h2.text-hero");
+    const headings = () => document.querySelectorAll<HTMLElement>(".soul-section h2, .soul-section li");
     const collectText = (node: Node, bucket: Text[]) => {
       node.childNodes.forEach((child) => {
         if (child.nodeType === Node.TEXT_NODE && child.textContent?.trim()) bucket.push(child as Text);

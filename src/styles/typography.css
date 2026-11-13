@@ -1,7 +1,7 @@
 /**
  * Typography scale — same cuts as production commit a6c2352
- * Source Sans 3: UI/body | Fraunces: editorial display
- * Fraunces is loaded as weights 400/500/600, roman only. No variable axes.
+ * Source Sans 3: UI/body | Newsreader: editorial display
+ * Newsreader is loaded as weights 400/500/600, roman only. No variable axes.
  */
 
 .text-hero {
@@ -30,7 +30,7 @@
   text-wrap: balance;
 }
 
-/* Production Fraunces has no italic file. Keep the accent color, not a fake slant. */
+/* Production Newsreader has no italic file. Keep the accent color, not a fake slant. */
 .font-display,
 .font-display.italic,
 em {

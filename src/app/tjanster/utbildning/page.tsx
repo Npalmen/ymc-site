@@ -49,9 +49,6 @@ export default async function EducationPage() {
             </li>
           ))}
         </ul>
-        <p className="mt-8 max-w-xl rounded-[var(--radius-card)] border border-dashed border-accent/40 bg-accent-soft px-4 py-3 text-body-sm">
-          {page.praktik}
-        </p>
       </Container>
       <ExtraSections sections={extraSections} />
       <PlanningBlock defaultTopic="musikproduktion" />

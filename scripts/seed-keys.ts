@@ -22,7 +22,11 @@ export function arrayKey(scope: string, index: number, value: unknown) {
 }
 
 /** Give every object in every array a `_key`. Strings and numbers are left as they are. */
-export function withArrayKeys<T>(value: T, scope = "item"): T {
+export type WithArrayKeys<T> = T extends readonly (infer Item)[]
+  ? (WithArrayKeys<Item> & (Item extends object ? { _key: string } : unknown))[]
+  : T extends object ? { [Key in keyof T]: WithArrayKeys<T[Key]> } : T;
+
+export function withArrayKeys<T>(value: T, scope = "item"): WithArrayKeys<T> {
   if (Array.isArray(value)) {
     return value.map((item, index) => {
       if (item && typeof item === "object" && !Array.isArray(item)) {
@@ -32,14 +36,14 @@ export function withArrayKeys<T>(value: T, scope = "item"): T {
         return { ...nested, _key: key };
       }
       return withArrayKeys(item, `${scope}-${index}`);
-    }) as T;
+    }) as WithArrayKeys<T>;
   }
   if (value && typeof value === "object") {
     const next: Record<string, unknown> = {};
     for (const [field, child] of Object.entries(value as Record<string, unknown>)) {
       next[field] = withArrayKeys(child, field);
     }
-    return next as T;
+    return next as WithArrayKeys<T>;
   }
-  return value;
+  return value as WithArrayKeys<T>;
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { CountUp } from "@/components/motion/count-up";
 
 type Item = { year: string; tag: string; title: string; body: string };
 
@@ -42,13 +41,11 @@ export function TimelineRail({ items }: { items: readonly Item[] }) {
     <ol ref={listRef} className="relative mt-10">
       <span ref={lineRef} className="timeline-line" aria-hidden />
       {items.map((item) => {
-        const year = Number(item.year);
-        const countable = Number.isInteger(year) && String(year) === item.year;
         return (
           <li key={item.title} className="timeline-item relative pb-10 pl-10 last:pb-0">
             <span className="timeline-node" aria-hidden />
             <p className="font-sans text-2xl font-semibold text-accent">
-              {countable ? <CountUp value={year} /> : item.year}
+              {item.year}
             </p>
             <p className="mt-2 inline-flex min-h-7 items-center rounded-[var(--radius-pill)] border border-border bg-surface px-2.5 text-[0.75rem] font-medium">
               {item.tag}

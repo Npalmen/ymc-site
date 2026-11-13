@@ -1,3 +1,4 @@
+import { pedagogy } from "../src/content/pages/pedagogy";
 import { createClient } from "next-sanity";
 import { aboutPage } from "../src/content/pages/about";
 import { communityPage } from "../src/content/pages/community";
@@ -6,7 +7,7 @@ import { distributionPage } from "../src/content/pages/distribution";
 import { educationHub, productionCourse, songwritingCourse } from "../src/content/pages/education";
 import { homePage } from "../src/content/pages/home";
 import { planningMeeting, planningTopics, reviewPlaceholders } from "../src/content/pages/shared";
-import { lessonPackages, packagesPage, singingAlso, singingDifference, singingPage, stepsPage } from "../src/content/pages/singing";
+import { lessonPackages, packagesPage, singingAlso, singingPage, stepsPage } from "../src/content/pages/singing";
 import { bookingNavigation, serviceGroups, topLinks } from "../src/content/navigation";
 import { site } from "../src/content/site";
 import type { RichLine } from "../src/content/rich-text";
@@ -46,6 +47,10 @@ const documents: { _id: string; _type: string; [key: string]: unknown }[] = [
     name: site.name,
     legalName: site.legalName,
     shortName: site.shortName,
+    communityEnabled: false,
+    footerLogo: null,
+    lineArt: null,
+    lineArtOpacity: 0.06,
     description: site.description,
     email: site.contact.email,
     phone: site.contact.phone,
@@ -114,16 +119,7 @@ const documents: { _id: string; _type: string; [key: string]: unknown }[] = [
     title: marked(singingPage.title),
     lede: singingPage.lede,
     imageLabel: singingPage.imageLabel,
-    difference: {
-      eyebrow: singingDifference.eyebrow,
-      title: marked(singingDifference.title),
-      lede: singingDifference.lede,
-      oursName: singingDifference.ours.name,
-      oursSub: singingDifference.ours.sub,
-      otherName: singingDifference.other.name,
-      otherSub: singingDifference.other.sub,
-      rows: singingDifference.rows.map((row) => ({ _type: "differenceRow", ...row })),
-    },
+    pedagogy: { ...pedagogy, points: pedagogy.points.map(({ id, ...point }) => ({ _key: id, ...point })) },
     also: singingAlso.map((item) => ({ _type: "namedText", ...item })),
   },
   {
@@ -151,7 +147,6 @@ const documents: { _id: string; _type: string; [key: string]: unknown }[] = [
     eyebrow: educationHub.eyebrow,
     title: marked(educationHub.title),
     lede: educationHub.lede,
-    praktik: educationHub.praktik,
   },
   {
     _id: "distributionPage",
@@ -189,6 +184,7 @@ const documents: { _id: string; _type: string; [key: string]: unknown }[] = [
     quote: aboutPage.quote,
     voice: [...aboutPage.voice],
     imageLabel: aboutPage.imageLabel,
+    portraitCutout: null,
     timelineTitle: "Vägen hit",
     principles: {
       eyebrow: aboutPage.principles.eyebrow,
@@ -247,6 +243,7 @@ lessonPackages.forEach((pack, order) => {
     summary: pack.summary,
     price: pack.priceMissing ? "" : pack.price,
     priceMissing: pack.priceMissing,
+    paymentInfo: pack.paymentInfo,
     note: pack.note,
     points: [...pack.points],
     cta: pack.cta,
@@ -346,7 +343,10 @@ function courseDoc(id: string, slugValue: string, course: typeof productionCours
       paragraphs: [...section.paragraphs],
     })),
     points: [...course.points],
-    missing: course.missing,
+    price: course.price,
+    paymentInfo: course.paymentInfo,
+    note: course.note,
+    cardDescription: course.cardDescription,
     ctaLabel: course.cta.label,
     ctaHref: course.cta.href,
     topic: course.topic,

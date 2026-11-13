@@ -1,3 +1,4 @@
+import { PricingCards } from "@/components/sections/pricing-cards";
 import type { CoursePageContent } from "@/content/pages/education";
 import { ExtraSections } from "@/components/sections/extra-sections";
 import type { CmsImage } from "@/sanity/image";
@@ -48,19 +49,14 @@ export function CourseView({
             </div>
           ))}
         </div>
-        <ul className="mt-8 max-w-[40rem] space-y-3">
-          {course.points.map((point) => (
-            <li key={point} className="flex gap-3 text-body">
-              <span className="text-success" aria-hidden>
-                ✓
-              </span>
-              {point}
-            </li>
-          ))}
-        </ul>
-        <p className="mt-8 max-w-[40rem] rounded-[var(--radius-card)] border border-dashed border-accent/50 bg-accent-soft px-4 py-3 text-body-sm">
-          {course.missing}
-        </p>
+        <div className="mt-8 max-w-[40rem]">
+          <PricingCards notice="" packages={[{
+            id: course.topic, title: course.metaTitle, summary: course.cardDescription,
+            price: course.price || "Pris saknas", priceMissing: !course.price,
+            paymentInfo: course.paymentInfo, note: course.note, points: [],
+            cta: course.cta.label, href: course.cta.href,
+          }]} />
+        </div>
       </Container>
       <ExtraSections sections={course.extraSections} />
       <PlanningBlock defaultTopic={course.topic} />

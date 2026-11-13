@@ -2,8 +2,8 @@
 
 > Fast entry point for a new Cursor agent. Update this file whenever project truth changes.
 
-**Last updated:** 2026-11-01  
-**Branch:** `cursor/seo-spacing-dfcf`
+**Last updated:** 2026-11-05
+**Branch:** `ymu-batch-nov4`
 
 Production target is Cloudflare Workers via OpenNext. Vercel previews still use `next build`. Content can be edited in Sanity project `vjv9ko18` (dataset `production`) at `/studio`. Until that project is seeded, the site uses `src/content`. The header, footer, favicon and scroll sunflower use Biim’s wordmark and watercolor mark from `public/brand`; `siteSettings.logo` in Sanity can replace the wordmark. Booking CTAs open a glass bottom sheet on phones and a centered card from 768px with a fine pointer. The sheet leaves about a fifth of the viewport free and follows a downward drag as one panel; `/boka` stays a full page, and `?boka=1` opens the sheet. A new route starts at the top; back and forward restore the previous offset. Sånglektioner submenu items open `#steg-for-steg` and `#lektionspaket` on that page. Utbildning’s courses stay on their own pages. See [deploy-cloudflare.md](deploy-cloudflare.md), [cms.md](cms.md), and ADR-003.
 
@@ -19,7 +19,7 @@ Production target is Cloudflare Workers via OpenNext. Vercel previews still use 
 
 ## What shipped in this revision
 
-Mobile-first public site in Swedish. Typography matches the last Vercel production deploy before the redesign, commit `a6c2352`: Fraunces weights 400/500/600 for headings and quotes, Source Sans 3 weights 400/500/600/700 for body and UI. No variable axes and no italic cut. Brand `#F7C006`, accent text `#8C5A12`.
+Mobile-first public site in Swedish. Typography uses Newsreader weights 400/500/600 for headings and quotes, Source Sans 3 weights 400/500/600/700 for body and UI (ADR-005). No variable axes and no italic cut. Brand `#F7C006`, accent text `#8C5A12`.
 
 Navigation matches Biim’s menu. Detail pages exist for sånglektioner (steg för steg, lektionspaket), utbildning (musikproduktion för tjejer, låtskrivning), distribution, community, om oss, kontakt, boka and FAQ.
 
@@ -31,14 +31,14 @@ Navigation matches Biim’s menu. Detail pages exist for sånglektioner (steg f�
 |-------|------|
 | `/` | Homepage: hero, paths, sticky soul split, review placeholders, founder, close |
 | `/tjanster` | Services index |
-| `/tjanster/sanglektioner` | Singing, pedagogy comparison |
+| `/tjanster/sanglektioner` | Singing, five pedagogy strengths |
 | `/tjanster/sanglektioner/steg-for-steg` | Lesson journey |
-| `/tjanster/sanglektioner/lektionspaket` | Packages. Free trial is real. Course prices are placeholders |
-| `/tjanster/utbildning` | Education hub, including praktik note |
+| `/tjanster/sanglektioner/lektionspaket` | Packages. Free trial is real. Published CMS prices are split into amount and payment info |
+| `/tjanster/utbildning` | Education hub with independent short course descriptions |
 | `/tjanster/utbildning/musikproduktion-for-tjejer` | Production course |
 | `/tjanster/utbildning/latskrivning` | Songwriting |
 | `/tjanster/distribution` | Release, podcast, studio hire |
-| `/community` | Community |
+| `/community` | 404 by default; controlled by siteSettings.communityEnabled |
 | `/om-oss` | Story, timeline, principles, Starlight |
 | `/kontakt` | Contact facts and planning form |
 | `/boka` | Planning form. Dynamic only because it reads `?amne=` |
@@ -50,13 +50,18 @@ Temporary redirects (307) from the previous preview routes and the main Wix path
 ## Placeholders Biim needs to fill
 
 - **Photos:** Biim in the sunflower field, portrait, Starlight interior, a lesson, education, community. Do not hotlink Wix. The lesson photo on the current site is credited to Stefan Lindgren.
-- **Prices:** six-lesson and twelve-lesson courses. Length and price for both education courses. Praktik details.
+- **New artwork:** site-wide line-art and Biim transparent portrait cutout must be uploaded in Sanity.
+- **Migration:** seven published CMS documents have a tested field-level migration pending a write token. Runtime supports their old price format. Published prices verified 2026-11-05: six lessons 4 100 kr, twelve lessons 7 050 kr, both education courses 6 150 kr.
 - **Reviews:** real quotes, names, roles and ratings from Google or Trustpilot. The tilted cards are empty slots. Trustpilot is linked. Do not invent reviews.
 - **Copy still open:** whether the free first lesson and the free planning meeting are both still offered, community membership terms, and confirmation that the studio visit address is Svederusgatan 3A, Fyrislund. Postal address used in the UI is Östra Ågatan 67. Salabacksgatan is omitted.
 
 ## Not started
 
-Booking logic, Google Calendar / Business Profile / Places, CMS, analytics, production launch.
+Booking logic, Google Calendar / Business Profile / Places, production launch. Sanity and optional consent-based analytics already exist.
+
+## November revision
+
+All 16 requested changes are implemented locally; see [verification and screenshot index](verification/nov4/README.md) and [ADR-005](decisions/ADR-005-november-client-revision.md). Community is off by default; internship routes redirect permanently. Header and footer logos are independently configurable. New artwork has safe empty states. No push, deployment or PR. Local commits were blocked because `.git/index.lock` cannot be written in this workspace session; changes remain uncommitted.
 
 ## Next intended task
 

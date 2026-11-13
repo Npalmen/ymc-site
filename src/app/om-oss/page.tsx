@@ -32,7 +32,7 @@ export default async function AboutPage() {
           description: page.paragraphs[0],
         }}
       />
-      <StoryBlock about={page} portrait={page.portrait} />
+      <StoryBlock about={page} portrait={page.portrait} cutout={page.portraitCutout} />
       <Timeline items={page.timeline} title={page.timelineTitle} />
       <PrinciplesCard principles={page.principles} valuesLine={page.valuesLine} />
       <section id="starlight" className="bg-canvas py-16 sm:py-20">

@@ -23,9 +23,13 @@ const legacyRedirects: [string, string][] = [
   ["/musikproduktionskurs-för-tjejer", "/tjanster/utbildning/musikproduktion-for-tjejer"],
   ["/musikproduktionskurs-for-tjejer", "/tjanster/utbildning/musikproduktion-for-tjejer"],
   ["/praktik", "/tjanster/utbildning"],
-  ["/yellowmusic-blogg", "/community"],
-  ["/yellowmusic-blogg/:path*", "/community"],
-  ["/post/:path*", "/community"],
+  ["/praktik/:path*", "/tjanster/utbildning"],
+  ["/utbildning/praktik/:path*", "/tjanster/utbildning"],
+  ["/tjanster/praktik/:path*", "/tjanster/utbildning"],
+  ["/tjanster/utbildning/praktik/:path*", "/tjanster/utbildning"],
+  ["/yellowmusic-blogg", "/om-oss"],
+  ["/yellowmusic-blogg/:path*", "/om-oss"],
+  ["/post/:path*", "/om-oss"],
 ];
 
 const nextConfig: NextConfig = {
@@ -37,7 +41,7 @@ const nextConfig: NextConfig = {
     return legacyRedirects.map(([source, destination]) => ({
       source,
       destination,
-      permanent: false,
+      permanent: source.includes("praktik"),
     }));
   },
 };

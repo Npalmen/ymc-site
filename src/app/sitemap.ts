@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
+import { loadSite } from "@/sanity/load";
+import { isPublicHref } from "@/content/visibility";
 
 const paths = [
   "/",
@@ -18,8 +20,9 @@ const paths = [
   "/faq",
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return paths.map((path) => ({
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const settings = await loadSite();
+  return paths.filter((path) => isPublicHref(path, settings.communityEnabled)).map((path) => ({
     url: `${site.url}${path}`,
     lastModified: new Date("2026-10-29"),
     changeFrequency: path === "/" ? "weekly" : "monthly",

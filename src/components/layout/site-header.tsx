@@ -31,7 +31,7 @@ function BrandMark({ logo }: { logo?: string | null }) {
   return (
     <Link
       href="/"
-      className="flex min-h-11 min-w-0 items-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+      className="header-brand flex min-h-11 min-w-0 items-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
       aria-label="Yellow Music United, startsida"
     >
       <Wordmark src={logo} priority className="brand-wordmark" />
@@ -48,6 +48,25 @@ function MenuIcon({ open }: { open: boolean }) {
         <path d="M2.5 5.25h11M2.5 10.75h11" stroke="currentColor" strokeWidth="1.5" />
       )}
     </svg>
+  );
+}
+
+function ServiceChildren({ group, onNavigate }: { group: (typeof serviceGroups)[number]; onNavigate: () => void }) {
+  const [open, setOpen] = useState(false);
+  const id = useId();
+  if (!group.children.length) return null;
+  return (
+    <div onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); }}>
+      <button type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen((value) => !value)}
+        className="flex min-h-11 w-full items-center justify-between rounded-xl px-3 text-body-sm text-ink-muted">
+        Utforska {group.label.toLocaleLowerCase("sv")} <span aria-hidden className={cn("text-lg transition-transform", open && "rotate-180")}>▾</span>
+      </button>
+      <ul id={id} hidden={!open} className="px-3 pb-1">
+        {group.children.map((child) => <li key={child.href}><Link href={child.href} onClick={onNavigate}
+          className="inline-flex min-h-11 items-center text-body-sm text-ink-muted hover:text-accent">{child.label}</Link></li>)}
+      </ul>
+    </div>
   );
 }
 
@@ -78,6 +97,8 @@ function ServicesMenu({ groups }: { groups: typeof serviceGroups }) {
     <div
       ref={rootRef}
       className="relative"
+      onFocus={() => setOpen(true)}
+      onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false); }}
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
@@ -100,7 +121,7 @@ function ServicesMenu({ groups }: { groups: typeof serviceGroups }) {
       <div
         id={panelId}
         hidden={!open}
-        className="absolute left-0 top-[calc(100%-0.25rem)] z-50 w-[min(24rem,70vw)] pt-3"
+        className="absolute right-0 top-[calc(100%-0.25rem)] z-50 w-[min(24rem,70vw)] pt-3"
       >
         <div className="rounded-[var(--radius-card)] border border-border bg-surface p-3 shadow-[var(--shadow-soft)]">
           <ul className="flex flex-col">
@@ -114,21 +135,7 @@ function ServicesMenu({ groups }: { groups: typeof serviceGroups }) {
                   <span className="block font-sans text-xl text-ink">{group.label}</span>
                   <span className="text-meta mt-0.5 block">{group.description}</span>
                 </Link>
-                {group.children.length > 0 ? (
-                  <ul className="mt-1 flex flex-col px-3 pb-1">
-                    {group.children.map((child) => (
-                      <li key={child.href}>
-                        <Link
-                          href={child.href}
-                          onClick={() => setOpen(false)}
-                          className="inline-flex min-h-10 items-center text-body-sm text-ink-muted hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
-                        >
-                          {child.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
+                <ServiceChildren key={open ? "open" : "closed"} group={group} onNavigate={() => setOpen(false)} />
               </li>
             ))}
           </ul>
@@ -149,7 +156,7 @@ export function SiteHeader({
   className,
   preview = false,
   groups = serviceGroups,
-  links = topLinks,
+  links = topLinks.filter((link) => link.href !== "/community"),
   booking = bookingNavigation,
   phone,
   phoneHref,
@@ -197,9 +204,9 @@ export function SiteHeader({
           className,
         )}
       >
-        <div className="mx-auto flex h-16 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-5 sm:px-6 lg:px-8">
+        <div className="site-header-inner mx-auto flex h-16 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-5 sm:px-6 lg:px-8">
           <BrandMark logo={logo} />
-          <nav className="hidden items-center min-[1080px]:flex" aria-label="Primär">
+          <nav className="desktop-nav hidden items-center min-[1080px]:flex" aria-label="Primär">
             <ServicesMenu groups={groups} />
             {links.map((link) => (
               <Link
@@ -216,7 +223,7 @@ export function SiteHeader({
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="header-actions flex shrink-0 items-center gap-2">
             {preview ? (
               <span className="hidden text-meta min-[1080px]:inline">Designsystem</span>
             ) : null}
@@ -236,6 +243,7 @@ export function SiteHeader({
         </div>
       </header>
       <MobileMenu
+        key={open ? "open" : "closed"}
         open={open}
         onClose={closeMenu}
         groups={groups}

@@ -1,3 +1,6 @@
+import { pedagogy } from "@/content/pages/pedagogy";
+import { splitPrice, splitCoursePrice } from "@/content/pricing";
+import { isPublicHref } from "@/content/visibility";
 import { cache } from "react";
 import { aboutPage } from "@/content/pages/about";
 import { communityPage } from "@/content/pages/community";
@@ -10,7 +13,6 @@ import {
   lessonPackages,
   packagesPage,
   singingAlso,
-  singingDifference,
   singingPage,
   stepsPage,
 } from "@/content/pages/singing";
@@ -98,11 +100,19 @@ export const loadSite = cache(async (): Promise<SiteConfig> => {
     studioCity?: string;
     studioNote?: string;
     logo?: CmsImage | null;
+    footerLogo?: CmsImage | null;
+    communityEnabled?: boolean;
+    lineArt?: CmsImage | null;
+    lineArtOpacity?: number;
   } | null>(`*[_id == "siteSettings"][0]`);
   if (!doc) return site;
   const phone = text(doc.phone, site.contact.phone);
   return {
     ...site,
+    footerLogo: hasCmsImage(doc.footerLogo) ? cmsImageUrl(doc.footerLogo, 1280, "max") : null,
+    communityEnabled: doc.communityEnabled === true,
+    lineArt: hasCmsImage(doc.lineArt) ? cmsImageUrl(doc.lineArt, 1920, "max") : null,
+    lineArtOpacity: Number.isFinite(doc.lineArtOpacity) ? Math.min(0.2, Math.max(0, doc.lineArtOpacity!)) : 0.06,
     name: text(doc.name, site.name),
     legalName: text(doc.legalName, site.legalName),
     shortName: text(doc.shortName, site.shortName),
@@ -167,7 +177,7 @@ function menuHref(href: string) {
 export const loadNavigation = cache(async (): Promise<LoadedNav> => {
   const settings = await loadSite();
   if (!(await cmsReady())) {
-    return { serviceGroups, topLinks, booking: bookingNavigation, footerColumns };
+    return { serviceGroups, topLinks: topLinks.filter((link) => isPublicHref(link.href, settings.communityEnabled)), booking: bookingNavigation, footerColumns: footerColumns.map((column) => ({ ...column, links: column.links.filter((link) => isPublicHref(link.href, settings.communityEnabled)) })) };
   }
   const [services, menu] = await Promise.all([
     sanityFetch<ServiceDoc[] | null>(
@@ -179,19 +189,20 @@ export const loadNavigation = cache(async (): Promise<LoadedNav> => {
       `*[_id == "siteSettings"][0]{ bookingLabel, menuLinks[]{ label, href } }`,
     ),
   ]);
-  const links = menu?.menuLinks?.filter((link) => link.label && link.href) ?? topLinks;
+  const links = (menu?.menuLinks ?? topLinks).filter((link) => link.label && isPublicHref(link.href, settings.communityEnabled));
   const booking = {
     label: text(menu?.bookingLabel, bookingNavigation.label),
     href: bookingNavigation.href,
   };
-  const roots = (services ?? []).filter((item) => !item.parentSlug);
+  const publicServices = (services ?? []).filter((item) => isPublicHref(item.href, settings.communityEnabled));
+  const roots = publicServices.filter((item) => !item.parentSlug);
   const groups: ServiceGroup[] =
     roots.length > 0
       ? roots.map((root) => ({
           label: root.title,
           href: root.href,
           description: root.description ?? "",
-          children: (services ?? [])
+          children: publicServices
             .filter((item) => item.parentSlug && item.parentSlug === root.slug)
             .map((item) => ({ label: item.title, href: menuHref(item.href), description: item.description })),
         }))
@@ -223,6 +234,7 @@ export type LoadedHome = typeof homePage & {
 };
 
 export const loadHome = cache(async (): Promise<LoadedHome> => {
+  const settings = await loadSite();
   const base: LoadedHome = {
     ...homePage,
     hero: { ...homePage.hero, image: null },
@@ -308,7 +320,7 @@ export const loadHome = cache(async (): Promise<LoadedHome> => {
       imageCaption: text(hero?.imageCaption, base.hero.imageCaption),
       image: imageOf(hero?.image),
     },
-    paths: doc.paths?.length ? doc.paths : base.paths,
+    paths: (doc.paths?.length ? doc.paths : base.paths).filter((item) => isPublicHref(item.href, settings.communityEnabled)),
     communityLink: {
       label: text(doc.communityLabel, base.communityLink.label),
       href: text(doc.communityHref, base.communityLink.href),
@@ -398,6 +410,7 @@ export const loadPackages = cache(async () => {
         summary: string;
         price?: string;
         priceMissing?: boolean;
+        paymentInfo?: string;
         note?: string;
         points?: string[];
         cta?: string;
@@ -405,7 +418,7 @@ export const loadPackages = cache(async () => {
       }[] | null
     >(
       `*[_type == "lessonPackage"] | order(order asc){
-        "id": slug.current, title, summary, price, priceMissing, note, points, cta, href
+        "id": slug.current, title, summary, price, paymentInfo, priceMissing, note, points, cta, href
       }`,
     ),
   ]);
@@ -423,7 +436,8 @@ export const loadPackages = cache(async () => {
         id: item.id,
         title: item.title,
         summary: item.summary,
-        price: item.priceMissing || !item.price ? "Pris saknas" : item.price,
+        ...splitPrice(item.price, item.paymentInfo),
+        price: item.priceMissing || !item.price ? "Pris saknas" : splitPrice(item.price).price,
         priceMissing: Boolean(item.priceMissing || !item.price),
         note: item.note ?? "",
         points: item.points ?? [],
@@ -435,7 +449,7 @@ export const loadPackages = cache(async () => {
 });
 
 export const loadSinging = cache(async () => {
-  const base = { page: singingPage, difference: singingDifference, also: singingAlso, image: null as CmsImage | null, extraSections: [] as ExtraSection[] };
+  const base = { page: singingPage, pedagogy, also: singingAlso, image: null as CmsImage | null, extraSections: [] as ExtraSection[] };
   if (!(await cmsReady())) return base;
   const doc = await sanityFetch<{
     eyebrow?: string;
@@ -444,27 +458,17 @@ export const loadSinging = cache(async () => {
     imageLabel?: string;
     image?: CmsImage;
     metaDescription?: string;
-    difference?: {
-      eyebrow?: string;
-      title?: string;
-      lede?: string;
-      oursName?: string;
-      oursSub?: string;
-      otherName?: string;
-      otherSub?: string;
-      rows?: { label: string; ours: string; other: string }[];
-    };
+    pedagogy?: typeof pedagogy;
     also?: { title: string; body: string }[];
     extraSections?: ExtraSection[];
   } | null>(`*[_id == "singingPage"][0]{
     eyebrow, title, lede, imageLabel, metaDescription,
     image{${imageProjection}},
-    difference{ eyebrow, title, lede, oursName, oursSub, otherName, otherSub, rows[]{ label, ours, other } },
+    pedagogy{ eyebrow, title, lede, points[]{ "id": _key, icon, title, body } },
     also[]{ title, body },
     extraSections[]{ heading, text, image{${imageProjection}} }
   }`);
   if (!doc) return base;
-  const difference = doc.difference;
   return {
     page: {
       ...singingPage,
@@ -474,19 +478,11 @@ export const loadSinging = cache(async () => {
       lede: text(doc.lede, singingPage.lede),
       imageLabel: text(doc.imageLabel, singingPage.imageLabel),
     },
-    difference: {
-      eyebrow: text(difference?.eyebrow, singingDifference.eyebrow),
-      title: richField(difference?.title, singingDifference.title),
-      lede: text(difference?.lede, singingDifference.lede),
-      ours: {
-        name: text(difference?.oursName, singingDifference.ours.name),
-        sub: text(difference?.oursSub, singingDifference.ours.sub),
-      },
-      other: {
-        name: text(difference?.otherName, singingDifference.other.name),
-        sub: text(difference?.otherSub, singingDifference.other.sub),
-      },
-      rows: difference?.rows?.length ? difference.rows : singingDifference.rows,
+    pedagogy: {
+      eyebrow: text(doc.pedagogy?.eyebrow, pedagogy.eyebrow),
+      title: text(doc.pedagogy?.title, pedagogy.title),
+      lede: text(doc.pedagogy?.lede, pedagogy.lede),
+      points: doc.pedagogy?.points?.length ? doc.pedagogy.points : pedagogy.points,
     },
     also: doc.also?.length ? doc.also : singingAlso,
     image: imageOf(doc.image),
@@ -532,6 +528,10 @@ function mapCourse(slug: string, doc: {
   sections?: { heading: string; paragraphs?: string[] }[];
   points?: string[];
   missing?: string;
+  price?: string;
+  paymentInfo?: string;
+  note?: string;
+  cardDescription?: string;
   ctaLabel?: string;
   ctaHref?: string;
   topic?: string;
@@ -547,7 +547,7 @@ function mapCourse(slug: string, doc: {
     imageLabel: doc?.imageLabel ?? "Foto saknas",
     sections: [],
     points: [],
-    missing: doc?.missing ?? "",
+    price: "", paymentInfo: "", note: "", cardDescription: "",
     cta: { label: doc?.ctaLabel ?? "Ansök nu", href: doc?.ctaHref ?? "/boka" },
     topic: doc?.topic ?? "annat",
   };
@@ -563,7 +563,10 @@ function mapCourse(slug: string, doc: {
       ? doc.sections.map((section) => ({ heading: section.heading, paragraphs: section.paragraphs ?? [] }))
       : base.sections,
     points: doc?.points ?? base.points,
-    missing: text(doc?.missing, base.missing),
+    price: splitPrice(doc?.price ?? (splitCoursePrice(doc?.missing).price || base.price)).price,
+    paymentInfo: doc?.paymentInfo ?? (splitPrice(doc?.price, splitCoursePrice(doc?.missing).paymentInfo).paymentInfo || base.paymentInfo),
+    note: doc?.note ?? (splitCoursePrice(doc?.missing).note || base.note),
+    cardDescription: doc?.cardDescription ?? base.cardDescription,
     cta: {
       label: text(doc?.ctaLabel, base.cta.label),
       href: text(doc?.ctaHref, base.cta.href),
@@ -575,7 +578,7 @@ function mapCourse(slug: string, doc: {
 }
 
 const courseQuery = `*[_type == "course" && slug.current == $slug][0]{
-  title, metaDescription, eyebrow, heading, lede, imageLabel, topic, missing, ctaLabel, ctaHref,
+  title, metaDescription, eyebrow, heading, lede, imageLabel, topic, missing, price, paymentInfo, note, cardDescription, ctaLabel, ctaHref,
   image{${imageProjection}},
   sections[]{ heading, paragraphs },
   points,
@@ -583,6 +586,7 @@ const courseQuery = `*[_type == "course" && slug.current == $slug][0]{
 }`;
 
 export const loadCourse = cache(async (slug: string) => {
+  if (!isPublicHref(`/tjanster/utbildning/${slug}`)) return null;
   const fallback = courseFallbacks[slug];
   if (!(await cmsReady())) {
     return fallback ? mapCourse(slug, null, fallback) : null;
@@ -601,19 +605,18 @@ export const loadEducation = cache(async () => {
       eyebrow?: string;
       title?: string;
       lede?: string;
-      praktik?: string;
       metaDescription?: string;
       extraSections?: ExtraSection[];
-    } | null>(`*[_id == "educationPage"][0]{ eyebrow, title, lede, praktik, metaDescription, extraSections[]{ heading, text, image{${imageProjection}} } }`),
-    sanityFetch<{ title: string; slug: string; lede?: string; order?: number }[] | null>(
-      `*[_type == "course"] | order(order asc){ title, "slug": slug.current, lede, order }`,
+    } | null>(`*[_id == "educationPage"][0]{ eyebrow, title, lede, metaDescription, extraSections[]{ heading, text, image{${imageProjection}} } }`),
+    sanityFetch<{ title: string; slug: string; cardDescription?: string; order?: number }[] | null>(
+      `*[_type == "course"] | order(order asc){ title, "slug": slug.current, cardDescription, order }`,
     ),
   ]);
   const mapped =
-    courses?.filter((course) => course.slug).map((course, index) => ({
+    courses?.filter((course) => course.slug && isPublicHref(`/tjanster/utbildning/${course.slug}`)).map((course, index) => ({
       n: String(index + 1).padStart(2, "0"),
       title: course.title,
-      note: course.lede ?? "",
+      note: course.cardDescription ?? fallbackCourses.find((item) => item.href.endsWith(`/${course.slug}`))?.note ?? "",
       href: `/tjanster/utbildning/${course.slug}`,
     })) ?? fallbackCourses;
   return {
@@ -622,8 +625,7 @@ export const loadEducation = cache(async () => {
       metaDescription: text(page?.metaDescription, educationHub.metaDescription),
       eyebrow: text(page?.eyebrow, educationHub.eyebrow),
       title: richField(page?.title, educationHub.title),
-      lede: text(page?.lede, educationHub.lede),
-      praktik: text(page?.praktik, educationHub.praktik),
+      lede: text(page?.lede, educationHub.lede).split(/(?<=[.!?])\s+/).filter((line) => !/\bpraktik\b/i.test(line)).join(" "),
     },
     courses: mapped.length ? mapped : fallbackCourses,
     extraSections: extras(page?.extraSections),
@@ -697,6 +699,7 @@ export const loadAbout = cache(async () => {
   const base = {
     ...aboutPage,
     portrait: null as CmsImage | null,
+    portraitCutout: null as CmsImage | null,
     studioImage: null as CmsImage | null,
     extraSections: [] as ExtraSection[],
     timeline: aboutPage.timeline,
@@ -713,6 +716,7 @@ export const loadAbout = cache(async () => {
       voice?: string[];
       imageLabel?: string;
       portrait?: CmsImage;
+      portraitCutout?: CmsImage;
       timelineTitle?: string;
       principles?: { eyebrow?: string; title?: string };
       valuesLine?: string;
@@ -727,7 +731,7 @@ export const loadAbout = cache(async () => {
       extraSections?: ExtraSection[];
     } | null>(`*[_id == "aboutPage"][0]{
       eyebrow, title, paragraphs, quote, voice, imageLabel, timelineTitle, valuesLine, metaDescription,
-      portrait{${imageProjection}},
+      portrait{${imageProjection}}, portraitCutout{${imageProjection}},
       principles{ eyebrow, title },
       studio{ eyebrow, title, paragraphs, imageLabel, image{${imageProjection}} },
       extraSections[]{ heading, text, image{${imageProjection}} }
@@ -750,6 +754,7 @@ export const loadAbout = cache(async () => {
     voice: doc.voice?.length ? doc.voice : base.voice,
     imageLabel: text(doc.imageLabel, base.imageLabel),
     portrait: imageOf(doc.portrait),
+    portraitCutout: imageOf(doc.portraitCutout),
     timelineTitle: text(doc.timelineTitle, "Vägen hit"),
     principles: {
       eyebrow: text(doc.principles?.eyebrow, base.principles.eyebrow),
@@ -804,7 +809,9 @@ export const loadFaqPage = cache(async () => {
 });
 
 export const loadPlanning = cache(async () => {
-  const base = { ...planningMeeting, topics: planningTopics };
+  const settings = await loadSite();
+  const visibleTopic = (topic: { value: string }) => topic.value !== "praktik" && (settings.communityEnabled || topic.value !== "community");
+  const base = { ...planningMeeting, topics: planningTopics.filter(visibleTopic) };
   if (!(await cmsReady())) return base;
   const doc = await sanityFetch<{
     eyebrow?: string;
@@ -815,7 +822,7 @@ export const loadPlanning = cache(async () => {
     topics?: { value: string; label: string }[];
   } | null>(`*[_id == "planningPage"][0]{ eyebrow, title, lede, points, note, topics[]{ value, label } }`);
   if (!doc) return base;
-  const topics = doc.topics?.filter((topic) => topic.value && topic.label);
+  const topics = doc.topics?.filter((topic) => topic.value && topic.label && visibleTopic(topic));
   return {
     eyebrow: text(doc.eyebrow, base.eyebrow),
     title: richField(doc.title, base.title),
@@ -831,6 +838,7 @@ export function isPlanningTopic(value: string, topics: readonly { value: string 
 }
 
 export const loadSimpleService = cache(async (href: string) => {
+  if (!isPublicHref(href, (await loadSite()).communityEnabled)) return null;
   if (!(await cmsReady())) return null;
   return sanityFetch<ServiceDoc | null>(
     `*[_type == "service" && href == $href && kind == "enkel"][0]{
@@ -845,5 +853,5 @@ export async function loadExtraCourseSlugs() {
   if (!(await cmsReady())) return [];
   const courses = await sanityFetch<{ slug: string }[] | null>(`*[_type == "course"]{ "slug": slug.current }`);
   const known = new Set(Object.keys(courseFallbacks));
-  return (courses ?? []).map((course) => course.slug).filter((slug) => slug && !known.has(slug));
+  return (courses ?? []).map((course) => course.slug).filter((slug) => slug && !known.has(slug) && isPublicHref(`/tjanster/utbildning/${slug}`));
 }

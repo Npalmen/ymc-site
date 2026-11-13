@@ -7,12 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test src/sanity/rich.test.ts src/components/booking/booking-url.test.ts scripts/seed-keys.test.ts",
+    "test": "tsx --test src/sanity/rich.test.ts src/components/booking/booking-url.test.ts scripts/seed-keys.test.ts scripts/nov4.test.ts",
     "sanity:seed": "tsx scripts/seed-sanity.ts",
     "cf:build": "opennextjs-cloudflare build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "typecheck": "next typegen && tsc --noEmit",
+    "sanity:migrate:nov4": "tsx scripts/migrate-nov4.ts"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.20.14",

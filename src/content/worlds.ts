@@ -49,5 +49,5 @@ export function getWorld(id: WorldId) {
 }
 
 export function getRelatedWorlds(current: WorldId, ids: WorldId[]) {
-  return ids.filter((id) => id !== current).map((id) => getWorld(id));
+  return ids.filter((id) => id !== current && id !== "community").map((id) => getWorld(id));
 }

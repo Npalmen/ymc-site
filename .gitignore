@@ -43,6 +43,8 @@ next-env.d.ts
 
 # Phase 1 crawl artifacts (local only)
 .audit-temp/
+/ymu-req/
+/.audit-temp-install.log
 
 # Cloudflare / OpenNext
 .open-next

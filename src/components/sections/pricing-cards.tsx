@@ -7,6 +7,7 @@ type PackageCard = {
   summary: string;
   price: string;
   priceMissing: boolean;
+  paymentInfo?: string;
   note: string;
   points: readonly string[];
   cta: string;
@@ -22,9 +23,9 @@ export function PricingCards({
 }) {
   return (
     <div>
-      <p className="rounded-[var(--radius-card)] border border-dashed border-accent/50 bg-accent-soft px-4 py-3 text-body-sm text-ink">
+      {notice ? <p className="rounded-[var(--radius-card)] border border-dashed border-accent/50 bg-accent-soft px-4 py-3 text-body-sm text-ink">
         {notice}
-      </p>
+      </p> : null}
       <div className="mt-8 flex flex-col gap-12">
         {packages.map((pack) => (
           <article key={pack.id} className="package-card">
@@ -40,7 +41,8 @@ export function PricingCards({
               ) : (
                 <p className="font-sans text-[2.4rem] font-semibold leading-none text-accent">{pack.price}</p>
               )}
-              <p className="mt-2 text-body-sm text-ink">{pack.note}</p>
+              <p className="mt-3 text-body-sm text-ink">{pack.note}</p>
+              {pack.paymentInfo ? <p className="mt-1 text-body-sm text-ink-muted">{pack.paymentInfo}</p> : null}
             </div>
             <ul className="mt-5 space-y-3 px-1">
               {pack.points.map((point) => (

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { Fraunces, Source_Sans_3 } from "next/font/google";
+import { Newsreader, Source_Sans_3 } from "next/font/google";
 import { SiteChrome } from "@/components/motion/site-chrome";
 import { GoogleConsent } from "@/components/seo/google-consent";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -15,7 +15,7 @@ const sourceSans = Source_Sans_3({
   weight: ["400", "500", "600", "700"],
 });
 
-const fraunces = Fraunces({
+const newsreader = Newsreader({
   subsets: ["latin", "latin-ext"],
   display: "swap",
   variable: "--font-display",
@@ -69,7 +69,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={current.locale}
-      className={`${sourceSans.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${sourceSans.variable} ${newsreader.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-canvas text-ink">
         <a

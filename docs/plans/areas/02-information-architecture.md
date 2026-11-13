@@ -1,5 +1,7 @@
 # Yellow Music United — Information Architecture Plan
 
+> 2026-11-05 status: November client revision implemented locally under ADR-005. Automated and responsive checks are recorded in [verification](../../verification/nov4/README.md). Human visual approval, final artwork and remote CMS migration remain pending; this area is not marked COMPLETE. The authorized November scope supersedes older conflicting typography, comparison, internship and Community details below.
+
 **Document:** `docs/plans/areas/02-information-architecture.md`  
 **Parent:** `docs/plans/MASTER-PLAN.md`  
 **Domain:** Information Architecture  

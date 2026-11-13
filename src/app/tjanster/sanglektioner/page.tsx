@@ -3,12 +3,13 @@ import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
 import { ExtraSections } from "@/components/sections/extra-sections";
 import { PageHero } from "@/components/sections/page-hero";
-import { DifferenceTable } from "@/components/sections/difference-table";
+import { Pedagogy } from "@/components/sections/pedagogy";
 import { PlanningBlock } from "@/components/sections/planning-block";
 import { PricingCards } from "@/components/sections/pricing-cards";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
+import { Pill } from "@/components/ui/pill";
 import { RichLine } from "@/components/ui/rich-line";
 import { JsonLd } from "@/components/seo/json-ld";
 import { pageMetadata, serviceJson } from "@/lib/seo";
@@ -24,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function SingingPage() {
-  const [{ page, difference, also, image, extraSections }, steps, packages] = await Promise.all([
+  const [{ page, pedagogy, also, image, extraSections }, steps, packages] = await Promise.all([
     loadSinging(),
     loadSteps(),
     loadPackages(),
@@ -55,10 +56,10 @@ export default async function SingingPage() {
       <Container className="pb-4">
         <PlaceholderFrame image={image} label={page.imageLabel} ratio="16/9" caption="Fyrislund · Uppsala" />
       </Container>
-      <DifferenceTable data={difference} />
+      <Pedagogy data={pedagogy} />
       <section id="steg-for-steg" className="section-anchor bg-canvas py-16 sm:py-20">
         <Container>
-          <p className="text-meta">{steps.eyebrow}</p>
+          <Pill>{steps.eyebrow}</Pill>
           <h2 className="text-section mt-3 max-w-[14em]">
             <RichLine parts={steps.title} />
           </h2>

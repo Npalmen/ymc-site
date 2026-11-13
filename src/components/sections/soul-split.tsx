@@ -9,7 +9,7 @@ export function SoulSplit({ soul = homePage.soul }: { soul?: Soul }) {
   const imageSrc = hasCmsImage(soul.image) ? cmsImageUrl(soul.image, 1200) : null;
   return (
     <div className="relative">
-      <section className="bg-canvas" aria-labelledby="sjal-rubrik">
+      <section className="soul-section bg-canvas" aria-labelledby="sjal-rubrik">
         <div className="grid grid-cols-[minmax(0,1.4fr)_minmax(6.75rem,0.82fr)] lg:grid-cols-[minmax(0,1.05fr)_minmax(16rem,0.9fr)]">
           <div className="px-5 py-10 sm:px-8 lg:px-14 lg:py-20">
             <p className="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-ink-muted">
@@ -38,7 +38,7 @@ export function SoulSplit({ soul = homePage.soul }: { soul?: Soul }) {
           </div>
           <div className="relative min-h-[18rem]">
             <div
-              className="photo-pending sticky flex h-[calc(100svh-var(--header-height))] flex-col justify-between p-3 pb-16 lg:p-6 lg:pb-24"
+              className="photo-pending sticky flex h-[min(65svh,34rem)] min-h-72 flex-col justify-between p-3 pb-8 lg:p-6"
               style={{ top: "var(--header-height)" }}
             >
               {imageSrc ? (
@@ -60,7 +60,7 @@ export function SoulSplit({ soul = homePage.soul }: { soul?: Soul }) {
           </div>
         </div>
       </section>
-      <section className="relative z-10 -mt-8 rounded-t-[1.75rem] bg-studio text-ink-inverse motion-reduce:mt-0 motion-reduce:rounded-none sm:-mt-14">
+      <section className="relative z-10 -mt-8 rounded-t-[1.75rem] studio-gradient text-ink-inverse motion-reduce:mt-0 motion-reduce:rounded-none sm:-mt-14">
         <div className="mx-auto max-w-[var(--container-default)] px-5 py-14 sm:px-8 sm:py-20">
           <p className="text-right font-sans text-sm font-semibold text-brand">{soul.dark.label}</p>
           <h2 className="mt-3 max-w-[12em] font-display text-[clamp(2.1rem,8vw,4.2rem)] font-normal uppercase leading-[0.98] tracking-[0.02em]">

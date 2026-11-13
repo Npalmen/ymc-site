@@ -33,6 +33,10 @@ export const site = {
   },
   /** CMS logo URL. Null uses the wordmark shipped in /brand. */
   logo: null as string | null,
+  footerLogo: null as string | null,
+  communityEnabled: false,
+  lineArt: null as string | null,
+  lineArtOpacity: 0.06,
 };
 
 export type SiteConfig = typeof site;

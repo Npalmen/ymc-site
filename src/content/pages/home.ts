@@ -62,7 +62,8 @@ export const homePage = {
       { text: "trivs här", accent: true },
       { text: "." },
     ] satisfies RichLine,
-    note: "Rutorna är platshållare. Yellow Music publicerar inte påhittade recensioner eller betyg. Verifierade omdömen ligger på Trustpilot tills riktiga texter får en plats här.",
+    note: "",
+    linkLabel: "Läs verifierade omdömen på Trustpilot",
   },
   founder: {
     eyebrow: "Om oss",

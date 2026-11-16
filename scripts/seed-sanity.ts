@@ -1,3 +1,4 @@
+import { feedbackPatch } from "./feedback-2-migration";
 import { pedagogy } from "../src/content/pages/pedagogy";
 import { createClient } from "next-sanity";
 import { aboutPage } from "../src/content/pages/about";
@@ -358,7 +359,16 @@ courseDoc("course-musikproduktion", "musikproduktion-for-tjejer", productionCour
 courseDoc("course-latskrivning", "latskrivning", songwritingCourse, 1);
 
 const tx = client.transaction();
-for (const doc of documents) tx.createOrReplace(withArrayKeys(doc));
+for (const doc of documents) {
+  const patch = feedbackPatch({ ...doc, _rev: "" }, { _id: "planningPage", _type: "planningPage", _rev: "", ...planningMeeting });
+  for (const [path, value] of Object.entries(patch.set)) {
+    const [parent, child] = path.split(".");
+    if (child) (doc[parent] as Record<string, unknown>)[child] = value;
+    else doc[parent] = value;
+  }
+  for (const field of patch.unset) delete doc[field];
+  tx.createIfNotExists(withArrayKeys(doc));
+}
 tx.commit()
   .then(() => {
     console.log(`Skrev ${documents.length} dokument till ${projectId}/${dataset}.`);

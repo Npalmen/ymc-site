@@ -33,7 +33,7 @@ export default async function HomePage() {
           <div className="lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(16rem,0.72fr)] lg:items-end lg:gap-12">
             <div>
               <Pill>{hero.eyebrow}</Pill>
-              <h1 className="text-hero mt-5 max-w-[11em]">
+              <h1 className="text-hero home-hero-title mt-5 max-w-[11em]">
                 <RichLine parts={hero.title} />
               </h1>
               <p className="text-body-lg mt-5 max-w-[36rem] text-ink-muted">{hero.lede}</p>
@@ -76,13 +76,13 @@ export default async function HomePage() {
             Vägar in
           </h2>
           <ul className="border-t border-border">
-            {paths.filter((path) => isPublicHref(path.href, current.communityEnabled)).map((path) => (
+            {paths.filter((path) => isPublicHref(path.href, current.communityEnabled, current.distributionEnabled)).map((path, index) => (
               <li key={path.href} className="border-b border-border">
                 <Link
                   href={path.href}
                   className="group flex min-h-[5.25rem] items-center gap-4 py-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-focus)]"
                 >
-                  <span className="w-8 font-sans text-xl font-semibold text-accent">{path.n}</span>
+                  <span className="w-8 font-sans text-xl font-semibold text-accent">{String(index + 1).padStart(2, "0")}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block font-sans text-[1.7rem] font-semibold leading-tight">{path.title}</span>
                     <span className="text-meta mt-0.5 block">{path.note}</span>

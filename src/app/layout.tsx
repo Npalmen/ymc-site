@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
+import { draftMode, headers } from "next/headers";
 import { Newsreader, Source_Sans_3 } from "next/font/google";
 import { SiteChrome } from "@/components/motion/site-chrome";
 import { GoogleConsent } from "@/components/seo/google-consent";
@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const current = await loadSite();
   const headerList = await headers();
   const host = headerList.get("x-forwarded-host") ?? headerList.get("host");
-  const indexable = isIndexableHost(host);
+  const indexable = isIndexableHost(host) && !(await draftMode()).isEnabled;
   const title = `${current.shortName} — Sånglektioner i Uppsala`;
   return {
     metadataBase: new URL(siteUrl()),

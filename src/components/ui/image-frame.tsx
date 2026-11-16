@@ -63,7 +63,6 @@ export function ImageFrame({
   layout,
   ratio: ratioProp,
   label,
-  caption,
   variant: variantProp = "default",
   bleed = false,
   src,
@@ -133,11 +132,6 @@ export function ImageFrame({
           </>
         )}
       </div>
-      {caption ? (
-        <figcaption className="mt-4 border-t border-border pt-3">
-          <span className="text-eyebrow text-ink-subtle">{caption}</span>
-        </figcaption>
-      ) : null}
     </figure>
   );
 }

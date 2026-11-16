@@ -1,3 +1,4 @@
+import { RichLine } from "@/components/ui/rich-line";
 import { PricingCards } from "@/components/sections/pricing-cards";
 import type { CoursePageContent } from "@/content/pages/education";
 import { ExtraSections } from "@/components/sections/extra-sections";
@@ -40,7 +41,7 @@ export function CourseView({
         <div className="mt-10 max-w-[40rem] space-y-8">
           {course.sections.map((section) => (
             <div key={section.heading}>
-              <h2 className="font-display text-3xl">{section.heading}</h2>
+              <h2 className="font-display text-3xl"><RichLine parts={section.heading} /></h2>
               <div className="mt-3 space-y-3 text-body text-ink-muted">
                 {section.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>

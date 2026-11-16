@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { RichLine } from "@/components/ui/rich-line";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
 import { ExtraSections } from "@/components/sections/extra-sections";
@@ -8,16 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import { pageMetadata } from "@/lib/seo";
-import { loadCommunity, loadSite } from "@/sanity/load";
+import { loadCommunity } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
-  if (!(await loadSite()).communityEnabled) notFound();
   const page = await loadCommunity();
-  return pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/community" });
+  return { ...pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/community" }) };
 }
 
 export default async function CommunityPage() {
-  if (!(await loadSite()).communityEnabled) notFound();
   const page = await loadCommunity();
   return (
     <PageShell>
@@ -36,7 +34,7 @@ export default async function CommunityPage() {
         <ul className="mt-10 grid gap-4 sm:grid-cols-3">
           {page.points.map((point) => (
             <li key={point.title} className="rounded-[var(--radius-card)] border border-border bg-surface p-5">
-              <h2 className="font-sans text-2xl font-semibold">{point.title}</h2>
+              <h2 className="font-sans text-2xl font-semibold"><RichLine parts={point.title} /></h2>
               <p className="mt-2 text-body-sm text-ink-muted">{point.body}</p>
             </li>
           ))}

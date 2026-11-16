@@ -1,3 +1,5 @@
+import { RichLine } from "@/components/ui/rich-line";
+import { requireVisiblePage } from "@/lib/preview";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
 import { ExtraSections } from "@/components/sections/extra-sections";
@@ -8,14 +10,16 @@ import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import { JsonLd } from "@/components/seo/json-ld";
 import { pageMetadata, serviceJson } from "@/lib/seo";
-import { loadDistribution } from "@/sanity/load";
+import { loadDistribution, loadSite } from "@/sanity/load";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const preview = await requireVisiblePage((await loadSite()).distributionEnabled);
   const page = await loadDistribution();
-  return pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/tjanster/distribution" });
+  return { ...pageMetadata({ title: page.metaTitle, description: page.metaDescription, path: "/tjanster/distribution" }), ...(preview ? { robots: { index: false, follow: false } } : {}) };
 }
 
 export default async function DistributionPage() {
+  await requireVisiblePage((await loadSite()).distributionEnabled);
   const page = await loadDistribution();
   return (
     <PageShell>
@@ -42,7 +46,7 @@ export default async function DistributionPage() {
         <div className="mt-12 max-w-2xl space-y-12 pb-8">
           {page.blocks.map((block) => (
             <section key={block.id} id={block.id}>
-              <h2 className="font-display text-3xl">{block.title}</h2>
+              <h2 className="font-display text-3xl"><RichLine parts={block.title} /></h2>
               <div className="mt-3 space-y-3 text-body text-ink-muted">
                 {block.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>

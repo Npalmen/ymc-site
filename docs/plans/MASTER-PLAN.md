@@ -4,6 +4,8 @@
 **Role:** Product-level source of truth  
 **Status:** ACTIVE
 
+**Authorized revision (2026-11-16):** The owner requested all 14 Feedback 2 items, including Distribution visibility, editable Sanity fields and secret preview of hidden pages. ADR-006 and the updated area plans govern this scope. No production booking, deployment or external integration scope is added.
+
 **Authorized revision (2026-11-05):** The owner explicitly requested the 16-point November UI/content revision, including Sanity changes, internship removal and Community hidden by default. ADR-005 and the area status updates govern this revision; older phase summaries below do not undo already implemented functionality. No booking/backend or deployment scope is added.
 
 ---

@@ -1,0 +1,127 @@
+[
+  {
+    "id": "contactPage",
+    "set": {
+      "studioCard": "",
+      "feedback2Version": 1
+    },
+    "unset": []
+  },
+  {
+    "id": "course-latskrivning",
+    "set": {
+      "price": "6 150 kr"
+    },
+    "unset": [
+      "missing"
+    ]
+  },
+  {
+    "id": "course-musikproduktion",
+    "set": {
+      "price": "6 150 kr",
+      "paymentInfo": "Betalas månadsvis: 3 075 kr/månad i 2 månader",
+      "note": "6 x 90 minuter",
+      "cardDescription": "Grunderna. En låt som projekt. Från start till ett avslut."
+    },
+    "unset": [
+      "missing"
+    ]
+  },
+  {
+    "id": "homePage",
+    "set": {
+      "reviews.note": "",
+      "reviews.linkLabel": "Läs verifierade omdömen på Trustpilot"
+    },
+    "unset": []
+  },
+  {
+    "id": "lessonPackage-prova",
+    "set": {
+      "paymentInfo": ""
+    },
+    "unset": []
+  },
+  {
+    "id": "lessonPackage-sex",
+    "set": {
+      "price": "4 100 kr",
+      "paymentInfo": "Betalas månadsvis: 2 050 kr/mån i 2 månader."
+    },
+    "unset": []
+  },
+  {
+    "id": "lessonPackage-tolv",
+    "set": {
+      "price": "7 050 kr",
+      "paymentInfo": "Betalas månadsvis: 2 350 kr/mån i 3 månader."
+    },
+    "unset": []
+  },
+  {
+    "id": "singingPage",
+    "set": {
+      "pedagogy": {
+        "eyebrow": "Vår sångpedagogik",
+        "title": "Mer än bara sånglektioner.",
+        "lede": "Hos Yellow möts sångteknik, kreativitet & personligt uttryck. Vi utgår från dig, din röst och dina musikaliska mål.",
+        "points": [
+          {
+            "_key": "voice",
+            "icon": "heart",
+            "title": "Din röst i fokus",
+            "body": "Personlig sångpedagogik med fokus på hälsosam teknik, trygghet & sångglädje."
+          },
+          {
+            "_key": "songwriting",
+            "icon": "note",
+            "title": "Sång möter låtskrivning",
+            "body": "Kombinera dina sånglektioner med kreativt skapande, låtskrivning & musikaliskt uttryck."
+          },
+          {
+            "_key": "growth",
+            "icon": "plant",
+            "title": "Utveckling i din takt",
+            "body": "Vi anpassar undervisningen efter dina förutsättningar, ambitioner & mål."
+          },
+          {
+            "_key": "studio",
+            "icon": "microphone",
+            "title": "Från övningsrum till studio",
+            "body": "Utforska möjligheten att kombinera sång med inspelning, musikproduktion & eget skapande."
+          },
+          {
+            "_key": "trial",
+            "icon": "sun",
+            "title": "Börja med att prova",
+            "body": "Din första sånglektion är alltid kostnadsfri och utan krav på fortsättning."
+          }
+        ]
+      },
+      "alsoEnabled": true,
+      "alsoTitle": "Också inom sången",
+      "alsoIntro": "De här spåren finns i pedagogiken. De har inga egna sidor ännu, och bokas via samma samtal.",
+      "feedback2Version": 1
+    },
+    "unset": [
+      "difference"
+    ]
+  },
+  {
+    "id": "siteSettings",
+    "set": {
+      "communityEnabled": false,
+      "lineArtOpacity": 0.06,
+      "distributionEnabled": false,
+      "footerAbout": "Yellow Music United är ett musikbolag i Uppsala. Sånglektioner, utbildning och community - med positivitet, trygghet och mod.",
+      "footerAddress": "Yellow Music United AB\nMurargatan 1\n754 37, Uppsala",
+      "footerStudio": "Studio: Starlight Studios, Uppsala. Murargatan 1.",
+      "bookingFormHeading": "Boka ett möte!",
+      "bookingFormSubmit": "Skicka förfrågan",
+      "bookingFormHelp": "Formuläret öppnar ditt e-postprogram och skickar inget till en server. Bokning online är inte igång ännu.",
+      "feedback2Version": 1
+    },
+    "unset": []
+  }
+]

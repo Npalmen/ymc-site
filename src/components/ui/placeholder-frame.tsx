@@ -25,7 +25,6 @@ type PlaceholderFrameProps = {
 /** Explicit stand-in until Biim supplies approved photography. No hotlinked Wix files. */
 export function PlaceholderFrame({
   label,
-  caption,
   ratio = "4/5",
   className,
   framed = true,
@@ -47,7 +46,6 @@ export function PlaceholderFrame({
             className="object-cover"
           />
         </div>
-        {caption ? <figcaption className="text-meta mt-2">{caption}</figcaption> : null}
       </figure>
     );
   }
@@ -65,7 +63,6 @@ export function PlaceholderFrame({
         </span>
         <span className="max-w-[16rem] text-body-sm font-medium text-ink">{label}</span>
       </div>
-      {caption ? <figcaption className="text-meta mt-2">{caption}</figcaption> : null}
     </figure>
   );
 }

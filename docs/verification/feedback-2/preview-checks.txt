@@ -1,0 +1,1 @@
+Production build: both hidden pages return public 404; valid secret enables preview cookie and page 200 with noindex + banner; external slug rejected (400); exit clears access (404). Temporary random secret, never persisted.

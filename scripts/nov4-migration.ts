@@ -41,7 +41,7 @@ export function migrationPatch(doc: MigrationDoc) {
   for (const field of ["menuLinks", "paths"]) {
     if (Array.isArray(doc[field])) {
       const existing = doc[field] as { href?: string }[];
-      const filtered = existing.filter((item) => !item.href || isPublicHref(item.href, true));
+      const filtered = existing.filter((item) => !item.href || isPublicHref(item.href, true, true));
       if (filtered.length !== existing.length) set[field] = filtered;
     }
   }

@@ -1,5 +1,7 @@
 "use client";
 
+import { RichLine } from "@/components/ui/rich-line";
+
 import { useEffect, useRef } from "react";
 
 type Item = { year: string; tag: string; title: string; body: string };
@@ -50,7 +52,7 @@ export function TimelineRail({ items }: { items: readonly Item[] }) {
             <p className="mt-2 inline-flex min-h-7 items-center rounded-[var(--radius-pill)] border border-border bg-surface px-2.5 text-[0.75rem] font-medium">
               {item.tag}
             </p>
-            <h3 className="mt-3 font-sans text-2xl font-semibold">{item.title}</h3>
+            <h3 className="mt-3 font-sans text-2xl font-semibold"><RichLine parts={item.title} /></h3>
             <p className="mt-2 text-body text-ink-muted">{item.body}</p>
           </li>
         );

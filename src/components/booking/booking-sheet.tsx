@@ -11,6 +11,8 @@ export type BookingCopy = {
   title: RichLine;
   lede: string;
   points: readonly string[];
+  formHeading: string;
+  submitLabel: string;
   note: string;
   topics: readonly { value: string; label: string }[];
 };
@@ -294,7 +296,7 @@ export function BookingSheet({ open, topic, copy, recipient, onClose }: BookingS
         <div ref={bodyRef} className="sheet-body">
           <Image src="/brand/mark-160.webp" alt="" width={72} height={74} className="sheet-mark" />
           <h2 id={titleId} className="font-display text-3xl">
-            Boka nu
+            {copy.formHeading}
           </h2>
           <p className="mt-2 text-body-sm text-ink-muted">{copy.lede}</p>
           <PlanningMeeting

@@ -21,6 +21,8 @@ export function PlanningMeeting({
     title: RichParts;
     lede: string;
     points: readonly string[];
+    formHeading: string;
+    submitLabel: string;
     note: string;
   };
   topics?: readonly { value: string; label: string }[];
@@ -59,7 +61,7 @@ export function PlanningMeeting({
   const form = (
     <>
       {variant === "sheet" ? null : (
-        <h3 className="font-display text-3xl italic text-accent">Ansök om ett möte</h3>
+        <h3 className="font-display text-3xl italic text-accent"><RichLine parts={copy.formHeading} /></h3>
       )}
       <form className={variant === "sheet" ? "sheet-fields mt-4" : "mt-6 flex flex-col gap-4"} onSubmit={onSubmit}>
         <Field id={`${baseId}-name`} label="Namn *" appearance="plain">
@@ -104,9 +106,9 @@ export function PlanningMeeting({
           type="submit"
           className="sheet-submit inline-flex min-h-12 w-full items-center justify-center rounded-[var(--radius-pill)] bg-brand px-6 font-semibold text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
         >
-          Skicka förfrågan
+          {copy.submitLabel}
         </button>
-        <p className="sheet-note text-body-sm text-ink-muted">{copy.note}</p>
+        {copy.note ? <p className="sheet-note text-body-sm text-ink-muted">{copy.note}</p> : null}
         {status ? (
           <p className="sheet-span text-body-sm text-ink" role="status">
             {status}

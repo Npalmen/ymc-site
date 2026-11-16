@@ -1,3 +1,4 @@
+import { RichLine } from "@/components/ui/rich-line";
 import { pedagogy } from "@/content/pages/pedagogy";
 import { Container } from "@/components/ui/container";
 import { Pill } from "@/components/ui/pill";
@@ -15,7 +16,7 @@ export function Pedagogy({ data = pedagogy }: { data?: typeof pedagogy }) {
     <section className="bg-canvas py-14 sm:py-20" aria-labelledby="pedagogy-title">
       <Container>
         <Pill>{data.eyebrow}</Pill>
-        <h2 id="pedagogy-title" className="text-section mt-5 max-w-[18em]">{data.title}</h2>
+        <h2 id="pedagogy-title" className="text-section mt-5 max-w-[18em]"><RichLine parts={data.title} /></h2>
         <p className="mt-5 max-w-2xl text-body text-ink-muted">{data.lede}</p>
         <ol className="mt-9 max-w-3xl border-t border-border">
           {data.points.map((point, index) => (

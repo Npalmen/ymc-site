@@ -187,3 +187,7 @@ em {
 .prose-editorial {
   max-width: 34rem;
 }
+
+/* Feedback 2: homepage only, 12% larger across the existing scale. */
+.home-hero-title { font-size: clamp(3.22rem, 5.04vw + 1.12rem, 6.44rem); }
+@media (max-width: 380px) { .home-hero-title { font-size: 2.744rem; } }

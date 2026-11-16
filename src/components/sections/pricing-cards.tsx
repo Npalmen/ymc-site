@@ -1,3 +1,4 @@
+import { RichLine } from "@/components/ui/rich-line";
 import { lessonPackages, packagesPage } from "@/content/pages/singing";
 import { Button } from "@/components/ui/button";
 
@@ -30,7 +31,7 @@ export function PricingCards({
         {packages.map((pack) => (
           <article key={pack.id} className="package-card">
             <div className="rounded-[var(--radius-card)] border border-border bg-surface px-5 py-6 sm:px-7">
-              <h3 className="font-display text-[1.85rem] leading-tight text-ink">{pack.title}</h3>
+              <h3 className="font-display text-[1.85rem] leading-tight text-ink"><RichLine parts={pack.title} /></h3>
               <p className="mt-3 max-w-prose text-body text-ink-muted">{pack.summary}</p>
               <hr className="my-5 border-border" />
               <p className="text-body-sm text-ink-muted">Investering</p>

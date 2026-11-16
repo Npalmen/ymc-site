@@ -35,6 +35,17 @@ export const site = {
   logo: null as string | null,
   footerLogo: null as string | null,
   communityEnabled: false,
+  distributionEnabled: false,
+  footer: {
+    about: "Yellow Music United är ett musikbolag i Uppsala. Sånglektioner, utbildning och community - med positivitet, trygghet och mod.",
+    address: "Yellow Music United AB\nMurargatan 1\n754 37, Uppsala",
+    studio: "Studio: Starlight Studios, Uppsala. Murargatan 1.",
+  },
+  bookingForm: {
+    heading: "Boka ett möte!",
+    submitLabel: "Skicka förfrågan",
+    helpText: "Formuläret öppnar ditt e-postprogram och skickar inget till en server. Bokning online är inte igång ännu.",
+  },
   lineArt: null as string | null,
   lineArtOpacity: 0.06,
 };

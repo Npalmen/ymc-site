@@ -33,6 +33,9 @@ const legacyRedirects: [string, string][] = [
 ];
 
 const nextConfig: NextConfig = {
+  // Visibility metadata must finish before streaming so hidden routes return
+  // a real HTTP 404 for browsers as well as crawlers (ADR-006).
+  htmlLimitedBots: /.*/,
   images: {
     loader: "custom",
     loaderFile: "./src/sanity/image-loader.ts",

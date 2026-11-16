@@ -52,3 +52,5 @@ next-env.d.ts
 .dev.vars
 cloudflare-env.d.ts
 
+
+/ymu-req2/

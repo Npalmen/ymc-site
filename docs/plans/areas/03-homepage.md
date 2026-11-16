@@ -1,5 +1,7 @@
 # Area 03 — Homepage
 
+> 2026-11-16: Feedback 2 implemented locally under ADR-006. All 14 requested UI/CMS items are covered; build, lint, typecheck, 16 tests and responsive/production-preview checks pass. See [verification](../../verification/feedback-2/README.md) and [Studio guide](../../biim-studio-guide.md). Remote migration is prepared and verified but awaits SANITY_API_TOKEN; human review and deployment remain pending. Not marked COMPLETE.
+
 > 2026-11-05 status: November client revision implemented locally under ADR-005. Automated and responsive checks are recorded in [verification](../../verification/nov4/README.md). Human visual approval, final artwork and remote CMS migration remain pending; this area is not marked COMPLETE. The authorized November scope supersedes older conflicting typography, comparison, internship and Community details below.
 
 **Status:** REDESIGN IMPLEMENTED (2026-10-29). Portal sections replaced by the client homepage (hero, paths, soul split, review slots, founder, close). Human review pending.  

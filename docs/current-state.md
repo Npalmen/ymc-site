@@ -2,8 +2,18 @@
 
 > Fast entry point for a new Cursor agent. Update this file whenever project truth changes.
 
-**Last updated:** 2026-11-05
-**Branch:** `ymu-batch-nov4`
+**Last updated:** 2026-11-16
+**Branch:** `ymu-feedback-2`
+
+## Feedback 2 — latest project truth
+
+The owner's 14-point revision is implemented locally. Distribution and Community are hidden by default (404, noindex, absent from public navigation and sitemap). Secret Draft Mode links allow review of their published content. Captions are removed; footer/form copy, optional review and singing introductions, and the optional contact studio card have explicit Swedish Studio fields. Pedagogy remains on the singing page. Principles use a numeric 2×2 grid and the homepage heading is 12% larger.
+
+See [Biim's Studio guide](biim-studio-guide.md), [ADR-006](decisions/ADR-006-feedback-2-content-and-preview.md), and [verification with before/after screenshots](verification/feedback-2/README.md).
+
+Build, lint, typecheck and 16 tests passed. Browser checks cover 390, 768 and 1440px; the production build's full preview/exit flow passed. PR #6 migration and Feedback 2 migration were dry-run against Sanity (7 and 9 pending documents respectively). No `SANITY_API_TOKEN` was available, so remote content is not migrated yet. Apply the prepared migration and configure `PREVIEW_SECRET` when deploying. Existing published postal/studio copy in Sanity is Murargatan 1, Uppsala; the footer migration preserves it. Older address and pending-content notes below are historical.
+
+No push, PR or deployment. Local commits were attempted but `.git/index.lock` creation is denied by this session's filesystem permissions. Changes remain unstaged and uncommitted. `ymu-req2/` is ignored and excluded.
 
 Production target is Cloudflare Workers via OpenNext. Vercel previews still use `next build`. Content can be edited in Sanity project `vjv9ko18` (dataset `production`) at `/studio`. Until that project is seeded, the site uses `src/content`. The header, footer, favicon and scroll sunflower use Biim’s wordmark and watercolor mark from `public/brand`; `siteSettings.logo` in Sanity can replace the wordmark. Booking CTAs open a glass bottom sheet on phones and a centered card from 768px with a fine pointer. The sheet leaves about a fifth of the viewport free and follows a downward drag as one panel; `/boka` stays a full page, and `?boka=1` opens the sheet. A new route starts at the top; back and forward restore the previous offset. Sånglektioner submenu items open `#steg-for-steg` and `#lektionspaket` on that page. Utbildning’s courses stay on their own pages. See [deploy-cloudflare.md](deploy-cloudflare.md), [cms.md](cms.md), and ADR-003.
 
@@ -37,8 +47,8 @@ Navigation matches Biim’s menu. Detail pages exist for sånglektioner (steg f�
 | `/tjanster/utbildning` | Education hub with independent short course descriptions |
 | `/tjanster/utbildning/musikproduktion-for-tjejer` | Production course |
 | `/tjanster/utbildning/latskrivning` | Songwriting |
-| `/tjanster/distribution` | Release, podcast, studio hire |
-| `/community` | 404 by default; controlled by siteSettings.communityEnabled |
+| `/tjanster/distribution` | 404 by default; controlled by siteSettings.distributionEnabled; secret preview available |
+| `/community` | 404 by default; controlled by siteSettings.communityEnabled; secret preview available |
 | `/om-oss` | Story, timeline, principles, Starlight |
 | `/kontakt` | Contact facts and planning form |
 | `/boka` | Planning form. Dynamic only because it reads `?amne=` |

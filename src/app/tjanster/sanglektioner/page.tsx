@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function SingingPage() {
-  const [{ page, pedagogy, also, image, extraSections }, steps, packages] = await Promise.all([
+  const [{ page, pedagogy, also, alsoEnabled, alsoTitle, alsoIntro, image, extraSections }, steps, packages] = await Promise.all([
     loadSinging(),
     loadSteps(),
     loadPackages(),
@@ -68,7 +68,7 @@ export default async function SingingPage() {
             {steps.steps.map((step) => (
               <li key={step.n} className="border-t border-border py-7">
                 <p className="font-sans text-2xl font-semibold text-accent">{step.n}</p>
-                <h3 className="mt-2 font-display text-3xl">{step.title}</h3>
+                <h3 className="mt-2 font-display text-3xl"><RichLine parts={step.title} /></h3>
                 <p className="mt-2 text-body text-ink-muted">{step.body}</p>
               </li>
             ))}
@@ -87,16 +87,14 @@ export default async function SingingPage() {
           </div>
         </Container>
       </section>
-      <section id="pedagogik" className="section-anchor bg-canvas pb-8">
+      {alsoEnabled ? <section id="pedagogik" className="section-anchor bg-canvas pb-8">
         <Container>
-          <h2 className="font-display text-3xl">Också inom sången</h2>
-          <p className="mt-3 max-w-xl text-body text-ink-muted">
-            De här spåren finns i pedagogiken. De har inga egna sidor ännu, och bokas via samma samtal.
-          </p>
+          <h2 className="font-display text-3xl"><RichLine parts={alsoTitle} /></h2>
+          {alsoIntro ? <p className="mt-3 max-w-xl text-body text-ink-muted">{alsoIntro}</p> : null}
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">
             {also.map((item) => (
               <li key={item.title} className="rounded-[var(--radius-card)] border border-border bg-surface p-5">
-                <h3 className="font-sans text-2xl font-semibold">{item.title}</h3>
+                <h3 className="font-sans text-2xl font-semibold"><RichLine parts={item.title} /></h3>
                 <p className="mt-2 text-body-sm text-ink-muted">{item.body}</p>
               </li>
             ))}
@@ -107,7 +105,7 @@ export default async function SingingPage() {
             </Link>
           </p>
         </Container>
-      </section>
+      </section> : null}
       <ExtraSections sections={extraSections} />
       <PlanningBlock defaultTopic="prova-pa" />
     </PageShell>

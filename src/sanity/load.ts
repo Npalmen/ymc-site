@@ -1,3 +1,4 @@
+import { reviewIntro, singingAlsoSection } from "@/content/feedback-2";
 import { pedagogy } from "@/content/pages/pedagogy";
 import { splitPrice, splitCoursePrice } from "@/content/pricing";
 import { isPublicHref } from "@/content/visibility";
@@ -102,6 +103,14 @@ export const loadSite = cache(async (): Promise<SiteConfig> => {
     logo?: CmsImage | null;
     footerLogo?: CmsImage | null;
     communityEnabled?: boolean;
+    distributionEnabled?: boolean;
+    feedback2Version?: number;
+    footerAbout?: string;
+    footerAddress?: string;
+    footerStudio?: string;
+    bookingFormHeading?: string;
+    bookingFormSubmit?: string;
+    bookingFormHelp?: string;
     lineArt?: CmsImage | null;
     lineArtOpacity?: number;
   } | null>(`*[_id == "siteSettings"][0]`);
@@ -111,6 +120,21 @@ export const loadSite = cache(async (): Promise<SiteConfig> => {
     ...site,
     footerLogo: hasCmsImage(doc.footerLogo) ? cmsImageUrl(doc.footerLogo, 1280, "max") : null,
     communityEnabled: doc.communityEnabled === true,
+    distributionEnabled: doc.distributionEnabled === true,
+    footer: {
+      about: doc.footerAbout ?? (doc.feedback2Version === 1 ? "" : doc.description ?? site.footer.about),
+      address: doc.footerAddress ?? (doc.feedback2Version === 1 ? "" : [
+        text(doc.legalName, site.legalName),
+        text(doc.postalStreet, site.addresses.registered.street),
+        `${text(doc.postalCode, site.addresses.registered.postalCode)} ${text(doc.postalCity, site.addresses.registered.city)}`,
+      ].join("\n")),
+      studio: doc.footerStudio ?? (doc.feedback2Version === 1 ? "" : site.footer.studio),
+    },
+    bookingForm: {
+      heading: text(doc.bookingFormHeading, site.bookingForm.heading),
+      submitLabel: text(doc.bookingFormSubmit, site.bookingForm.submitLabel),
+      helpText: doc.bookingFormHelp ?? (doc.feedback2Version === 1 ? "" : site.bookingForm.helpText),
+    },
     lineArt: hasCmsImage(doc.lineArt) ? cmsImageUrl(doc.lineArt, 1920, "max") : null,
     lineArtOpacity: Number.isFinite(doc.lineArtOpacity) ? Math.min(0.2, Math.max(0, doc.lineArtOpacity!)) : 0.06,
     name: text(doc.name, site.name),
@@ -177,7 +201,7 @@ function menuHref(href: string) {
 export const loadNavigation = cache(async (): Promise<LoadedNav> => {
   const settings = await loadSite();
   if (!(await cmsReady())) {
-    return { serviceGroups, topLinks: topLinks.filter((link) => isPublicHref(link.href, settings.communityEnabled)), booking: bookingNavigation, footerColumns: footerColumns.map((column) => ({ ...column, links: column.links.filter((link) => isPublicHref(link.href, settings.communityEnabled)) })) };
+    return { serviceGroups: serviceGroups.filter((group) => isPublicHref(group.href, settings.communityEnabled, settings.distributionEnabled)), topLinks: topLinks.filter((link) => isPublicHref(link.href, settings.communityEnabled, settings.distributionEnabled)), booking: bookingNavigation, footerColumns: footerColumns.map((column) => ({ ...column, links: column.links.filter((link) => isPublicHref(link.href, settings.communityEnabled, settings.distributionEnabled)) })) };
   }
   const [services, menu] = await Promise.all([
     sanityFetch<ServiceDoc[] | null>(
@@ -189,12 +213,12 @@ export const loadNavigation = cache(async (): Promise<LoadedNav> => {
       `*[_id == "siteSettings"][0]{ bookingLabel, menuLinks[]{ label, href } }`,
     ),
   ]);
-  const links = (menu?.menuLinks ?? topLinks).filter((link) => link.label && isPublicHref(link.href, settings.communityEnabled));
+  const links = (menu?.menuLinks ?? topLinks).filter((link) => link.label && isPublicHref(link.href, settings.communityEnabled, settings.distributionEnabled));
   const booking = {
     label: text(menu?.bookingLabel, bookingNavigation.label),
     href: bookingNavigation.href,
   };
-  const publicServices = (services ?? []).filter((item) => isPublicHref(item.href, settings.communityEnabled));
+  const publicServices = (services ?? []).filter((item) => isPublicHref(item.href, settings.communityEnabled, settings.distributionEnabled));
   const roots = publicServices.filter((item) => !item.parentSlug);
   const groups: ServiceGroup[] =
     roots.length > 0
@@ -206,7 +230,7 @@ export const loadNavigation = cache(async (): Promise<LoadedNav> => {
             .filter((item) => item.parentSlug && item.parentSlug === root.slug)
             .map((item) => ({ label: item.title, href: menuHref(item.href), description: item.description })),
         }))
-      : serviceGroups;
+      : serviceGroups.filter((group) => isPublicHref(group.href, settings.communityEnabled, settings.distributionEnabled));
   const serviceLinks = groups.flatMap((group) => [
     { label: group.label, href: group.href },
     ...group.children.map((child) => ({ label: child.label, href: child.href })),
@@ -274,7 +298,7 @@ export const loadHome = cache(async (): Promise<LoadedHome> => {
       darkCtaLabel?: string;
       darkCtaHref?: string;
     };
-    reviews?: { eyebrow?: string; title?: string; note?: string };
+    reviews?: { eyebrow?: string; title?: string; note?: string; linkLabel?: string };
     founder?: {
       eyebrow?: string;
       title?: string;
@@ -291,7 +315,7 @@ export const loadHome = cache(async (): Promise<LoadedHome> => {
     paths[]{ n, title, note, href },
     communityLabel, communityHref,
     soul{ eyebrow, title, lede, points, imageLabel, image{${imageProjection}}, darkLabel, darkTitle, darkBody, darkCtaLabel, darkCtaHref },
-    reviews{ eyebrow, title, note },
+    reviews{ eyebrow, title, note, linkLabel },
     founder{ eyebrow, title, body, imageLabel, ctaLabel, ctaHref, image{${imageProjection}} },
     close{ title, body },
     extraSections[]{ heading, text, image{${imageProjection}} }
@@ -320,7 +344,7 @@ export const loadHome = cache(async (): Promise<LoadedHome> => {
       imageCaption: text(hero?.imageCaption, base.hero.imageCaption),
       image: imageOf(hero?.image),
     },
-    paths: (doc.paths?.length ? doc.paths : base.paths).filter((item) => isPublicHref(item.href, settings.communityEnabled)),
+    paths: (doc.paths?.length ? doc.paths : base.paths).filter((item) => isPublicHref(item.href, settings.communityEnabled, settings.distributionEnabled)),
     communityLink: {
       label: text(doc.communityLabel, base.communityLink.label),
       href: text(doc.communityHref, base.communityLink.href),
@@ -345,7 +369,8 @@ export const loadHome = cache(async (): Promise<LoadedHome> => {
     reviews: {
       eyebrow: text(doc.reviews?.eyebrow, base.reviews.eyebrow),
       title: richField(doc.reviews?.title, base.reviews.title) as typeof base.reviews.title,
-      note: text(doc.reviews?.note, base.reviews.note),
+      note: reviewIntro(doc.reviews?.note),
+      linkLabel: text(doc.reviews?.linkLabel, base.reviews.linkLabel),
     },
     founder: {
       eyebrow: text(founder?.eyebrow, base.founder.eyebrow),
@@ -449,7 +474,7 @@ export const loadPackages = cache(async () => {
 });
 
 export const loadSinging = cache(async () => {
-  const base = { page: singingPage, pedagogy, also: singingAlso, image: null as CmsImage | null, extraSections: [] as ExtraSection[] };
+  const base = { page: singingPage, pedagogy, also: singingAlso, alsoEnabled: singingAlsoSection.enabled, alsoTitle: singingAlsoSection.title, alsoIntro: singingAlsoSection.intro, image: null as CmsImage | null, extraSections: [] as ExtraSection[] };
   if (!(await cmsReady())) return base;
   const doc = await sanityFetch<{
     eyebrow?: string;
@@ -459,13 +484,16 @@ export const loadSinging = cache(async () => {
     image?: CmsImage;
     metaDescription?: string;
     pedagogy?: typeof pedagogy;
-    also?: { title: string; body: string }[];
+    also?: { _key?: string; title: string; body: string }[];
+    alsoEnabled?: boolean;
+    alsoTitle?: string;
+    alsoIntro?: string;
     extraSections?: ExtraSection[];
   } | null>(`*[_id == "singingPage"][0]{
     eyebrow, title, lede, imageLabel, metaDescription,
     image{${imageProjection}},
     pedagogy{ eyebrow, title, lede, points[]{ "id": _key, icon, title, body } },
-    also[]{ title, body },
+    alsoEnabled, alsoTitle, alsoIntro, also[]{ _key, title, body },
     extraSections[]{ heading, text, image{${imageProjection}} }
   }`);
   if (!doc) return base;
@@ -484,7 +512,10 @@ export const loadSinging = cache(async () => {
       lede: text(doc.pedagogy?.lede, pedagogy.lede),
       points: doc.pedagogy?.points?.length ? doc.pedagogy.points : pedagogy.points,
     },
-    also: doc.also?.length ? doc.also : singingAlso,
+    also: doc.also ?? singingAlso,
+    alsoEnabled: doc.alsoEnabled !== false,
+    alsoTitle: text(doc.alsoTitle, base.alsoTitle),
+    alsoIntro: doc.alsoIntro ?? "",
     image: imageOf(doc.image),
     extraSections: extras(doc.extraSections),
   };
@@ -797,7 +828,10 @@ async function loadIntro(
   };
 }
 
-export const loadContact = cache(async () => loadIntro("contactPage", contactPage));
+export const loadContact = cache(async () => {
+  const [intro, doc] = await Promise.all([loadIntro("contactPage", contactPage), sanityFetch<{ studioCard?: string } | null>('*[_id == "contactPage"][0]{studioCard}')]);
+  return { ...intro, studioCard: doc?.studioCard ?? "" };
+});
 export const loadBooking = cache(async () => loadIntro("bookingPage", bookingPage));
 export const loadFaqPage = cache(async () => {
   const intro = await loadIntro("faqPage", faqPage);
@@ -810,8 +844,8 @@ export const loadFaqPage = cache(async () => {
 
 export const loadPlanning = cache(async () => {
   const settings = await loadSite();
-  const visibleTopic = (topic: { value: string }) => topic.value !== "praktik" && (settings.communityEnabled || topic.value !== "community");
-  const base = { ...planningMeeting, topics: planningTopics.filter(visibleTopic) };
+  const visibleTopic = (topic: { value: string }) => topic.value !== "praktik" && (settings.communityEnabled || topic.value !== "community") && (settings.distributionEnabled || topic.value !== "distribution");
+  const base = { ...planningMeeting, formHeading: settings.bookingForm.heading, submitLabel: settings.bookingForm.submitLabel, note: settings.bookingForm.helpText, topics: planningTopics.filter(visibleTopic) };
   if (!(await cmsReady())) return base;
   const doc = await sanityFetch<{
     eyebrow?: string;
@@ -828,7 +862,9 @@ export const loadPlanning = cache(async () => {
     title: richField(doc.title, base.title),
     lede: text(doc.lede, base.lede),
     points: lines(doc.points, base.points),
-    note: text(doc.note, base.note),
+    formHeading: base.formHeading,
+    submitLabel: base.submitLabel,
+    note: base.note,
     topics: topics?.length ? topics : base.topics,
   };
 });
@@ -838,7 +874,8 @@ export function isPlanningTopic(value: string, topics: readonly { value: string 
 }
 
 export const loadSimpleService = cache(async (href: string) => {
-  if (!isPublicHref(href, (await loadSite()).communityEnabled)) return null;
+  const settings = await loadSite();
+  if (!isPublicHref(href, settings.communityEnabled, settings.distributionEnabled)) return null;
   if (!(await cmsReady())) return null;
   return sanityFetch<ServiceDoc | null>(
     `*[_type == "service" && href == $href && kind == "enkel"][0]{

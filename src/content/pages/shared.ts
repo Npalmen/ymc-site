@@ -14,6 +14,8 @@ export const planningTopics = [
 export type PlanningTopic = (typeof planningTopics)[number]["value"];
 
 export const planningMeeting = {
+  formHeading: "Boka ett möte!",
+  submitLabel: "Skicka förfrågan",
   eyebrow: "Kostnadsfritt",
   title: [
     { text: "Boka ett kostnadsfritt " },

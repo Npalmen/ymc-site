@@ -1,3 +1,4 @@
+import { RichLine } from "@/components/ui/rich-line";
 import { Container } from "@/components/ui/container";
 import { PlaceholderFrame } from "@/components/ui/placeholder-frame";
 import type { ExtraSection } from "@/sanity/load";
@@ -9,7 +10,7 @@ export function ExtraSections({ sections }: { sections?: ExtraSection[] }) {
       <Container className="space-y-10">
         {sections.map((section) => (
           <div key={section.heading}>
-            <h2 className="font-display text-3xl">{section.heading}</h2>
+            <h2 className="font-display text-3xl"><RichLine parts={section.heading} /></h2>
             {section.text ? <p className="mt-3 max-w-2xl text-body text-ink-muted">{section.text}</p> : null}
             {section.image ? (
               <div className="mt-5 max-w-3xl">

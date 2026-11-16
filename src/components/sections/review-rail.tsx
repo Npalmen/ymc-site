@@ -32,7 +32,7 @@ export function ReviewRail({
         <h2 id="omdomen-rubrik" className="text-section mt-5 max-w-[16em]">
           <RichLine parts={copy.title} />
         </h2>
-        <p className="mt-4 max-w-xl text-body text-ink-muted">{copy.note}</p>
+        {copy.note ? <p className="mt-4 max-w-xl text-body text-ink-muted">{copy.note}</p> : null}
         <p className="mt-4">
           <a
             href={trustpilot}
@@ -40,7 +40,7 @@ export function ReviewRail({
             target="_blank"
             rel="noopener noreferrer"
           >
-            Läs verifierade omdömen på Trustpilot
+            {copy.linkLabel}
           </a>
         </p>
         <ReviewCarousel items={items} />

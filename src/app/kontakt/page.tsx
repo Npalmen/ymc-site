@@ -21,10 +21,7 @@ export default async function ContactPage() {
       label: "Postadress",
       value: `${current.addresses.registered.street}, ${current.addresses.registered.postalCode} ${current.addresses.registered.city}`,
     },
-    {
-      label: "Studio",
-      value: `${current.addresses.studio.label}, ${current.addresses.studio.street}, ${current.addresses.studio.area}, ${current.addresses.studio.city}`,
-    },
+    ...(page.studioCard.trim() ? [{ label: "Studio", value: page.studioCard }] : []),
   ];
   return (
     <PageShell>

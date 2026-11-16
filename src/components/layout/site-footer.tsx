@@ -1,3 +1,4 @@
+import { isPublicHref } from "@/content/visibility";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand/wordmark";
 import { footerColumns as fallbackColumns, type NavLink } from "@/content/navigation";
@@ -18,18 +19,11 @@ export function SiteFooter({
         </Link>
         <div className="flex flex-col gap-10 lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
-            <p className="mt-4 max-w-sm text-body-sm text-ink-inverse/70">{site.description}</p>
-            <p className="mt-6 text-body-sm text-ink-inverse/80">
-              {site.legalName}
-              <br />
-              {site.addresses.registered.street}
-              <br />
-              {site.addresses.registered.postalCode} {site.addresses.registered.city}
-            </p>
-            <p className="mt-3 text-[0.8125rem] leading-relaxed text-ink-inverse/75">
-              Studio: Starlight Studios, {site.addresses.studio.area}.{" "}
-              {site.addresses.studio.street}.
-            </p>
+            {site.footer.about ? <p className="mt-4 max-w-sm text-body-sm text-ink-inverse/70">{site.footer.about}</p> : null}
+            {site.footer.address ? <p className="mt-6 whitespace-pre-line text-body-sm text-ink-inverse/80">{site.footer.address}</p> : null}
+            {site.footer.studio ? <p className="mt-3 text-[0.8125rem] leading-relaxed text-ink-inverse/75">
+              {site.footer.studio}
+            </p> : null}
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:col-span-7">
             {columns.map((column) => (
@@ -38,7 +32,7 @@ export function SiteFooter({
                   {column.title}
                 </p>
                 <ul className="mt-2">
-                  {column.links.filter((link) => site.communityEnabled || link.href !== "/community").map((link) => (
+                  {column.links.filter((link) => isPublicHref(link.href, site.communityEnabled, site.distributionEnabled)).map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}

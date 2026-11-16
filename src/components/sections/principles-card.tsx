@@ -21,11 +21,11 @@ export function PrinciplesCard({
         <h2 className="text-section mt-5 max-w-[14em]">
           <RichLine parts={principles.title} tone="brand" />
         </h2>
-        <ol className="mt-10 grid grid-cols-2 gap-x-4 gap-y-8 border-t border-white/10 pt-8">
-          {principles.items.map((item, index) => (
-            <li key={item.n} className={index === 2 ? "col-span-2" : undefined}>
+        <ol className="mt-10 grid grid-cols-2 auto-rows-fr gap-x-4 gap-y-8 border-t border-white/10 pt-8">
+          {[...principles.items].sort((a, b) => Number(a.n) - Number(b.n)).map((item) => (
+            <li key={item.n} className="min-w-0">
               <p className="font-sans text-2xl font-semibold text-brand">{item.n}</p>
-              <h3 className="mt-2 font-sans text-[1.45rem] font-semibold leading-tight sm:text-3xl">{item.title}</h3>
+              <h3 className="mt-2 font-sans text-[1.15rem] break-words font-semibold leading-tight sm:text-3xl"><RichLine parts={item.title} /></h3>
               <p className="mt-2 max-w-md text-body-sm text-ink-inverse/70">{item.body}</p>
             </li>
           ))}

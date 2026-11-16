@@ -1,3 +1,4 @@
+import { markedToRich } from "@/sanity/rich";
 import { cn } from "@/lib/cn";
 import type { RichLine as RichLineParts } from "@/content/rich-text";
 
@@ -5,10 +6,10 @@ export function RichLine({
   parts,
   tone = "accent",
 }: {
-  parts: RichLineParts;
+  parts: RichLineParts | string;
   tone?: "accent" | "brand";
 }) {
-  return parts.map((part, index) =>
+  return (typeof parts === "string" ? markedToRich(parts) : parts).map((part, index) =>
     part.accent ? (
       <em key={index} className={cn("italic", tone === "brand" ? "text-brand" : "text-accent")}>
         {part.text}

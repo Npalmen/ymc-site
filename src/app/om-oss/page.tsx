@@ -1,3 +1,4 @@
+import { RichLine } from "@/components/ui/rich-line";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
 import { ExtraSections } from "@/components/sections/extra-sections";
@@ -40,7 +41,7 @@ export default async function AboutPage() {
           <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-12">
             <div>
               <Pill>{page.studio.eyebrow}</Pill>
-              <h2 className="text-section mt-5">{page.studio.title}</h2>
+              <h2 className="text-section mt-5"><RichLine parts={page.studio.title} /></h2>
               <div className="mt-4 space-y-3 text-body text-ink-muted">
                 {page.studio.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>

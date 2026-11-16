@@ -1,7 +1,7 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 const marked =
-  "Sätt *asterisker* runt ordet som ska vara gult och kursivt. Exempel: Låt oss växa *tillsammans*.";
+  "Sätt *asterisker* runt ordet som ska betonas brunt (gult på mörk bakgrund). Exempel: Låt oss växa *tillsammans*.";
 
 function titleField(name = "title", title = "Rubrik") {
   return defineField({
@@ -73,12 +73,21 @@ export const schemaTypes = [
     name: "siteSettings",
     title: "Webbplats",
     type: "document",
+    groups: [{ name: "footer", title: "Sidfot" }, { name: "booking", title: "Bokningsformulär" }, { name: "visibility", title: "Synlighet" }],
     fields: [
       defineField({ name: "name", title: "Namn", type: "string", validation: (rule) => rule.required() }),
       defineField({ name: "legalName", title: "Juridiskt namn", type: "string" }),
       defineField({ name: "shortName", title: "Kort namn", type: "string" }),
-      defineField({ name: "communityEnabled", title: "Visa Community", type: "boolean", initialValue: false, description: "Avstängt döljer sidan, länkar och bokningsämnet. Sidan ger 404 och utelämnas ur sitemap." }),
-      imageField("footerLogo", "Sidfot – logotyp med text"),
+      defineField({ name: "feedback2Version", title: "Innehållsversion", type: "number", hidden: true }),
+      defineField({ name: "distributionEnabled", title: "Visa Distribution", group: "visibility", type: "boolean", initialValue: false, description: "Avstängt döljer sidan, alla navigationslänkar och bokningsämnet. Förhandslänken fungerar ändå." }),
+      defineField({ name: "communityEnabled", group: "visibility", title: "Visa Community", type: "boolean", initialValue: false, description: "Avstängt döljer sidan, länkar och bokningsämnet. Sidan ger 404 och utelämnas ur sitemap." }),
+      { ...imageField("footerLogo", "Sidfot – logotyp med text"), group: "footer" },
+      defineField({ name: "footerAbout", title: "Om-text", group: "footer", type: "text", description: "Beskrivningen under logotypen. Påverkar bara sidfoten. Lämna tomt för att dölja texten." }),
+      defineField({ name: "footerAddress", title: "Adressrader", group: "footer", type: "text", description: "Företagsnamn och adress. Skriv varje rad på en ny rad. Påverkar bara sidfoten." }),
+      defineField({ name: "footerStudio", title: "Studiorad", group: "footer", type: "text", description: "Hela studioraden, inklusive eventuell etikett Studio:. Tomt döljer raden." }),
+      defineField({ name: "bookingFormHeading", title: "Formulärets rubrik", group: "booking", type: "string", initialValue: "Boka ett möte!", description: "Gemensam rubrik på sidan, i modalen och i mobilens bokningsruta." }),
+      defineField({ name: "bookingFormSubmit", title: "Skicka-knappens text", group: "booking", type: "string", initialValue: "Skicka förfrågan", description: "Text på formulärets skicka-knapp i alla vyer." }),
+      defineField({ name: "bookingFormHelp", title: "Hjälptext under knappen", group: "booking", type: "text", description: "Gemensam för alla formulär. Tomt döljer hjälptexten. Formuläret öppnar fortfarande besökarens e-postprogram." }),
       imageField("lineArt", "Line-art över webbplatsen"),
       defineField({ name: "lineArtOpacity", title: "Line-art opacitet", type: "number", initialValue: 0.06, validation: (rule) => rule.min(0).max(0.2) }),
       defineField({ name: "description", title: "Kort beskrivning", type: "text", rows: 3 }),
@@ -300,6 +309,7 @@ export const schemaTypes = [
     name: "course",
     title: "Kurs",
     type: "document",
+    groups: [{ name: "card", title: "Kort på listsidan" }],
     fields: [
       defineField({ name: "title", title: "Namn", type: "string", validation: (rule) => rule.required() }),
       defineField({ name: "slug", title: "Adressnamn", type: "slug", options: { source: "title" }, validation: (rule) => rule.required() }),
@@ -328,7 +338,7 @@ export const schemaTypes = [
       defineField({ name: "price", title: "Pris", type: "string", description: "Bara beloppet, exempelvis 6 150 kr." }),
       defineField({ name: "paymentInfo", title: "Betalningsinfo", type: "string" }),
       defineField({ name: "note", title: "Längd och antal tillfällen", type: "string" }),
-      defineField({ name: "cardDescription", title: "Vägar in – kort beskrivning", type: "text", rows: 2, description: "Visas på utbildningsöversikten. Oberoende av kursens ingress." }),
+      defineField({ name: "cardDescription", group: "card", title: "Korttext", type: "text", rows: 2, description: "Visas på utbildningsöversikten. Oberoende av kursens ingress." }),
       defineField({ name: "ctaLabel", title: "Knapptext", type: "string" }),
       defineField({ name: "ctaHref", title: "Knappens adress", type: "string" }),
       defineField({ name: "topic", title: "Ämne i formuläret", type: "string" }),
@@ -341,6 +351,7 @@ export const schemaTypes = [
     name: "homePage",
     title: "Startsida",
     type: "document",
+    groups: [{ name: "reviews", title: "Recensioner" }],
     fields: [
       defineField({
         name: "hero",
@@ -399,12 +410,15 @@ export const schemaTypes = [
       }),
       defineField({
         name: "reviews",
-        title: "Omdömen, rubrik",
+        group: "reviews",
+        title: "Recensioner",
+        description: "Rubrik, tagg, valfri ingress och länktext på startsidan.",
         type: "object",
         fields: [
           defineField({ name: "eyebrow", title: "Etikett", type: "string" }),
           titleField(),
-          defineField({ name: "note", title: "Förklaring", type: "text", rows: 3 }),
+          defineField({ name: "note", title: "Ingress (valfri)", type: "text", rows: 3, description: "Lämna tomt för att inte visa någon ingress." }),
+          defineField({ name: "linkLabel", title: "Länktext till Trustpilot", type: "string", description: "Text på länken under recensionernas rubrik." }),
         ],
       }),
       defineField({
@@ -435,7 +449,9 @@ export const schemaTypes = [
     name: "singingPage",
     title: "Sånglektioner",
     type: "document",
+    groups: [{ name: "pedagogy", title: "Vår sångpedagogik" }, { name: "also", title: "Också inom sången" }],
     fields: [
+      defineField({ name: "feedback2Version", title: "Inneh?llsversion", type: "number", hidden: true }),
       defineField({ name: "metaDescription", title: "Beskrivning för sökmotorer", type: "text", rows: 2 }),
       defineField({ name: "eyebrow", title: "Etikett", type: "string" }),
       titleField(),
@@ -444,6 +460,8 @@ export const schemaTypes = [
       imageField(),
       defineField({
         name: "pedagogy",
+        group: "pedagogy",
+        description: "De fem pedagogikpunkterna på sånglektionssidan. Ändringar visas efter publicering.",
         title: "Vår sångpedagogik",
         type: "object",
         fields: [
@@ -472,9 +490,14 @@ export const schemaTypes = [
           }),
         ],
       }),
+      defineField({ name: "alsoEnabled", title: "Visa sektionen", group: "also", type: "boolean", initialValue: true, description: "Visar eller döljer hela Också inom sången." }),
+      defineField({ name: "alsoTitle", title: "Rubrik", group: "also", type: "string", initialValue: "Också inom sången", description: marked }),
+      defineField({ name: "alsoIntro", title: "Ingress (valfri)", group: "also", type: "text", description: "Tomt betyder att ingen ingress visas." }),
       defineField({
         name: "also",
-        title: "Också inom sången",
+        group: "also",
+        description: "Redigera rubrik och text för varje kort. Dra korten för att byta ordning.",
+        title: "Kort",
         type: "array",
         of: [
           defineArrayMember({
@@ -636,7 +659,7 @@ export const schemaTypes = [
       defineField({ name: "valuesLine", title: "Rad under principerna", type: "string" }),
       defineField({
         name: "studio",
-        title: "Starlight",
+        title: "Studio",
         type: "object",
         fields: [
           defineField({ name: "eyebrow", title: "Etikett", type: "string" }),
@@ -654,7 +677,10 @@ export const schemaTypes = [
     name: "contactPage",
     title: "Kontakt",
     type: "document",
+    groups: [{ name: "facts", title: "Kontaktuppgifter" }],
     fields: [
+      defineField({ name: "feedback2Version", title: "Inneh?llsversion", type: "number", hidden: true }),
+      defineField({ name: "studioCard", title: "Studioruta (valfri)", group: "facts", type: "text", initialValue: "", description: "Tomt döljer hela rutan STUDIO. Skriv fullständig text om den ska visas igen." }),
       defineField({ name: "metaDescription", title: "Beskrivning för sökmotorer", type: "text", rows: 2 }),
       defineField({ name: "eyebrow", title: "Etikett", type: "string" }),
       titleField(),
@@ -698,7 +724,7 @@ export const schemaTypes = [
       titleField(),
       defineField({ name: "lede", title: "Ingress", type: "text", rows: 4 }),
       defineField({ name: "points", title: "Punkter", type: "array", of: [defineArrayMember({ type: "string" })] }),
-      defineField({ name: "note", title: "Text under knappen", type: "text", rows: 2 }),
+      defineField({ name: "note", title: "Äldre hjälptext", type: "text", hidden: true }),
       defineField({
         name: "topics",
         title: "Ämnen i listan",

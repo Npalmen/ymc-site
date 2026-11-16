@@ -22,7 +22,7 @@ const paths = [
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const settings = await loadSite();
-  return paths.filter((path) => isPublicHref(path, settings.communityEnabled, settings.distributionEnabled)).map((path) => ({
+  return paths.filter((path) => path === "/community" || isPublicHref(path, settings.communityEnabled, settings.distributionEnabled)).map((path) => ({
     url: `${site.url}${path}`,
     lastModified: new Date("2026-10-29"),
     changeFrequency: path === "/" ? "weekly" : "monthly",

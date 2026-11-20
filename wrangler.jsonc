@@ -14,17 +14,17 @@
       "service": "yellow-music-united"
     }
   ],
-  "r2_buckets": [
+  "kv_namespaces": [
     {
-      "binding": "NEXT_INC_CACHE_R2_BUCKET",
-      "bucket_name": "yellow-music-next-cache"
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "38bc148dd18a4bad910cc768ddea9cad"
     }
   ],
   "d1_databases": [
     {
       "binding": "NEXT_TAG_CACHE_D1",
       "database_name": "yellow-music-tag-cache",
-      "database_id": "00000000-0000-0000-0000-000000000000"
+      "database_id": "ab3edad3-32b8-4a77-bda7-6f7f06b39a02"
     }
   ],
   "durable_objects": {
